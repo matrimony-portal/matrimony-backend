@@ -1,71 +1,81 @@
 -- Matrimony Portal Database Schema
--- MySQL compatible
+-- PostgreSQL 13+ compatible
 
--- Users table for authentication and basic info
+-- Create database (run this separately if needed)
+-- CREATE DATABASE matrimony_portal;
+-- \c matrimony_portal;
+
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- ===========================================
+-- CORE TABLES
+-- ===========================================
+
+-- 1. users table
 CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     phone VARCHAR(20),
-    role ENUM('ADMIN', 'EVENT_ORGANIZER', 'USER') NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'EVENT_ORGANIZER', 'USER')),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Subscription plans table for plan definitions
+-- 2. subscription_plans table
 CREATE TABLE subscription_plans (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    plan_name VARCHAR(50) NOT NULL UNIQUE,
-    plan_type ENUM('FREE', 'PREMIUM', 'VIP') NOT NULL UNIQUE,
+    id BIGSERIAL PRIMARY KEY,
+    plan_name VARCHAR(50) UNIQUE NOT NULL,
+    plan_type VARCHAR(10) UNIQUE NOT NULL CHECK (plan_type IN ('FREE', 'PREMIUM', 'VIP')),
     price_monthly DECIMAL(10,2) DEFAULT 0,
     price_yearly DECIMAL(10,2) DEFAULT 0,
-    max_profiles_view INT DEFAULT 10, -- FREE: 10, PREMIUM: 100, VIP: unlimited
-    max_messages INT DEFAULT 5, -- FREE: 5, PREMIUM: 50, VIP: unlimited
-    max_photos INT DEFAULT 3, -- FREE: 3, PREMIUM: 10, VIP: unlimited
+    max_profiles_view INTEGER DEFAULT 10,
+    max_messages INTEGER DEFAULT 5,
+    max_photos INTEGER DEFAULT 3,
     priority_matching BOOLEAN DEFAULT FALSE,
     advanced_filters BOOLEAN DEFAULT FALSE,
-    customer_support ENUM('NONE', 'EMAIL', 'PHONE', 'PRIORITY') DEFAULT 'EMAIL',
+    customer_support VARCHAR(10) DEFAULT 'EMAIL' CHECK (customer_support IN ('NONE', 'EMAIL', 'PHONE', 'PRIORITY')),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Subscriptions table for user plans
+-- 3. subscriptions table
 CREATE TABLE subscriptions (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL,
-    plan_id BIGINT NOT NULL,
-    billing_cycle ENUM('MONTHLY', 'YEARLY') DEFAULT 'MONTHLY',
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    plan_id BIGINT NOT NULL REFERENCES subscription_plans(id),
+    billing_cycle VARCHAR(10) DEFAULT 'MONTHLY' CHECK (billing_cycle IN ('MONTHLY', 'YEARLY')),
     start_date DATE NOT NULL,
     end_date DATE,
     is_active BOOLEAN DEFAULT TRUE,
     auto_renew BOOLEAN DEFAULT TRUE,
     payment_amount DECIMAL(10,2),
-    payment_date TIMESTAMP NULL,
+    payment_date TIMESTAMP,
     next_billing_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (plan_id) REFERENCES subscription_plans(id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Profiles table for detailed matrimonial information
+-- 4. profiles table
 CREATE TABLE profiles (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     date_of_birth DATE NOT NULL,
-    gender ENUM('MALE', 'FEMALE', 'OTHER') NOT NULL,
+    gender VARCHAR(10) NOT NULL CHECK (gender IN ('MALE', 'FEMALE', 'OTHER')),
     religion VARCHAR(50),
     caste VARCHAR(50),
     occupation VARCHAR(100),
     education VARCHAR(100),
     income DECIMAL(10,2),
-    marital_status ENUM('SINGLE', 'DIVORCED', 'WIDOWED') DEFAULT 'SINGLE',
-    height_cm INT,
-    weight_kg INT,
+    marital_status VARCHAR(20) DEFAULT 'SINGLE' CHECK (marital_status IN ('SINGLE', 'DIVORCED', 'WIDOWED')),
+    height_cm INTEGER,
+    weight_kg INTEGER,
     city VARCHAR(100),
     state VARCHAR(100),
     country VARCHAR(100) DEFAULT 'India',
@@ -73,133 +83,129 @@ CREATE TABLE profiles (
     preferences TEXT,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Events table for matrimonial events
+-- ===========================================
+-- FEATURE TABLES
+-- ===========================================
+
+-- 5. events table
 CREATE TABLE events (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    organizer_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    organizer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     event_date TIMESTAMP NOT NULL,
     venue VARCHAR(255) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100) NOT NULL,
-    max_participants INT,
+    max_participants INTEGER,
     registration_fee DECIMAL(10,2) DEFAULT 0,
-    status ENUM('UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED') DEFAULT 'UPCOMING',
+    status VARCHAR(20) DEFAULT 'UPCOMING' CHECK (status IN ('UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (organizer_id) REFERENCES users(id) ON DELETE RESTRICT
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Profile photos table
+-- 6. profile_photos table
 CREATE TABLE profile_photos (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500) NOT NULL,
     file_size BIGINT NOT NULL,
     mime_type VARCHAR(100) NOT NULL,
     is_primary BOOLEAN DEFAULT FALSE,
-    sort_order INT DEFAULT 0,
+    sort_order INTEGER DEFAULT 0,
     alt_text VARCHAR(255),
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Media gallery table
+-- 7. media_gallery table
 CREATE TABLE media_gallery (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    media_type ENUM('VIDEO', 'AUDIO', 'DOCUMENT') NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    media_type VARCHAR(20) NOT NULL CHECK (media_type IN ('VIDEO', 'AUDIO', 'DOCUMENT')),
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500) NOT NULL,
     file_size BIGINT NOT NULL,
     mime_type VARCHAR(100) NOT NULL,
     title VARCHAR(255),
     description TEXT,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Messages table
+-- 8. messages table
 CREATE TABLE messages (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    sender_id BIGINT NOT NULL,
-    receiver_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    sender_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    receiver_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     subject VARCHAR(255),
     content TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    read_at TIMESTAMP NULL,
-    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE RESTRICT,
-    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE RESTRICT,
-    CONSTRAINT chk_different_users CHECK (sender_id != receiver_id)
+    read_at TIMESTAMP,
+    CONSTRAINT chk_no_self_message CHECK (sender_id != receiver_id)
 );
 
--- User interests table
+-- 9. user_interests table
 CREATE TABLE user_interests (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    from_user_id BIGINT NOT NULL,
-    to_user_id BIGINT NOT NULL,
-    interest_type ENUM('LIKE', 'SHORTLIST', 'BLOCK') NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    from_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    to_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    interest_type VARCHAR(20) NOT NULL CHECK (interest_type IN ('LIKE', 'SHORTLIST', 'BLOCK')),
     compatibility_score DECIMAL(5,2) CHECK (compatibility_score >= 0 AND compatibility_score <= 100),
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT chk_different_users_interest CHECK (from_user_id != to_user_id)
+    CONSTRAINT chk_no_self_interest CHECK (from_user_id != to_user_id)
 );
 
--- Event registrations table
+-- 10. event_registrations table
 CREATE TABLE event_registrations (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    event_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    event_id BIGINT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_status ENUM('PENDING', 'PAID', 'REFUNDED') DEFAULT 'PENDING',
+    payment_status VARCHAR(20) DEFAULT 'PENDING' CHECK (payment_status IN ('PENDING', 'PAID', 'REFUNDED')),
     attended BOOLEAN DEFAULT FALSE,
-    notes TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+    notes TEXT
 );
 
--- Payments table
+-- ===========================================
+-- ADMINISTRATIVE TABLES
+-- ===========================================
+
+-- 11. payments table
 CREATE TABLE payments (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    payment_type ENUM('SUBSCRIPTION', 'EVENT_REGISTRATION', 'DONATION') NOT NULL,
-    amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    payment_type VARCHAR(20) NOT NULL CHECK (payment_type IN ('SUBSCRIPTION', 'EVENT_REGISTRATION', 'DONATION')),
+    amount DECIMAL(10,2) NOT NULL,
     currency VARCHAR(3) DEFAULT 'INR',
     payment_method VARCHAR(50),
     transaction_id VARCHAR(255) UNIQUE,
-    status ENUM('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED') NOT NULL,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED')),
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    notes TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
+    notes TEXT
 );
 
--- Notifications table
+-- 12. notifications table
 CREATE TABLE notifications (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     notification_type VARCHAR(50) NOT NULL,
     title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     action_url VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    read_at TIMESTAMP NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    read_at TIMESTAMP
 );
 
--- Notification preferences table
+-- 13. notification_preferences table
 CREATE TABLE notification_preferences (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     email_notifications BOOLEAN DEFAULT TRUE,
     push_notifications BOOLEAN DEFAULT TRUE,
     sms_notifications BOOLEAN DEFAULT FALSE,
@@ -208,102 +214,143 @@ CREATE TABLE notification_preferences (
     event_updates BOOLEAN DEFAULT TRUE,
     profile_views BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Audit logs table
+-- 14. audit_logs table
 CREATE TABLE audit_logs (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT,
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(id) ON DELETE SET NULL,
     action VARCHAR(100) NOT NULL,
     entity_type VARCHAR(50) NOT NULL,
     entity_id BIGINT,
-    old_values JSON,
-    new_values JSON,
-    ip_address VARCHAR(45),
+    old_values JSONB,
+    new_values JSONB,
+    ip_address INET,
     user_agent TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- User reports table
+-- 15. user_reports table
 CREATE TABLE user_reports (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    reporter_id BIGINT NOT NULL,
-    reported_user_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    reporter_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    reported_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     report_type VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    status ENUM('PENDING', 'INVESTIGATING', 'RESOLVED', 'DISMISSED') DEFAULT 'PENDING',
+    status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'INVESTIGATING', 'RESOLVED', 'DISMISSED')),
     admin_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    resolved_at TIMESTAMP NULL,
-    FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE RESTRICT,
-    FOREIGN KEY (reported_user_id) REFERENCES users(id) ON DELETE RESTRICT,
-    CONSTRAINT chk_different_users_report CHECK (reporter_id != reported_user_id)
+    resolved_at TIMESTAMP,
+    CONSTRAINT chk_no_self_report CHECK (reporter_id != reported_user_id)
 );
 
--- Success stories table
+-- 16. success_stories table
 CREATE TABLE success_stories (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    couple_user1_id BIGINT NOT NULL,
-    couple_user2_id BIGINT NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    couple_user1_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    couple_user2_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     story_title VARCHAR(255) NOT NULL,
     story_content TEXT NOT NULL,
     wedding_date DATE,
-    photos JSON,
+    photos JSONB,
     is_featured BOOLEAN DEFAULT FALSE,
-    submitted_by BIGINT,
-    approved_by BIGINT,
+    submitted_by BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    approved_by BIGINT REFERENCES users(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    approved_at TIMESTAMP NULL,
-    FOREIGN KEY (couple_user1_id) REFERENCES users(id) ON DELETE RESTRICT,
-    FOREIGN KEY (couple_user2_id) REFERENCES users(id) ON DELETE RESTRICT,
-    FOREIGN KEY (submitted_by) REFERENCES users(id) ON DELETE SET NULL,
-    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
-    CONSTRAINT chk_different_couple_users CHECK (couple_user1_id != couple_user2_id)
+    approved_at TIMESTAMP
 );
 
--- Create indexes for better performance
+-- ===========================================
+-- INDEXES FOR PERFORMANCE
+-- ===========================================
+
+-- Users table indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);
-CREATE INDEX idx_subscription_plans_plan_type ON subscription_plans(plan_type);
-CREATE INDEX idx_subscription_plans_is_active ON subscription_plans(is_active);
+
+-- Subscriptions table indexes
 CREATE INDEX idx_subscriptions_user_id ON subscriptions(user_id);
-CREATE INDEX idx_subscriptions_plan_id ON subscriptions(plan_id);
-CREATE INDEX idx_subscriptions_is_active ON subscriptions(is_active);
-CREATE INDEX idx_subscriptions_next_billing_date ON subscriptions(next_billing_date);
+CREATE INDEX idx_subscriptions_plan_type ON subscriptions(plan_type);
+
+-- Profiles table indexes
 CREATE INDEX idx_profiles_user_id ON profiles(user_id);
 CREATE INDEX idx_profiles_gender ON profiles(gender);
 CREATE INDEX idx_profiles_religion ON profiles(religion);
 CREATE INDEX idx_profiles_city ON profiles(city);
+
+-- Events table indexes
 CREATE INDEX idx_events_organizer_id ON events(organizer_id);
 CREATE INDEX idx_events_event_date ON events(event_date);
 CREATE INDEX idx_events_city ON events(city);
+
+-- Profile photos table indexes
 CREATE INDEX idx_profile_photos_user_id ON profile_photos(user_id);
 CREATE INDEX idx_profile_photos_is_primary ON profile_photos(is_primary);
+
+-- Media gallery table indexes
 CREATE INDEX idx_media_gallery_user_id ON media_gallery(user_id);
+
+-- Messages table indexes
 CREATE INDEX idx_messages_sender_id ON messages(sender_id);
 CREATE INDEX idx_messages_receiver_id ON messages(receiver_id);
 CREATE INDEX idx_messages_is_read ON messages(is_read);
+
+-- User interests table indexes
 CREATE INDEX idx_user_interests_from_user_id ON user_interests(from_user_id);
 CREATE INDEX idx_user_interests_to_user_id ON user_interests(to_user_id);
 CREATE INDEX idx_user_interests_interest_type ON user_interests(interest_type);
+
+-- Event registrations table indexes
 CREATE INDEX idx_event_registrations_user_id ON event_registrations(user_id);
 CREATE INDEX idx_event_registrations_event_id ON event_registrations(event_id);
+
+-- Payments table indexes
 CREATE INDEX idx_payments_user_id ON payments(user_id);
 CREATE INDEX idx_payments_status ON payments(status);
+
+-- Notifications table indexes
 CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 CREATE INDEX idx_notifications_is_read ON notifications(is_read);
+
+-- Audit logs table indexes
 CREATE INDEX idx_audit_logs_user_id ON audit_logs(user_id);
 CREATE INDEX idx_audit_logs_entity_type ON audit_logs(entity_type);
+
+-- User reports table indexes
 CREATE INDEX idx_user_reports_reporter_id ON user_reports(reporter_id);
 CREATE INDEX idx_user_reports_reported_user_id ON user_reports(reported_user_id);
 CREATE INDEX idx_user_reports_status ON user_reports(status);
+
+-- Success stories table indexes
 CREATE INDEX idx_success_stories_is_featured ON success_stories(is_featured);
 
--- Sample data for testing
--- Note: In production, passwords should be properly hashed
+-- ===========================================
+-- TRIGGERS FOR UPDATED_AT
+-- ===========================================
+
+-- Function to update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Apply triggers to tables with updated_at column
+CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_subscription_plans_updated_at BEFORE UPDATE ON subscription_plans FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_events_updated_at BEFORE UPDATE ON events FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_notification_preferences_updated_at BEFORE UPDATE ON notification_preferences FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- ===========================================
+-- SAMPLE DATA INSERTION
+-- ===========================================
+
+-- Insert sample users
 INSERT INTO users (email, password, first_name, last_name, phone, role) VALUES
 ('admin@matrimony.com', '$2a$10$example.hash', 'System', 'Admin', '+1234567890', 'ADMIN'),
 ('organizer@matrimony.com', '$2a$10$example.hash', 'Event', 'Organizer', '+1234567891', 'EVENT_ORGANIZER'),
@@ -311,59 +358,62 @@ INSERT INTO users (email, password, first_name, last_name, phone, role) VALUES
 ('jane.smith@example.com', '$2a$10$example.hash', 'Jane', 'Smith', '+1234567893', 'USER'),
 ('alice.johnson@example.com', '$2a$10$example.hash', 'Alice', 'Johnson', '+1234567894', 'USER');
 
--- Sample subscription plans
+-- Insert sample subscription plans
 INSERT INTO subscription_plans (plan_name, plan_type, price_monthly, price_yearly, max_profiles_view, max_messages, max_photos, priority_matching, advanced_filters, customer_support) VALUES
 ('Free Plan', 'FREE', 0.00, 0.00, 10, 5, 3, false, false, 'NONE'),
 ('Premium Plan', 'PREMIUM', 999.00, 9999.00, 100, 50, 10, true, true, 'PHONE'),
-('VIP Plan', 'VIP', 1999.00, 19999.00, NULL, NULL, NULL, true, true, 'PRIORITY');
+('VIP Plan', 'VIP', 1999.00, 19999.00, -1, -1, -1, true, true, 'PRIORITY');
 
-INSERT INTO subscriptions (user_id, plan_id, billing_cycle, start_date, is_active, auto_renew, next_billing_date) VALUES
-(1, 3, 'MONTHLY', '2024-01-01', true, true, '2024-02-01'), -- Admin on VIP
-(2, 2, 'YEARLY', '2024-01-01', true, true, '2025-01-01'), -- Organizer on Premium
-(3, 1, 'MONTHLY', '2024-01-01', true, false, NULL), -- Free user
-(4, 2, 'MONTHLY', '2024-01-01', true, true, '2024-02-01'), -- Paid user on Premium
-(5, 2, 'MONTHLY', '2024-01-01', true, true, '2024-02-01'); -- Another Premium user
+-- Insert sample subscriptions
+INSERT INTO subscriptions (user_id, plan_id, billing_cycle, start_date, is_active) VALUES
+(3, 1, 'MONTHLY', CURRENT_DATE, true),
+(4, 2, 'MONTHLY', CURRENT_DATE, true),
+(5, 3, 'YEARLY', CURRENT_DATE, true);
 
-INSERT INTO profiles (user_id, date_of_birth, gender, religion, occupation, city, state, about_me, preferences, is_verified) VALUES
-(3, '1990-05-15', 'MALE', 'Hindu', 'Software Engineer', 'Mumbai', 'Maharashtra', 'Looking for a life partner who shares similar values and interests.', 'Seeking an educated, caring partner with good family values.', true),
-(4, '1988-03-22', 'FEMALE', 'Christian', 'Doctor', 'Delhi', 'Delhi', 'Passionate about medicine and helping others. Looking for someone who understands my dedication to my profession.', 'Looking for a supportive partner who respects my career and shares family-oriented values.', true),
-(5, '1992-08-10', 'FEMALE', 'Hindu', 'Teacher', 'Pune', 'Maharashtra', 'Love teaching and helping children grow. Looking for someone who values education and family.', 'Seeking a kind-hearted, educated man who respects women and family values.', false);
+-- Insert sample profiles
+INSERT INTO profiles (user_id, date_of_birth, gender, religion, caste, occupation, education, city, state, about_me, preferences) VALUES
+(3, '1990-05-15', 'MALE', 'Hindu', 'Brahmin', 'Software Engineer', 'Bachelor of Technology', 'Mumbai', 'Maharashtra', 'I am a software engineer looking for a life partner who shares similar values.', 'Looking for a caring and understanding partner.'),
+(4, '1992-08-20', 'FEMALE', 'Hindu', 'Kayastha', 'Teacher', 'Master of Arts', 'Delhi', 'Delhi', 'I am a teacher passionate about education and family values.', 'Seeking a supportive partner who values family and education.'),
+(5, '1988-12-10', 'MALE', 'Christian', 'Catholic', 'Doctor', 'Doctor of Medicine', 'Chennai', 'Tamil Nadu', 'I am a doctor dedicated to helping others and building a loving family.', 'Looking for a compassionate partner who shares my commitment to service.');
 
+-- Insert sample events
 INSERT INTO events (organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee) VALUES
-(2, 'Matrimony Meet & Greet', 'A wonderful opportunity to meet potential life partners in a comfortable environment.', '2024-02-15 18:00:00', 'Grand Ballroom, Taj Hotel', 'Mumbai', 'Maharashtra', 100, 500.00),
-(2, 'Speed Dating Event', 'Fast-paced matchmaking event for busy professionals.', '2024-03-10 19:00:00', 'Convention Center', 'Delhi', 'Delhi', 50, 300.00);
+(2, 'Matrimony Meetup 2024', 'A grand matrimonial event bringing together eligible singles from across the city.', '2024-12-15 18:00:00', 'Grand Ballroom, Taj Hotel', 'Mumbai', 'Maharashtra', 200, 500.00),
+(2, 'Speed Dating Event', 'Fast-paced speed dating event for busy professionals.', '2024-11-20 19:00:00', 'Lounge Bar, ITC Grand', 'Delhi', 'Delhi', 50, 1000.00);
 
-INSERT INTO profile_photos (user_id, file_name, file_path, file_size, mime_type, is_primary, sort_order, alt_text) VALUES
-(3, 'john_profile.jpg', '/uploads/photos/john_profile.jpg', 2048576, 'image/jpeg', true, 1, 'John Doe profile photo'),
-(4, 'jane_profile.jpg', '/uploads/photos/jane_profile.jpg', 1536000, 'image/jpeg', true, 1, 'Jane Smith profile photo');
+-- Insert sample messages
+INSERT INTO messages (sender_id, receiver_id, subject, content) VALUES
+(3, 4, 'Hello from John', 'Hi Jane, I came across your profile and would like to know more about you.'),
+(4, 3, 'Re: Hello from John', 'Hello John, thank you for reaching out. I am interested in learning more about you as well.');
 
-INSERT INTO messages (sender_id, receiver_id, subject, content, is_read) VALUES
-(3, 4, 'Hello from John', 'Hi Jane, I came across your profile and would like to know more about you.', false),
-(4, 3, 'Re: Hello from John', 'Hi John, thank you for your message. I''d be happy to chat.', true);
-
+-- Insert sample user interests
 INSERT INTO user_interests (from_user_id, to_user_id, interest_type, compatibility_score, notes) VALUES
-(3, 4, 'LIKE', 85.5, 'Great compatibility match based on shared values'),
-(4, 3, 'SHORTLIST', 88.2, 'Very interested, good educational background'),
-(5, 3, 'LIKE', 72.1, 'Decent match, similar location');
+(3, 4, 'LIKE', 85.5, 'Great compatibility match based on shared interests.'),
+(4, 3, 'SHORTLIST', 88.0, 'Very promising candidate for further interaction.');
 
-INSERT INTO event_registrations (user_id, event_id, payment_status, attended) VALUES
-(3, 1, 'PAID', false),
-(4, 1, 'PAID', false),
-(5, 2, 'PENDING', false);
+-- Insert sample event registrations
+INSERT INTO event_registrations (user_id, event_id, payment_status) VALUES
+(3, 1, 'PAID'),
+(4, 1, 'PENDING'),
+(5, 2, 'PAID');
 
+-- Insert sample payments
 INSERT INTO payments (user_id, payment_type, amount, payment_method, transaction_id, status) VALUES
 (3, 'SUBSCRIPTION', 999.00, 'Credit Card', 'TXN_001', 'COMPLETED'),
 (4, 'EVENT_REGISTRATION', 500.00, 'UPI', 'TXN_002', 'COMPLETED'),
 (5, 'SUBSCRIPTION', 1999.00, 'Net Banking', 'TXN_003', 'COMPLETED');
 
-INSERT INTO notifications (user_id, notification_type, title, message, is_read) VALUES
-(3, 'NEW_MATCH', 'New Match Found!', 'You have a new potential match. Check it out!', false),
-(4, 'NEW_MESSAGE', 'New Message', 'You have received a new message from John.', true);
+-- Insert sample notifications
+INSERT INTO notifications (user_id, notification_type, title, message, action_url) VALUES
+(3, 'NEW_MATCH', 'New Match Found!', 'You have a new potential match. Check it out!', '/matches'),
+(4, 'NEW_MESSAGE', 'New Message Received', 'You have received a new message from John.', '/messages');
 
-INSERT INTO notification_preferences (user_id, email_notifications, push_notifications, sms_notifications, new_matches, new_messages) VALUES
-(3, true, true, false, true, true),
-(4, true, true, true, true, true),
-(5, false, true, false, true, false);
+-- Insert sample notification preferences
+INSERT INTO notification_preferences (user_id, email_notifications, push_notifications, sms_notifications, new_matches, new_messages, event_updates) VALUES
+(3, true, true, false, true, true, true),
+(4, true, true, true, true, true, false),
+(5, false, true, false, true, false, true);
 
-INSERT INTO success_stories (couple_user1_id, couple_user2_id, story_title, story_content, wedding_date, is_featured, submitted_by, approved_by) VALUES
-(3, 4, 'Our Love Story', 'We met through this platform and instantly connected. After several meetings and getting to know each other, we decided to spend our lives together. The platform helped us find our perfect match!', '2024-01-15', true, 3, 1);
+-- Insert sample success stories
+INSERT INTO success_stories (couple_user1_id, couple_user2_id, story_title, story_content, wedding_date, is_featured, submitted_by) VALUES
+(3, 4, 'Our Love Story', 'We met through this platform and instantly connected. After several meaningful conversations, we knew we had found our perfect match. Our wedding was a beautiful celebration of love and commitment.', '2024-10-15', true, 3);
