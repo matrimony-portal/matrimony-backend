@@ -129,7 +129,7 @@ The database follows a normalized relational design with the following key relat
 | first_name | VARCHAR(100) | NOT NULL                   | User's first name                        |
 | last_name  | VARCHAR(100) | NOT NULL                   | User's last name                         |
 | phone      | VARCHAR(20)  |                            | Contact phone number                     |
-| role       | VARCHAR(20)  | NOT NULL                   | User role (ADMIN, EVENT_ORGANIZER, USER) |
+| role       | ENUM         | NOT NULL                   | User role (ADMIN, EVENT_ORGANIZER, USER) |
 | is_active  | BOOLEAN      | DEFAULT TRUE               | Account activation status                |
 | created_at | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP  | Account creation timestamp               |
 | updated_at | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP  | Last update timestamp                    |
@@ -148,7 +148,7 @@ The database follows a normalized relational design with the following key relat
 | ----------------- | ------------- | -------------------------- | -------------------------------------------- |
 | id                | BIGINT        | PRIMARY KEY AUTO_INCREMENT | Unique identifier for each plan              |
 | plan_name         | VARCHAR(50)   | UNIQUE, NOT NULL           | Display name of the plan                     |
-| plan_type         | VARCHAR(10)   | UNIQUE, NOT NULL           | Plan type (FREE, PREMIUM, VIP)               |
+| plan_type         | ENUM          | UNIQUE, NOT NULL           | Plan type (FREE, PREMIUM, VIP)               |
 | price_monthly     | DECIMAL(10,2) | DEFAULT 0                  | Monthly subscription price                   |
 | price_yearly      | DECIMAL(10,2) | DEFAULT 0                  | Yearly subscription price                    |
 | max_profiles_view | INTEGER       | DEFAULT 10                 | Maximum profiles viewable per month          |
@@ -156,7 +156,7 @@ The database follows a normalized relational design with the following key relat
 | max_photos        | INTEGER       | DEFAULT 3                  | Maximum photos uploadable                    |
 | priority_matching | BOOLEAN       | DEFAULT FALSE              | Priority in matching algorithms              |
 | advanced_filters  | BOOLEAN       | DEFAULT FALSE              | Access to advanced search filters            |
-| customer_support  | VARCHAR(10)   | DEFAULT 'EMAIL'            | Support level (NONE, EMAIL, PHONE, PRIORITY) |
+| customer_support  | ENUM          | DEFAULT 'EMAIL'            | Support level (NONE, EMAIL, PHONE, PRIORITY) |
 | is_active         | BOOLEAN       | DEFAULT TRUE               | Plan availability status                     |
 | created_at        | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP  | Plan creation timestamp                      |
 | updated_at        | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP  | Last update timestamp                        |
@@ -176,7 +176,7 @@ The database follows a normalized relational design with the following key relat
 | id                | BIGINT        | PRIMARY KEY AUTO_INCREMENT           | Unique identifier for each subscription  |
 | user_id           | BIGINT        | UNIQUE, NOT NULL, FK → users.id      | Reference to the subscribing user        |
 | plan_id           | BIGINT        | NOT NULL, FK → subscription_plans.id | Reference to the subscription plan       |
-| billing_cycle     | VARCHAR(10)   | DEFAULT 'MONTHLY'                    | Billing frequency (MONTHLY, YEARLY)      |
+| billing_cycle     | ENUM          | DEFAULT 'MONTHLY'                    | Billing frequency (MONTHLY, YEARLY)      |
 | start_date        | DATE          | NOT NULL                             | Subscription start date                  |
 | end_date          | DATE          |                                      | Subscription end date (null for ongoing) |
 | is_active         | BOOLEAN       | DEFAULT TRUE                         | Current subscription status              |
@@ -202,13 +202,13 @@ The database follows a normalized relational design with the following key relat
 | id             | BIGINT        | PRIMARY KEY AUTO_INCREMENT      | Unique identifier for each profile         |
 | user_id        | BIGINT        | UNIQUE, NOT NULL, FK → users.id | Reference to the user owning the profile   |
 | date_of_birth  | DATE          | NOT NULL                        | User's date of birth                       |
-| gender         | VARCHAR(10)   | NOT NULL                        | User's gender (MALE, FEMALE, OTHER)        |
+| gender         | ENUM          | NOT NULL                        | User's gender (MALE, FEMALE, OTHER)        |
 | religion       | VARCHAR(50)   |                                 | User's religion                            |
 | caste          | VARCHAR(50)   |                                 | User's caste/community                     |
 | occupation     | VARCHAR(100)  |                                 | User's profession                          |
 | education      | VARCHAR(100)  |                                 | User's educational qualification           |
 | income         | DECIMAL(10,2) |                                 | User's annual income                       |
-| marital_status | VARCHAR(20)   | DEFAULT 'SINGLE'                | Marital status (SINGLE, DIVORCED, WIDOWED) |
+| marital_status | ENUM          | DEFAULT 'SINGLE'                | Marital status (SINGLE, DIVORCED, WIDOWED) |
 | height_cm      | INTEGER       |                                 | Height in centimeters                      |
 | weight_kg      | INTEGER       |                                 | Weight in kilograms                        |
 | city           | VARCHAR(100)  |                                 | Current city of residence                  |
@@ -244,7 +244,7 @@ The database follows a normalized relational design with the following key relat
 | state            | VARCHAR(100)  | NOT NULL                   | Event state                                            |
 | max_participants | INTEGER       |                            | Maximum number of participants allowed                 |
 | registration_fee | DECIMAL(10,2) | DEFAULT 0                  | Event registration fee                                 |
-| status           | VARCHAR(20)   | DEFAULT 'UPCOMING'         | Event status (UPCOMING, ONGOING, COMPLETED, CANCELLED) |
+| status           | ENUM          | DEFAULT 'UPCOMING'         | Event status (UPCOMING, ONGOING, COMPLETED, CANCELLED) |
 | created_at       | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP  | Event creation timestamp                               |
 | updated_at       | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP  | Last update timestamp                                  |
 
@@ -284,7 +284,7 @@ The database follows a normalized relational design with the following key relat
 | ----------- | ------------ | -------------------------- | -------------------------------------- |
 | id          | BIGINT       | PRIMARY KEY AUTO_INCREMENT | Unique identifier for each media file  |
 | user_id     | BIGINT       | NOT NULL, FK → users.id    | Reference to the user owning the media |
-| media_type  | VARCHAR(20)  | NOT NULL                   | Type of media (VIDEO, AUDIO, DOCUMENT) |
+| media_type  | ENUM         | NOT NULL                   | Type of media (VIDEO, AUDIO, DOCUMENT) |
 | file_name   | VARCHAR(255) | NOT NULL                   | Original file name                     |
 | file_path   | VARCHAR(500) | NOT NULL                   | Server file path                       |
 | file_size   | BIGINT       | NOT NULL                   | File size in bytes                     |
@@ -328,7 +328,7 @@ The database follows a normalized relational design with the following key relat
 | id                  | BIGINT       | PRIMARY KEY AUTO_INCREMENT | Unique identifier for each interest record |
 | from_user_id        | BIGINT       | NOT NULL, FK → users.id    | Reference to the user expressing interest  |
 | to_user_id          | BIGINT       | NOT NULL, FK → users.id    | Reference to the target user               |
-| interest_type       | VARCHAR(20)  | NOT NULL                   | Type of interest (LIKE, SHORTLIST, BLOCK)  |
+| interest_type       | ENUM         | NOT NULL                   | Type of interest (LIKE, SHORTLIST, BLOCK)  |
 | compatibility_score | DECIMAL(5,2) |                            | Compatibility score (0-100)                |
 | notes               | TEXT         |                            | Personal notes about the interest          |
 | created_at          | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP  | Interest creation timestamp                |
@@ -349,7 +349,7 @@ The database follows a normalized relational design with the following key relat
 | user_id           | BIGINT      | NOT NULL, FK → users.id    | Reference to the registering user        |
 | event_id          | BIGINT      | NOT NULL, FK → events.id   | Reference to the event                   |
 | registration_date | TIMESTAMP   | DEFAULT CURRENT_TIMESTAMP  | Registration timestamp                   |
-| payment_status    | VARCHAR(20) | DEFAULT 'PENDING'          | Payment status (PENDING, PAID, REFUNDED) |
+| payment_status    | ENUM        | DEFAULT 'PENDING'          | Payment status (PENDING, PAID, REFUNDED) |
 | attended          | BOOLEAN     | DEFAULT FALSE              | Attendance status                        |
 | notes             | TEXT        |                            | Additional registration notes            |
 
@@ -368,12 +368,12 @@ The database follows a normalized relational design with the following key relat
 | -------------- | ------------- | -------------------------- | ------------------------------------------------------------ |
 | id             | BIGINT        | PRIMARY KEY AUTO_INCREMENT | Unique identifier for each payment                           |
 | user_id        | BIGINT        | NOT NULL, FK → users.id    | Reference to the paying user                                 |
-| payment_type   | VARCHAR(20)   | NOT NULL                   | Type of payment (SUBSCRIPTION, EVENT_REGISTRATION, DONATION) |
+| payment_type   | ENUM          | NOT NULL                   | Type of payment (SUBSCRIPTION, EVENT_REGISTRATION, DONATION) |
 | amount         | DECIMAL(10,2) | NOT NULL                   | Payment amount                                               |
 | currency       | VARCHAR(3)    | DEFAULT 'INR'              | Currency code                                                |
 | payment_method | VARCHAR(50)   |                            | Payment method used                                          |
 | transaction_id | VARCHAR(255)  | UNIQUE                     | Unique transaction identifier                                |
-| status         | VARCHAR(20)   | NOT NULL                   | Payment status (PENDING, COMPLETED, FAILED, REFUNDED)        |
+| status         | ENUM          | NOT NULL                   | Payment status (PENDING, COMPLETED, FAILED, REFUNDED)        |
 | payment_date   | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP  | Payment timestamp                                            |
 | notes          | TEXT          |                            | Additional payment notes                                     |
 
@@ -461,7 +461,7 @@ The database follows a normalized relational design with the following key relat
 | reported_user_id | BIGINT      | NOT NULL, FK → users.id    | Reference to the reported user                              |
 | report_type      | VARCHAR(50) | NOT NULL                   | Type of report                                              |
 | description      | TEXT        | NOT NULL                   | Detailed report description                                 |
-| status           | VARCHAR(20) | DEFAULT 'PENDING'          | Report status (PENDING, INVESTIGATING, RESOLVED, DISMISSED) |
+| status           | ENUM        | DEFAULT 'PENDING'          | Report status (PENDING, INVESTIGATING, RESOLVED, DISMISSED) |
 | admin_notes      | TEXT        |                            | Administrator notes                                         |
 | created_at       | TIMESTAMP   | DEFAULT CURRENT_TIMESTAMP  | Report creation timestamp                                   |
 | resolved_at      | TIMESTAMP   |                            | Report resolution timestamp                                 |
@@ -635,12 +635,12 @@ The complete SQL schema for creating all tables with constraints and indexes can
 
 #### Key Schema Features:
 
-- **Data Types**: Uses MySQL-specific types like BIGINT AUTO_INCREMENT, JSON, and VARCHAR for IP addresses
-- **Constraints**: Comprehensive CHECK constraints for data validation
+- **Data Types**: Uses MySQL-specific types like BIGINT AUTO_INCREMENT, JSON, ENUM, and VARCHAR for IP addresses
+- **Constraints**: ENUM constraints for data validation instead of CHECK constraints
 - **Foreign Keys**: Proper referential integrity with CASCADE/RESTRICT/SET NULL actions
-- **Indexes**: 32 performance indexes for optimal query execution
-- **Triggers**: Automatic `updated_at` timestamp updates
-- **Extensions**: JSON support for flexible data storage
+- **Indexes**: Performance indexes for optimal query execution
+- **Auto-Update**: Automatic `updated_at` timestamp updates with ON UPDATE CURRENT_TIMESTAMP
+- **JSON Support**: Native JSON data type for flexible data storage
 
 #### Database Setup Instructions:
 

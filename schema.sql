@@ -1,13 +1,9 @@
 -- Matrimony Portal Database Schema
--- PostgreSQL 13+ compatible
+-- MySQL 8.0+ compatible
 
 -- Create database (run this separately if needed)
 -- CREATE DATABASE matrimony_portal;
--- \c matrimony_portal;
-
--- Enable necessary extensions
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- USE matrimony_portal;
 
 -- ===========================================
 -- CORE TABLES
@@ -15,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- 1. users table
 CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
@@ -24,12 +20,12 @@ CREATE TABLE users (
     role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'EVENT_ORGANIZER', 'USER')),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- 2. subscription_plans table
 CREATE TABLE subscription_plans (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     plan_name VARCHAR(50) UNIQUE NOT NULL,
     plan_type VARCHAR(10) UNIQUE NOT NULL CHECK (plan_type IN ('FREE', 'PREMIUM', 'VIP')),
     price_monthly DECIMAL(10,2) DEFAULT 0,
@@ -42,14 +38,14 @@ CREATE TABLE subscription_plans (
     customer_support VARCHAR(10) DEFAULT 'EMAIL' CHECK (customer_support IN ('NONE', 'EMAIL', 'PHONE', 'PRIORITY')),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- 3. subscriptions table
 CREATE TABLE subscriptions (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    plan_id BIGINT NOT NULL REFERENCES subscription_plans(id),
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL,
+    plan_id BIGINT NOT NULL,
     billing_cycle VARCHAR(10) DEFAULT 'MONTHLY' CHECK (billing_cycle IN ('MONTHLY', 'YEARLY')),
     start_date DATE NOT NULL,
     end_date DATE,
@@ -59,13 +55,15 @@ CREATE TABLE subscriptions (
     payment_date TIMESTAMP,
     next_billing_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (plan_id) REFERENCES subscription_plans(id)
 );
 
 -- 4. profiles table
 CREATE TABLE profiles (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL,
     date_of_birth DATE NOT NULL,
     gender VARCHAR(10) NOT NULL CHECK (gender IN ('MALE', 'FEMALE', 'OTHER')),
     religion VARCHAR(50),
@@ -83,7 +81,8 @@ CREATE TABLE profiles (
     preferences TEXT,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- ===========================================
@@ -92,8 +91,8 @@ CREATE TABLE profiles (
 
 -- 5. events table
 CREATE TABLE events (
-    id BIGSERIAL PRIMARY KEY,
-    organizer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    organizer_id BIGINT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     event_date TIMESTAMP NOT NULL,
@@ -104,13 +103,14 @@ CREATE TABLE events (
     registration_fee DECIMAL(10,2) DEFAULT 0,
     status VARCHAR(20) DEFAULT 'UPCOMING' CHECK (status IN ('UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (organizer_id) REFERENCES users(id) ON DELETE RESTRICT
 );
 
 -- 6. profile_photos table
 CREATE TABLE profile_photos (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500) NOT NULL,
     file_size BIGINT NOT NULL,
@@ -118,13 +118,14 @@ CREATE TABLE profile_photos (
     is_primary BOOLEAN DEFAULT FALSE,
     sort_order INTEGER DEFAULT 0,
     alt_text VARCHAR(255),
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- 7. media_gallery table
 CREATE TABLE media_gallery (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     media_type VARCHAR(20) NOT NULL CHECK (media_type IN ('VIDEO', 'AUDIO', 'DOCUMENT')),
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500) NOT NULL,
@@ -132,43 +133,50 @@ CREATE TABLE media_gallery (
     mime_type VARCHAR(100) NOT NULL,
     title VARCHAR(255),
     description TEXT,
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- 8. messages table
 CREATE TABLE messages (
-    id BIGSERIAL PRIMARY KEY,
-    sender_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    receiver_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sender_id BIGINT NOT NULL,
+    receiver_id BIGINT NOT NULL,
     subject VARCHAR(255),
     content TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     read_at TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE RESTRICT,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE RESTRICT,
     CONSTRAINT chk_no_self_message CHECK (sender_id != receiver_id)
 );
 
 -- 9. user_interests table
 CREATE TABLE user_interests (
-    id BIGSERIAL PRIMARY KEY,
-    from_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    to_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    from_user_id BIGINT NOT NULL,
+    to_user_id BIGINT NOT NULL,
     interest_type VARCHAR(20) NOT NULL CHECK (interest_type IN ('LIKE', 'SHORTLIST', 'BLOCK')),
     compatibility_score DECIMAL(5,2) CHECK (compatibility_score >= 0 AND compatibility_score <= 100),
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT chk_no_self_interest CHECK (from_user_id != to_user_id)
 );
 
 -- 10. event_registrations table
 CREATE TABLE event_registrations (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    event_id BIGINT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    event_id BIGINT NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     payment_status VARCHAR(20) DEFAULT 'PENDING' CHECK (payment_status IN ('PENDING', 'PAID', 'REFUNDED')),
     attended BOOLEAN DEFAULT FALSE,
-    notes TEXT
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 );
 
 -- ===========================================
@@ -177,8 +185,8 @@ CREATE TABLE event_registrations (
 
 -- 11. payments table
 CREATE TABLE payments (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     payment_type VARCHAR(20) NOT NULL CHECK (payment_type IN ('SUBSCRIPTION', 'EVENT_REGISTRATION', 'DONATION')),
     amount DECIMAL(10,2) NOT NULL,
     currency VARCHAR(3) DEFAULT 'INR',
@@ -186,26 +194,28 @@ CREATE TABLE payments (
     transaction_id VARCHAR(255) UNIQUE,
     status VARCHAR(20) NOT NULL CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED', 'REFUNDED')),
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    notes TEXT
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
 );
 
 -- 12. notifications table
 CREATE TABLE notifications (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     notification_type VARCHAR(50) NOT NULL,
     title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
     action_url VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    read_at TIMESTAMP
+    read_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- 13. notification_preferences table
 CREATE TABLE notification_preferences (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNIQUE NOT NULL,
     email_notifications BOOLEAN DEFAULT TRUE,
     push_notifications BOOLEAN DEFAULT TRUE,
     sms_notifications BOOLEAN DEFAULT FALSE,
@@ -214,51 +224,59 @@ CREATE TABLE notification_preferences (
     event_updates BOOLEAN DEFAULT TRUE,
     profile_views BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- 14. audit_logs table
 CREATE TABLE audit_logs (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
     action VARCHAR(100) NOT NULL,
     entity_type VARCHAR(50) NOT NULL,
     entity_id BIGINT,
-    old_values JSONB,
-    new_values JSONB,
-    ip_address INET,
+    old_values JSON,
+    new_values JSON,
+    ip_address VARCHAR(45),
     user_agent TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 -- 15. user_reports table
 CREATE TABLE user_reports (
-    id BIGSERIAL PRIMARY KEY,
-    reporter_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    reported_user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    reporter_id BIGINT NOT NULL,
+    reported_user_id BIGINT NOT NULL,
     report_type VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    status VARCHAR(20) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'INVESTIGATING', 'RESOLVED', 'DISMISSED')),
+    status ENUM('PENDING', 'INVESTIGATING', 'RESOLVED', 'DISMISSED') DEFAULT 'PENDING',
     admin_notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     resolved_at TIMESTAMP,
+    FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE RESTRICT,
+    FOREIGN KEY (reported_user_id) REFERENCES users(id) ON DELETE RESTRICT,
     CONSTRAINT chk_no_self_report CHECK (reporter_id != reported_user_id)
 );
 
 -- 16. success_stories table
 CREATE TABLE success_stories (
-    id BIGSERIAL PRIMARY KEY,
-    couple_user1_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    couple_user2_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    couple_user1_id BIGINT NOT NULL,
+    couple_user2_id BIGINT NOT NULL,
     story_title VARCHAR(255) NOT NULL,
     story_content TEXT NOT NULL,
     wedding_date DATE,
-    photos JSONB,
+    photos JSON,
     is_featured BOOLEAN DEFAULT FALSE,
-    submitted_by BIGINT REFERENCES users(id) ON DELETE SET NULL,
-    approved_by BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    submitted_by BIGINT,
+    approved_by BIGINT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    approved_at TIMESTAMP
+    approved_at TIMESTAMP,
+    FOREIGN KEY (couple_user1_id) REFERENCES users(id) ON DELETE RESTRICT,
+    FOREIGN KEY (couple_user2_id) REFERENCES users(id) ON DELETE RESTRICT,
+    FOREIGN KEY (submitted_by) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
 -- ===========================================
@@ -271,7 +289,7 @@ CREATE INDEX idx_users_role ON users(role);
 
 -- Subscriptions table indexes
 CREATE INDEX idx_subscriptions_user_id ON subscriptions(user_id);
-CREATE INDEX idx_subscriptions_plan_type ON subscriptions(plan_type);
+
 
 -- Profiles table indexes
 CREATE INDEX idx_profiles_user_id ON profiles(user_id);
@@ -326,27 +344,6 @@ CREATE INDEX idx_user_reports_status ON user_reports(status);
 CREATE INDEX idx_success_stories_is_featured ON success_stories(is_featured);
 
 -- ===========================================
--- TRIGGERS FOR UPDATED_AT
--- ===========================================
-
--- Function to update updated_at timestamp
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-
--- Apply triggers to tables with updated_at column
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_subscription_plans_updated_at BEFORE UPDATE ON subscription_plans FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_events_updated_at BEFORE UPDATE ON events FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_notification_preferences_updated_at BEFORE UPDATE ON notification_preferences FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
--- ===========================================
 -- SAMPLE DATA INSERTION
 -- ===========================================
 
@@ -366,9 +363,9 @@ INSERT INTO subscription_plans (plan_name, plan_type, price_monthly, price_yearl
 
 -- Insert sample subscriptions
 INSERT INTO subscriptions (user_id, plan_id, billing_cycle, start_date, is_active) VALUES
-(3, 1, 'MONTHLY', CURRENT_DATE, true),
-(4, 2, 'MONTHLY', CURRENT_DATE, true),
-(5, 3, 'YEARLY', CURRENT_DATE, true);
+(3, 1, 'MONTHLY', CURDATE(), true),
+(4, 2, 'MONTHLY', CURDATE(), true),
+(5, 3, 'YEARLY', CURDATE(), true);
 
 -- Insert sample profiles
 INSERT INTO profiles (user_id, date_of_birth, gender, religion, caste, occupation, education, city, state, about_me, preferences) VALUES
