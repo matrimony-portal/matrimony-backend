@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:lts
+    container_name: bandhan-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: matrimony_portal
+      MYSQL_USER: bandhandb
+      MYSQL_PASSWORD: bandhandb@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: bandhan-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: bandhandb
+      PMA_PASSWORD: bandhandb@123
+    ports:
+      - "3307:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
