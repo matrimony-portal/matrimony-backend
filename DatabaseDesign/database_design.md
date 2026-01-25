@@ -497,10 +497,30 @@ The database follows a normalized relational design with the following key relat
 - Media: photos (JSON array), wedding_date
 - Status: is_featured, submitted_by, approved_by
 
+##### 17. email_verification_tokens
+
+**Purpose**: Email verification token management
+
+| Column     | Type         | Constraints                | Description                           |
+| ---------- | ------------ | -------------------------- | ------------------------------------- |
+| id         | BIGINT       | PRIMARY KEY AUTO_INCREMENT | Unique identifier for each token      |
+| user_id    | BIGINT       | NOT NULL, FK → users.id    | Reference to the user                 |
+| token      | VARCHAR(255) | UNIQUE, NOT NULL           | Verification token (UUID)             |
+| created_at | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP  | Token creation timestamp              |
+| expires_at | TIMESTAMP    | NOT NULL                   | Token expiration timestamp            |
+| used_at    | TIMESTAMP    |                            | Token usage timestamp (nullable)      |
+
+**Key Features**:
+
+- Verification: token (unique), expires_at, used_at
+- Audit: created_at, used_at for tracking
+- Cleanup: expires_at for automatic cleanup
+
 ### 3.3 Relationships
 
 #### Foreign Key Constraints
 
+- **email_verification_tokens.user_id** → **users.id** (CASCADE on delete)
 - **profiles.user_id** → **users.id** (CASCADE on delete)
 - **subscriptions.user_id** → **users.id** (CASCADE on delete)
 - **events.organizer_id** → **users.id** (RESTRICT on delete - prevent deleting organizers with events)
@@ -625,7 +645,9 @@ For optimal query performance, the following indexes are recommended:
 29. `idx_user_reports_reporter_id` on user_reports(reporter_id) - for user's reports
 30. `idx_user_reports_reported_user_id` on user_reports(reported_user_id) - for reports against user
 31. `idx_user_reports_status` on user_reports(status) - for report status queries
-32. `idx_success_stories_is_featured` on success_stories(is_featured) - for featured stories
+32. `idx_email_verification_tokens_user_id` on email_verification_tokens(user_id) - for user's tokens
+33. `idx_email_verification_tokens_token` on email_verification_tokens(token) - for token lookups
+34. `idx_email_verification_tokens_expires_at` on email_verification_tokens(expires_at) - for cleanup queries
 
 ## 4. Implementation
 
