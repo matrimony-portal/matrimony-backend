@@ -279,6 +279,17 @@ CREATE TABLE success_stories (
     FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- 17. email_verification_tokens table
+CREATE TABLE email_verification_tokens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    used_at TIMESTAMP NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 -- ===========================================
 -- INDEXES FOR PERFORMANCE
 -- ===========================================
@@ -342,6 +353,11 @@ CREATE INDEX idx_user_reports_status ON user_reports(status);
 
 -- Success stories table indexes
 CREATE INDEX idx_success_stories_is_featured ON success_stories(is_featured);
+
+-- Email verification tokens table indexes
+CREATE INDEX idx_email_verification_tokens_user_id ON email_verification_tokens(user_id);
+CREATE INDEX idx_email_verification_tokens_token ON email_verification_tokens(token);
+CREATE INDEX idx_email_verification_tokens_expires_at ON email_verification_tokens(expires_at);
 
 -- ===========================================
 -- SAMPLE DATA INSERTION

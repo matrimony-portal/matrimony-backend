@@ -2,21 +2,12 @@
 
 ## 🚀 Quick Setup
 
-### 1. Prerequisites
-```bash
-# Check versions
-java -version      # Should be 17+
-./mvnw -version    # Should be 3.6+
-docker --version   # Any recent version
-
-# Install required tools
+### Prerequisites
 - Java 17+
-- Maven Wrapper (included)
 - Docker & Docker Compose
-- Spring Boot 4.0.2
-```
+- IDE: STS/Eclipse/IntelliJ/VS Code
 
-### 2. Clone & Start
+### Clone & Start
 ```bash
 git clone <repo-url>
 cd matrimony-backend
@@ -24,119 +15,116 @@ cd matrimony-backend
 # Start database
 docker compose up -d
 
-# Start application (use wrapper if mvn not installed)
+# Set environment variables (see STS_ENV_SETUP.md)
+# Then start application
 ./mvnw spring-boot:run
-# OR if Maven installed:
-# mvn spring-boot:run
 ```
 
-### 3. Verify Setup
+### Verify Setup
 ```bash
-# Test API
-curl http://localhost:8080/api/api/test/health
-# Expected: "OK"
+# Check API
+curl http://localhost:8080/swagger-ui.html
 
-# Access phpMyAdmin
-open http://localhost:3307
+# Database access
+open http://localhost:3307  # phpMyAdmin
 # Login: bandhandb / bandhandb@123
 ```
-
-## 🐳 Docker Services
-
-### Database Stack
-```bash
-# Start services
-docker compose up -d
-
-# Check status
-docker compose ps
-
-# View logs
-docker compose logs bandhan-mysql
-
-# Stop services
-docker compose down
-```
-
-### Services Running
-- **MySQL**: localhost:3306 (bandhan-mysql container)
-- **phpMyAdmin**: http://localhost:3307 (bandhan-phpmyadmin container)
-- **Spring Boot 4.0.2**: http://localhost:8080/api
 
 ## 📁 Project Structure
 
 ```
 src/main/java/com/scriptbliss/bandhan/
-├── auth/           # 🔐 Authentication
-├── profile/        # 👤 User profiles
-├── match/          # 💕 Matching
-├── interest/       # ❤️ Interests
+├── auth/           # 🔐 Authentication & Registration
+├── profile/        # 👤 User Profiles
+├── match/          # 💕 Matching Algorithm
+├── interest/       # ❤️ User Interests
 ├── chat/           # 💬 Messaging
 ├── payment/        # 💳 Payments
-├── admin/          # ⚙️ Admin
-└── shared/         # 🔧 Common
+├── admin/          # ⚙️ Admin Panel
+└── shared/         # 🔧 Common Components
 ```
 
-### Domain Structure
+### Domain Architecture
 ```
-profile/
+auth/
 ├── controller/     # REST endpoints
 ├── service/        # Business logic
 ├── repository/     # Data access
 ├── entity/         # JPA entities
-├── dto/            # Request/Response
-└── mapper/         # Entity-DTO mapping
+├── dto/request/    # Request DTOs
+├── dto/response/   # Response DTOs
+└── enums/          # Domain enums
 ```
 
-## 🛠️ Development
+## 🛠️ Development Guidelines
 
-### Adding New Features
-1. Choose domain folder
-2. Follow structure above
-3. Use DTOs for API
-4. Write tests
+### API Standards
+- Use `ApiResponse<T>` wrapper for all responses
+- Validate requests with `@Valid`
+- Handle errors with `GlobalExceptionHandler`
+- Document APIs with Swagger annotations
 
-### Code Example
-```java
-@RestController
-@RequestMapping("/profile")
-public class ProfileController {
-    @GetMapping("/{id}")
-    public ProfileResponse getProfile(@PathVariable Long id) {
-        return profileService.getProfile(id);
-    }
-}
-```
+### Code Style
+- Use Lombok annotations (`@Getter`, `@Setter`, `@Builder`)
+- Follow Spring Boot conventions
+- Write meaningful JavaDoc for public methods
+- Use `@Transactional` for service methods
 
-### Auto-Reload
-- DevTools enabled - code changes auto-reload
-- No server restart needed
+### Security
+- Never expose internal IDs in public APIs
+- Use silent fail for user enumeration prevention
+- Validate and sanitize all inputs
+- Log security events appropriately
 
 ## 🧪 Testing
 
-### API Endpoints
+### Current Endpoints
 ```bash
-# All endpoints prefixed with /api
-curl http://localhost:8080/api/api/test/health
-curl http://localhost:8080/api/actuator/health
+# Registration
+POST /register/signup
+POST /register/verify-email?token=xyz
+POST /register/resend-verification?email=user@example.com
+
+# Documentation
+GET /swagger-ui.html
 ```
 
-### Run Tests
-```bash
-./mvnw test
-# OR if Maven installed: mvn test
-```
-
-### Database Access
+### Database
+- **MySQL**: localhost:3306
 - **phpMyAdmin**: http://localhost:3307
-- **Login**: bandhandb / bandhandb@123
+- **Credentials**: bandhandb / bandhandb@123
 
-## 🔒 Security
-- All endpoints are public (development mode)
-- Authentication disabled
-- Will be enabled later
+## 🔧 Environment Setup
 
-## 🆘 Help
-- Check existing code patterns
-- Follow domain structure
-- Ask team for guidance
+### IDE Configuration
+- See `STS_ENV_SETUP.md` for STS/Eclipse setup
+- Set environment variables: `DB_PASSWORD`, `SMTP_USERNAME`, `SMTP_PASSWORD`
+- Import as Maven project
+
+### Database Schema
+- See `DatabaseDesign/schema.sql` for complete schema
+- See `DatabaseDesign/database_design.md` for documentation
+
+## 📝 Contributing Rules
+
+1. **Follow domain structure** - Keep related code together
+2. **Use DTOs** - Never expose entities directly
+3. **Handle errors properly** - Use business exceptions
+4. **Write tests** - Cover business logic
+5. **Document APIs** - Use Swagger annotations
+6. **Security first** - Follow security best practices
+
+## 🔒 Current Security Status
+
+- **Authentication**: Disabled (development mode)
+- **Authorization**: All endpoints public
+- **CSRF**: Disabled
+- **Email verification**: Implemented
+- **Password hashing**: BCrypt enabled
+
+## 🆘 Need Help?
+
+- Check existing patterns in `auth` domain
+- Review `shared` components for utilities
+- Follow established naming conventions
+- Ask team for architecture decisions
