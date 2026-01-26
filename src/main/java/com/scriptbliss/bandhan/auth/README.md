@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Authentication domain handles user registration, login, logout, and user management for the Matrimony Portal. It follows Spring Boot best practices with clean architecture and separation of concerns.
+The Authentication domain handles user registration, login, logout, and password reset for the Matrimony Portal. It follows Spring Boot best practices with clean architecture and separation of concerns.
 
 ## Architecture
 
@@ -12,76 +12,56 @@ auth/
 ├── controller/          # REST API endpoints
 │   ├── AuthController.java
 │   ├── RegistrationController.java
-│   └── UserController.java
+│   └── ResetPasswordController.java
 ├── service/            # Business logic
 │   ├── AuthService.java
+│   ├── AuthServiceImpl.java
 │   ├── RegistrationService.java
-│   └── UserService.java
+│   ├── RegistrationServiceImpl.java
+│   ├── PasswordResetService.java
+│   └── PasswordResetServiceImpl.java
 ├── repository/         # Data access layer
-│   └── UserRepository.java
+│   ├── UserRepository.java
+│   └── VerificationTokenRepository.java
 ├── dto/               # Data Transfer Objects
 │   ├── request/
 │   │   ├── LoginRequest.java
-│   │   ├── RegisterRequest.java
-│   │   └── ChangePasswordRequest.java
+│   │   ├── CompleteRegistrationRequest.java
+│   │   ├── RefreshTokenRequest.java
+│   │   ├── EmailRequest.java
+│   │   ├── ResetPasswordRequest.java
+│   │   └── TokenValidationRequest.java
 │   └── response/
-│       ├── AuthResponse.java
-│       ├── UserResponse.java
-│       └── ApiResponse.java
+│       └── AuthResponse.java
 ├── entity/            # JPA entities
-│   └── User.java
-├── enums/             # Enumerations
-│   └── UserRole.java
-├── mapper/            # Entity-DTO mapping
-│   └── UserMapper.java
-└── exception/         # Domain-specific exceptions
-    ├── UserNotFoundException.java
-    ├── EmailAlreadyExistsException.java
-    └── InvalidCredentialsException.java
+│   ├── User.java
+│   └── VerificationToken.java
+└── enums/             # Enumerations
+    ├── UserRole.java
+    ├── TokenType.java
+    ├── JwtScope.java
+    └── AccountStatus.java
 ```
 
 ## Controllers
 
 ### 1. AuthController
-**Purpose**: Handle authentication operations (login, logout, token refresh)
-
 **Endpoints**:
 - `POST /auth/login` - User login
 - `POST /auth/logout` - User logout
 - `POST /auth/refresh` - Refresh JWT token
 
-**Responsibilities**:
-- Validate login credentials
-- Generate JWT tokens
-- Handle logout operations
-- Token refresh logic
-
 ### 2. RegistrationController
-**Purpose**: Handle user registration and email verification
-
 **Endpoints**:
-- `POST /register/signup` - User registration
-- `POST /register/verify-email` - Email verification
-- `POST /register/resend-verification` - Resend verification email
+- `POST /auth/start-registration` - Start registration with email
+- `POST /auth/verify-email` - Verify email and get JWT
+- `POST /auth/complete-registration` - Complete profile with JWT
 
-**Responsibilities**:
-- User registration validation
-- Email verification workflow
-- Account activation
-
-### 3. UserController
-**Purpose**: Handle user profile and account management
-
+### 3. ResetPasswordController
 **Endpoints**:
-- `GET /users/profile` - Get user profile
-- `PUT /users/profile` - Update user profile
-- `POST /users/change-password` - Change password
-- `DELETE /users/account` - Delete account
-
-**Responsibilities**:
-- User profile management
-- Password changes
-- Account operations
+- `POST /auth/forgot-password` - Request password reset
+- `POST /auth/verify-reset-token` - Verify reset token and get JWT
+- `POST /auth/reset-password` - Reset password with JWT
 
 ## Data Models
 
@@ -96,7 +76,16 @@ public class User extends BaseEntity {
     private String lastName;        // User's last name
     private String phone;          // Contact number
     private UserRole role;         // User role (ADMIN, EVENT_ORGANIZER, USER)
-    private boolean isActive;      // Account status
+    private AccountStatus status;  // Account status (ACTIVE, INACTIVE, BLOCKED)
+}
+```
+
+### AccountStatus Enum
+```java
+public enum AccountStatus {
+    ACTIVE,     // Account is active and can login
+    INACTIVE,   // Account not verified or deactivated
+    BLOCKED     // Account blocked by admin
 }
 ```
 
@@ -109,65 +98,40 @@ public enum UserRole {
 }
 ```
 
-## DTOs (Data Transfer Objects)
-
-### Request DTOs
-- **LoginRequest**: Email, password
-- **RegisterRequest**: Email, password, firstName, lastName, phone, role
-- **ChangePasswordRequest**: Current password, new password
-
-### Response DTOs
-- **AuthResponse**: JWT token, user info, expires_in
-- **UserResponse**: User profile data (excluding sensitive info)
-- **ApiResponse**: Standard API response wrapper
-
 ## Services
 
 ### AuthService
-**Responsibilities**:
-- User authentication
-- JWT token generation and validation
-- Password verification
-- Session management
+- User authentication and JWT token management
+- Password verification and session handling
 
 ### RegistrationService
-**Responsibilities**:
-- User registration business logic
-- Email verification
-- Account activation
-- Duplicate email checking
+- Email-first registration workflow
+- Email verification and progressive account creation
 
-### UserService
-**Responsibilities**:
-- User profile operations
-- Password management
-- Account management
-- User data retrieval
+### PasswordResetService
+- Password reset request handling with security logging
+- Reset token validation and password updates
 
 ## Security
 
+### JWT Implementation
+- **Centralized**: All JWT operations handled by `JwtUtil` component
+- **Algorithm**: HS256 with configurable secret
+- **Scopes**: ACCESS, REFRESH, REGISTRATION, PASSWORD_RESET
+- **Expiration**: 24h access, 7d refresh, 30m registration, 15m reset
+
 ### Password Security
 - **Hashing**: BCrypt with salt
-- **Strength**: Minimum 8 characters, mixed case, numbers, symbols
-- **Storage**: Never store plain text passwords
+- **Validation**: Minimum 8 characters with complexity requirements
 
-### JWT Tokens
-- **Algorithm**: HS256
-- **Expiration**: 24 hours for access tokens
-- **Refresh**: 7 days for refresh tokens
-- **Claims**: User ID, email, role, issued time
-
-### Role-Based Access
-- **ADMIN**: Full system access
-- **EVENT_ORGANIZER**: Event management + basic user features
-- **USER**: Matrimony features only
+### Security Features
+- **Account Status Management**: Three states (ACTIVE, INACTIVE, BLOCKED)
+- **Admin Controls**: Admins can block accounts
+- **Refresh Token Rotation**: New refresh token generated on each refresh
+- **Generic Error Messages**: Security-focused error responses for token operations
+- **Status Validation**: Account status checked at login and token refresh
 
 ## API Documentation
-
-### Swagger UI
-Access interactive API documentation at:
-- **Development**: http://localhost:8080/swagger-ui.html
-- **OpenAPI JSON**: http://localhost:8080/v3/api-docs
 
 ### Authentication Endpoints
 
@@ -182,6 +146,7 @@ Request:
 Response:
 {
   "success": true,
+  "message": "Login successful",
   "data": {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "refreshToken": "refresh_token_here",
@@ -193,7 +158,8 @@ Response:
       "lastName": "Doe",
       "role": "USER"
     }
-  }
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
 
@@ -207,17 +173,77 @@ Request:
 Response:
 {
   "success": true,
-  "message": "Logged out successfully"
+  "message": "Logged out successfully",
+  "data": null,
+  "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
 
-### Registration Endpoints
-
-#### POST /register/signup
+#### POST /auth/refresh
 ```json
 Request:
 {
-  "email": "newuser@example.com",
+  "refreshToken": "refresh_token_here"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Token refreshed successfully",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "new_refresh_token_here",
+    "expiresIn": 86400,
+    "user": {
+      "id": 1,
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "USER"
+    }
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+### Registration Flow (Email-First)
+
+#### POST /auth/start-registration
+```json
+Request:
+{
+  "email": "newuser@example.com"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Verification email sent. Please check your email to continue registration.",
+  "data": null,
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+#### POST /auth/verify-email
+```json
+Request:
+{
+  "token": "verification-token-uuid"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Email verified successfully. You can now complete your registration.",
+  "data": "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzY29wZSI6IlJFR0lTVFJBVElPTiJ9...",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+#### POST /auth/complete-registration
+```json
+Request:
+{
   "password": "SecurePass123!",
   "firstName": "Jane",
   "lastName": "Smith",
@@ -225,36 +251,80 @@ Request:
   "role": "USER"
 }
 
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzY29wZSI6IlJFR0lTVFJBVElPTiJ9..."
+}
+
 Response:
 {
   "success": true,
-  "message": "Registration successful. Please verify your email.",
-  "data": {
-    "userId": 123,
-    "email": "newuser@example.com"
-  }
+  "message": "Registration completed successfully. You can now login.",
+  "data": null,
+  "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
 
-### User Management Endpoints
+### Password Reset Flow
 
-#### GET /users/profile
+#### POST /auth/forgot-password
 ```json
+Request:
+{
+  "email": "user@example.com"
+}
+
 Response:
 {
   "success": true,
-  "data": {
-    "id": 1,
-    "email": "user@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "phone": "+91 9876543210",
-    "role": "USER",
-    "isActive": true,
-    "createdAt": "2024-01-15T10:30:00Z"
-  }
+  "message": "Password reset email sent if account exists.",
+  "data": null,
+  "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
+
+#### POST /auth/verify-reset-token
+```json
+Request:
+{
+  "token": "reset-token-uuid"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Reset token verified. You can now set your new password.",
+  "data": "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzY29wZSI6IlBBU1NXT1JEX1JFU0VUIn0...",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+#### POST /auth/reset-password
+```json
+Request:
+{
+  "newPassword": "NewSecurePass123!"
+}
+
+Headers:
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJzY29wZSI6IlBBU1NXT1JEX1JFU0VUIn0..."
+}
+
+Response:
+{
+  "success": true,
+  "message": "Password reset successfully.",
+  "data": null,
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+## JWT Scopes
+- **ACCESS**: Full application access (login JWT)
+- **REFRESH**: Token refresh capability
+- **REGISTRATION**: Allows completing user registration
+- **PASSWORD_RESET**: Allows resetting password
 
 ## Error Handling
 
@@ -265,138 +335,64 @@ Response:
   "error": {
     "code": "INVALID_CREDENTIALS",
     "message": "Invalid email or password",
-    "timestamp": "2024-01-15T10:30:00Z"
-  }
+    "details": null,
+    "field": null
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
 
 ### Error Codes
 - `INVALID_CREDENTIALS` - Wrong email/password
 - `EMAIL_ALREADY_EXISTS` - Email already registered
-- `USER_NOT_FOUND` - User doesn't exist
-- `ACCOUNT_INACTIVE` - Account is deactivated
+- `ACCOUNT_INACTIVE` - Account not verified
+- `ACCOUNT_BLOCKED` - Account blocked by admin
 - `INVALID_TOKEN` - JWT token invalid/expired
-- `WEAK_PASSWORD` - Password doesn't meet requirements
-
-## Validation Rules
-
-### Email Validation
-- Valid email format (RFC 5322)
-- Maximum 255 characters
-- Unique across system
-
-### Password Validation
-- Minimum 8 characters
-- At least one uppercase letter
-- At least one lowercase letter
-- At least one number
-- At least one special character
-
-### Name Validation
-- Maximum 100 characters each
-- No special characters except hyphens and apostrophes
-- Required fields
-
-### Phone Validation
-- Maximum 20 characters
-- International format supported
-- Optional field
-
-## Database Schema
-
-### users Table
-```sql
-CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20),
-    role ENUM('ADMIN', 'EVENT_ORGANIZER', 'USER') NOT NULL DEFAULT 'USER',
-    is_active BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-### Indexes
-- `idx_users_email` on email (unique login lookup)
-- `idx_users_role` on role (role-based queries)
-
-## Testing Strategy
-
-### Unit Tests
-- Service layer business logic
-- Password hashing/verification
-- JWT token generation/validation
-- Input validation
-
-### Integration Tests
-- Controller endpoints
-- Database operations
-- Authentication flows
-- Error scenarios
-
-### Test Coverage
-- Minimum 80% code coverage
-- All critical paths tested
-- Edge cases covered
+- `TOKEN_EXPIRED` - Verification/reset token expired
+- `AUTH_MISSING_TOKEN` - Authorization header missing
+- `VALIDATION_ERROR` - Input validation failed
 
 ## Configuration
 
 ### Application Properties
 ```properties
 # JWT Configuration
-jwt.secret=your-secret-key
-jwt.expiration=86400
-jwt.refresh-expiration=604800
+jwt.secret=${JWT_SECRET:mySecretKey123456789012345678901234567890}
 
-# Password Configuration
-password.min-length=8
-password.require-uppercase=true
-password.require-lowercase=true
-password.require-numbers=true
-password.require-special=true
+# Database Configuration
+spring.jpa.hibernate.ddl-auto=create-drop
 
-# Email Configuration
-email.verification.enabled=true
-email.verification.expiration=3600
+# Email Configuration (AWS SES)
+spring.mail.host=${SMTP_HOST:email-smtp.ap-south-1.amazonaws.com}
+spring.mail.username=${SMTP_USERNAME}
+spring.mail.password=${SMTP_PASSWORD}
+app.email.from=${APP_EMAIL_FROM:noreply@bandhan.scriptbliss.com}
 ```
-
-## Future Enhancements
-
-### Planned Features
-- Two-factor authentication (2FA)
-- Social login (Google, Facebook)
-- Password reset via email
-- Account lockout after failed attempts
-- Audit logging for security events
-
-### Security Improvements
-- Rate limiting for login attempts
-- IP-based access controls
-- Session management
-- Password history tracking
-
----
 
 ## Quick Start
 
-### 1. Create User
+### 1. Start Registration
 ```bash
-curl -X POST http://localhost:8080/register/signup \
+curl -X POST http://localhost:8080/auth/start-registration \
   -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com"}'
+```
+
+### 2. Complete Registration (after email verification)
+```bash
+curl -X POST http://localhost:8080/auth/complete-registration \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_REGISTRATION_JWT" \
   -d '{
-    "email": "test@example.com",
     "password": "SecurePass123!",
     "firstName": "Test",
     "lastName": "User",
-    "phone": "+91 9876543210"
+    "phone": "+91 9876543210",
+    "role": "USER"
   }'
 ```
 
-### 2. Login
+### 3. Login
 ```bash
 curl -X POST http://localhost:8080/auth/login \
   -H "Content-Type: application/json" \
@@ -405,13 +401,3 @@ curl -X POST http://localhost:8080/auth/login \
     "password": "SecurePass123!"
   }'
 ```
-
-### 3. Access Protected Endpoint
-```bash
-curl -X GET http://localhost:8080/users/profile \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
-```
-
----
-
-*This documentation follows Spring Boot best practices and should be updated as the domain evolves.*

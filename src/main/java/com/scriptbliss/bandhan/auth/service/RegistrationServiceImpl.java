@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.scriptbliss.bandhan.auth.dto.request.CompleteRegistrationRequest;
 import com.scriptbliss.bandhan.auth.entity.User;
 import com.scriptbliss.bandhan.auth.entity.VerificationToken;
+import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.enums.TokenType;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
@@ -39,8 +40,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 	public void startRegistration(String email) {
 		Optional<User> existingUser = userRepository.findByEmail(email);
 
-		if (existingUser.isPresent() && existingUser.get().isActive()) {
-			throw new BusinessException("EMAIL_ALREADY_EXISTS", "Email already registered and verified");
+		if (existingUser.isPresent()) {
+			throw new BusinessException("EMAIL_ALREADY_EXISTS", "Email already registered");
 		}
 
 		String token = createVerificationToken(email);
@@ -79,13 +80,13 @@ public class RegistrationServiceImpl implements RegistrationService {
 		String email = claims.get("email", String.class);
 
 		Optional<User> existingUser = userRepository.findByEmail(email);
-		if (existingUser.isPresent() && existingUser.get().isActive()) {
-			throw new BusinessException("EMAIL_ALREADY_EXISTS", "Email already registered and verified");
+		if (existingUser.isPresent()) {
+			throw new BusinessException("EMAIL_ALREADY_EXISTS", "Email already registered");
 		}
 
 		User user = User.builder().email(email).password(passwordEncoder.encode(request.getPassword()))
 				.firstName(request.getFirstName()).lastName(request.getLastName()).phone(request.getPhone())
-				.role(request.getRole()).isActive(true).build();
+				.role(request.getRole()).status(AccountStatus.ACTIVE).build();
 
 		userRepository.save(user);
 		log.info("Registration completed for user: {}", email);
