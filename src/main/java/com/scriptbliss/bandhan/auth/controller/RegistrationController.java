@@ -3,39 +3,44 @@ package com.scriptbliss.bandhan.auth.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scriptbliss.bandhan.auth.dto.request.RegisterRequest;
+import com.scriptbliss.bandhan.auth.dto.request.CompleteRegistrationRequest;
+import com.scriptbliss.bandhan.auth.dto.request.EmailRequest;
+import com.scriptbliss.bandhan.auth.dto.request.TokenValidationRequest;
 import com.scriptbliss.bandhan.auth.service.RegistrationService;
 import com.scriptbliss.bandhan.shared.dto.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/register")
+@RequestMapping("/auth")
 @RestController
 @RequiredArgsConstructor
 public class RegistrationController {
 	private final RegistrationService registrationService;
 
-	@PostMapping("/signup")
-	public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody RegisterRequest request) {
-		registrationService.registerUser(request);
+	@PostMapping("/start-registration")
+	public ResponseEntity<ApiResponse<Void>> startRegistration(@Valid @RequestBody EmailRequest request) {
+		registrationService.startRegistration(request.getEmail());
 		return ResponseEntity
-				.ok(ApiResponse.success("User registered successfully. Please check your email for verification."));
+				.ok(ApiResponse.success("Verification email sent. Please check your email to continue registration."));
 	}
 
 	@PostMapping("/verify-email")
-	public ResponseEntity<ApiResponse<Void>> verifyEmail(@RequestParam String token) {
-		registrationService.verifyEmail(token);
-		return ResponseEntity.ok(ApiResponse.success("Email verified successfully. You can now login."));
+	public ResponseEntity<ApiResponse<String>> verifyEmail(@Valid @RequestBody TokenValidationRequest request) {
+		String registrationJWT = registrationService.verifyEmailForRegistration(request.getToken());
+		return ResponseEntity.ok(ApiResponse
+				.success("Email verified successfully. You can now complete your registration.", registrationJWT));
 	}
 
-	@PostMapping("/resend-verification")
-	public ResponseEntity<ApiResponse<Void>> resendVerification(@RequestParam String email) {
-		registrationService.resendVerificationEmail(email);
-		return ResponseEntity.ok(ApiResponse.success("Verification email sent successfully."));
+	@PostMapping("/complete-registration")
+	public ResponseEntity<ApiResponse<Void>> completeRegistration(@RequestHeader("Authorization") String authHeader,
+			@Valid @RequestBody CompleteRegistrationRequest request) {
+		String jwt = authHeader.replace("Bearer ", "");
+		registrationService.completeRegistration(jwt, request);
+		return ResponseEntity.ok(ApiResponse.success("Registration completed successfully. You can now login."));
 	}
 }
