@@ -1,5 +1,6 @@
 package com.scriptbliss.bandhan.auth.entity;
 
+import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.UserRole;
 import com.scriptbliss.bandhan.shared.entity.BaseEntity;
 
@@ -46,7 +47,9 @@ public class User extends BaseEntity {
 	@Builder.Default
 	private UserRole role = UserRole.USER;
 
-	@Column(name = "is_active", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	@Builder.Default
-	private boolean isActive = false;
+	private AccountStatus status = AccountStatus.INACTIVE;
+
 }

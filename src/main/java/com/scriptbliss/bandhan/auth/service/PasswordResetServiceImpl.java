@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.scriptbliss.bandhan.auth.entity.User;
 import com.scriptbliss.bandhan.auth.entity.VerificationToken;
+import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.enums.TokenType;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
@@ -38,7 +39,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 	public void requestPasswordReset(String email) {
 		Optional<User> userOpt = userRepository.findByEmail(email);
 
-		if (userOpt.isEmpty() || !userOpt.get().isActive()) {
+		if (userOpt.isEmpty() || userOpt.get().getStatus() != AccountStatus.ACTIVE) {
 			// Security: Don't reveal if user exists
 			log.warn("Password reset requested for: {}", email);
 			return;
