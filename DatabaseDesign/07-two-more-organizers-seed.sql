@@ -19,15 +19,15 @@ INSERT INTO profiles (user_id, date_of_birth, gender, religion, caste, occupatio
 (15, '1988-06-20', 'FEMALE', NULL, NULL, 'Event Organizer', NULL, 'Mumbai', 'Maharashtra', 'I run Mumbai Events Co. and specialize in matrimonial speed dating and cultural evenings. Over 50 events organized with great satisfaction.', NULL),
 (16, '1991-03-12', 'MALE', NULL, NULL, 'Event Organizer', NULL, 'Delhi', 'Delhi', 'Experienced organizer for premium matchmaking events across NCR. Focus on dinner meetups and professional networking.', NULL);
 
--- 3. Events for organizer 15 (Meera)
-INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status) VALUES
-(19, 15, 'Mumbai Speed Dating Night', 'Curated speed dating for professionals. Great vibe and verified profiles.', '2025-05-08 18:30:00', 'The Oberoi, Nariman Point', 'Mumbai', 'Maharashtra', 40, 800.00, 'UPCOMING'),
-(20, 15, 'Cultural Evening - Mumbai', 'An evening of music, dance and meaningful introductions.', '2025-05-22 19:00:00', 'Sanskriti Hall, Andheri', 'Mumbai', 'Maharashtra', 60, 600.00, 'UPCOMING');
+-- 3. Events for organizer 15 (Meera) – event_type spread; event_date in 2026 so they display as UPCOMING
+INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status, event_type) VALUES
+(19, 15, 'Mumbai Speed Dating Night', 'Curated speed dating for professionals. Great vibe and verified profiles.', '2026-02-08 18:30:00', 'The Oberoi, Nariman Point', 'Mumbai', 'Maharashtra', 40, 800.00, 'UPCOMING', 'SPEED_DATING'),
+(20, 15, 'Cultural Evening - Mumbai', 'An evening of music, dance and meaningful introductions.', '2026-02-22 19:00:00', 'Sanskriti Hall, Andheri', 'Mumbai', 'Maharashtra', 60, 600.00, 'UPCOMING', 'CULTURAL');
 
--- 4. Events for organizer 16 (Arjun)
-INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status) VALUES
-(21, 16, 'Delhi Dinner & Mingle', 'Upscale dinner event for serious singles. Limited seats.', '2025-05-15 19:30:00', 'Indian Accent, The Lodhi', 'Delhi', 'Delhi', 30, 1500.00, 'UPCOMING'),
-(22, 16, 'Gurgaon Coffee Meetup', 'Casual coffee meetup for working professionals.', '2025-05-10 11:00:00', 'Blue Tokai, Cyber City', 'Gurgaon', 'Haryana', 25, 350.00, 'UPCOMING');
+-- 4. Events for organizer 16 (Arjun) – event_type spread; event_date in 2026
+INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status, event_type) VALUES
+(21, 16, 'Delhi Dinner & Mingle', 'Upscale dinner event for serious singles. Limited seats.', '2026-03-15 19:30:00', 'Indian Accent, The Lodhi', 'Delhi', 'Delhi', 30, 1500.00, 'UPCOMING', 'DINNER'),
+(22, 16, 'Gurgaon Coffee Meetup', 'Casual coffee meetup for working professionals.', '2026-03-10 11:00:00', 'Blue Tokai, Cyber City', 'Gurgaon', 'Haryana', 25, 350.00, 'UPCOMING', 'COFFEE_MEETUP');
 
 -- 5. Some registrations for new events (users 3–14 from 02/03)
 INSERT INTO event_registrations (user_id, event_id, registration_date, payment_status, attended, notes) VALUES
