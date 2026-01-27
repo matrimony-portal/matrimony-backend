@@ -12,6 +12,7 @@ import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
+import com.scriptbliss.bandhan.shared.security.CustomUserDetailsService.CustomUserPrincipal;
 import com.scriptbliss.bandhan.shared.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
@@ -49,8 +50,9 @@ public class AuthServiceImpl implements AuthService {
 			throw new BusinessException("ACCOUNT_BLOCKED", "Account has been blocked. Please contact support.");
 		}
 
-		String accessToken = jwtUtil.generateAccessToken(user);
-		String refreshToken = jwtUtil.generateRefreshToken(user);
+		CustomUserPrincipal principal = new CustomUserPrincipal(user);
+		String accessToken = jwtUtil.generateAccessToken(principal);
+		String refreshToken = jwtUtil.generateRefreshToken(principal);
 
 		log.info("User logged in: {}", user.getEmail());
 
@@ -84,8 +86,9 @@ public class AuthServiceImpl implements AuthService {
 			throw new BusinessException("INVALID_TOKEN", "Invalid or expired token");
 		}
 
-		String newAccessToken = jwtUtil.generateAccessToken(user);
-		String newRefreshToken = jwtUtil.generateRefreshToken(user);
+		CustomUserPrincipal principal = new CustomUserPrincipal(user);
+		String newAccessToken = jwtUtil.generateAccessToken(principal);
+		String newRefreshToken = jwtUtil.generateRefreshToken(principal);
 
 		log.info("Token refreshed for user: {}", user.getEmail());
 
