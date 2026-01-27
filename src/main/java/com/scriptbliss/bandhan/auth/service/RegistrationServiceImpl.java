@@ -16,6 +16,8 @@ import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.enums.TokenType;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
 import com.scriptbliss.bandhan.auth.repository.VerificationTokenRepository;
+import com.scriptbliss.bandhan.profile.entity.Profile;
+import com.scriptbliss.bandhan.profile.repository.ProfileRepository;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
 import com.scriptbliss.bandhan.shared.service.EmailService;
 import com.scriptbliss.bandhan.shared.util.JwtUtil;
@@ -32,6 +34,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	private final UserRepository userRepository;
 	private final VerificationTokenRepository tokenRepository;
+	private final ProfileRepository profileRepository;
 	private final EmailService emailService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final JwtUtil jwtUtil;
@@ -88,7 +91,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 				.firstName(request.getFirstName()).lastName(request.getLastName()).phone(request.getPhone())
 				.role(request.getRole()).status(AccountStatus.ACTIVE).build();
 
-		userRepository.save(user);
+		User savedUser = userRepository.save(user);
+
+		// Create empty profile
+		Profile profile = Profile.builder().user(savedUser).isVerified(false).build();
+		profileRepository.save(profile);
+
 		log.info("Registration completed for user: {}", email);
 	}
 
