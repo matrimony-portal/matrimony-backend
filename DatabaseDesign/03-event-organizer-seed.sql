@@ -36,23 +36,25 @@ INSERT INTO users (id, email, password, first_name, last_name, phone, role, stat
 -- ===========================================
 -- 02-seed has events 1, 2. Add 3-18.
 
-INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status) VALUES
-(3, 2, 'Speed Dating Evening - Mumbai', 'Join us for an exciting speed dating event in Mumbai. Meet like-minded individuals in a fun and relaxed environment.', '2025-03-15 18:00:00', 'Grand Hotel, Bandra', 'Mumbai', 'Maharashtra', 50, 500.00, 'UPCOMING'),
-(4, 2, 'Cultural Evening - Delhi', 'An evening of cultural exchange and meaningful connections.', '2025-03-22 19:00:00', 'India Habitat Centre', 'Delhi', 'Delhi', 100, 750.00, 'UPCOMING'),
-(5, 2, 'Coffee Meetup - Bangalore', 'Casual coffee meetup for young professionals.', '2025-03-10 11:00:00', 'Third Wave Coffee, Indiranagar', 'Bangalore', 'Karnataka', 30, 300.00, 'UPCOMING'),
-(6, 2, 'Weekend Brunch - Pune', 'Sunday brunch meetup in Pune.', '2025-03-30 10:00:00', 'The Westin, Koregaon Park', 'Pune', 'Maharashtra', 40, 600.00, 'UPCOMING'),
-(7, 2, 'Professional Networking - Hyderabad', 'Networking event for professionals looking for life partners.', '2025-04-05 18:30:00', 'Taj Krishna', 'Hyderabad', 'Telangana', 80, 800.00, 'UPCOMING'),
-(8, 2, 'Dinner & Dance - Chennai', 'An evening of dinner and dance.', '2025-04-12 19:00:00', 'Taj Coromandel', 'Chennai', 'Tamil Nadu', 60, 1200.00, 'UPCOMING'),
-(9, 2, 'Matrimony Mixer - Kolkata', 'Grand matrimonial mixer event.', '2025-02-28 17:00:00', 'ITC Sonar', 'Kolkata', 'West Bengal', 150, 1000.00, 'ONGOING'),
-(10, 2, 'Gurgaon Speed Dating', 'Fast-paced speed dating in Gurgaon.', '2025-02-25 19:00:00', 'The Westin, Gurgaon', 'Gurgaon', 'Haryana', 45, 550.00, 'ONGOING'),
-(11, 2, 'Lonavala Weekend Getaway', 'Weekend event in the hills.', '2024-12-10 10:00:00', 'Resort Paradise, Lonavala', 'Lonavala', 'Maharashtra', 25, 2000.00, 'COMPLETED'),
-(12, 2, 'Year-End Gala - Mumbai', 'Year-end matrimony gala.', '2024-11-20 18:00:00', 'The Leela, Mumbai', 'Mumbai', 'Maharashtra', 120, 1500.00, 'COMPLETED'),
-(13, 2, 'Spring Meetup - Goa', 'Beachside spring meetup.', '2025-04-20 16:00:00', 'Taj Fort Aguada', 'Goa', 'Goa', 50, 1800.00, 'UPCOMING'),
-(14, 2, 'Ahmedabad Cultural Fest', 'Cultural fest and matchmaking.', '2025-05-01 17:00:00', 'Cambay Grand', 'Ahmedabad', 'Gujarat', 90, 700.00, 'UPCOMING'),
-(15, 2, 'Kochi Seaside Evening', 'Seaside evening in Kochi.', '2025-05-15 18:00:00', 'Taj Malabar', 'Kochi', 'Kerala', 55, 900.00, 'UPCOMING'),
-(16, 2, 'Jaipur Royal Meet', 'Royal themed matrimony meet.', '2025-05-22 18:30:00', 'Rambagh Palace', 'Jaipur', 'Rajasthan', 70, 1100.00, 'UPCOMING'),
-(17, 2, 'Chandigarh Garden Party', 'Garden party meetup.', '2025-06-01 17:00:00', 'The Lalit, Chandigarh', 'Chandigarh', 'Punjab', 35, 650.00, 'UPCOMING'),
-(18, 2, 'Cancelled Test Event', 'This event was cancelled for testing.', '2025-06-10 19:00:00', 'Test Venue', 'Mumbai', 'Maharashtra', 20, 0.00, 'CANCELLED');
+-- event_type spread across SPEED_DATING, COFFEE_MEETUP, DINNER, CULTURAL
+-- event_date: UPCOMING/ONGOING in 2026 so they display correctly; COMPLETED/CANCELLED stay past
+INSERT INTO events (id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status, event_type) VALUES
+(3, 2, 'Speed Dating Evening - Mumbai', 'Join us for an exciting speed dating event in Mumbai. Meet like-minded individuals in a fun and relaxed environment.', '2026-02-15 18:00:00', 'Grand Hotel, Bandra', 'Mumbai', 'Maharashtra', 50, 500.00, 'UPCOMING', 'SPEED_DATING'),
+(4, 2, 'Cultural Evening - Delhi', 'An evening of cultural exchange and meaningful connections.', '2026-02-22 19:00:00', 'India Habitat Centre', 'Delhi', 'Delhi', 100, 750.00, 'UPCOMING', 'CULTURAL'),
+(5, 2, 'Coffee Meetup - Bangalore', 'Casual coffee meetup for young professionals.', '2026-02-10 11:00:00', 'Third Wave Coffee, Indiranagar', 'Bangalore', 'Karnataka', 30, 300.00, 'UPCOMING', 'COFFEE_MEETUP'),
+(6, 2, 'Weekend Brunch - Pune', 'Sunday brunch meetup in Pune.', '2026-02-28 10:00:00', 'The Westin, Koregaon Park', 'Pune', 'Maharashtra', 40, 600.00, 'UPCOMING', 'DINNER'),
+(7, 2, 'Professional Networking - Hyderabad', 'Networking event for professionals looking for life partners.', '2026-03-05 18:30:00', 'Taj Krishna', 'Hyderabad', 'Telangana', 80, 800.00, 'UPCOMING', 'COFFEE_MEETUP'),
+(8, 2, 'Dinner & Dance - Chennai', 'An evening of dinner and dance.', '2026-03-12 19:00:00', 'Taj Coromandel', 'Chennai', 'Tamil Nadu', 60, 1200.00, 'UPCOMING', 'DINNER'),
+(9, 2, 'Matrimony Mixer - Kolkata', 'Grand matrimonial mixer event.', '2026-01-27 17:00:00', 'ITC Sonar', 'Kolkata', 'West Bengal', 150, 1000.00, 'ONGOING', 'CULTURAL'),
+(10, 2, 'Gurgaon Speed Dating', 'Fast-paced speed dating in Gurgaon.', '2026-01-28 19:00:00', 'The Westin, Gurgaon', 'Gurgaon', 'Haryana', 45, 550.00, 'ONGOING', 'SPEED_DATING'),
+(11, 2, 'Lonavala Weekend Getaway', 'Weekend event in the hills.', '2024-12-10 10:00:00', 'Resort Paradise, Lonavala', 'Lonavala', 'Maharashtra', 25, 2000.00, 'COMPLETED', 'COFFEE_MEETUP'),
+(12, 2, 'Year-End Gala - Mumbai', 'Year-end matrimony gala.', '2024-11-20 18:00:00', 'The Leela, Mumbai', 'Mumbai', 'Maharashtra', 120, 1500.00, 'COMPLETED', 'DINNER'),
+(13, 2, 'Spring Meetup - Goa', 'Beachside spring meetup.', '2026-04-20 16:00:00', 'Taj Fort Aguada', 'Goa', 'Goa', 50, 1800.00, 'UPCOMING', 'COFFEE_MEETUP'),
+(14, 2, 'Ahmedabad Cultural Fest', 'Cultural fest and matchmaking.', '2026-05-01 17:00:00', 'Cambay Grand', 'Ahmedabad', 'Gujarat', 90, 700.00, 'UPCOMING', 'CULTURAL'),
+(15, 2, 'Kochi Seaside Evening', 'Seaside evening in Kochi.', '2026-05-15 18:00:00', 'Taj Malabar', 'Kochi', 'Kerala', 55, 900.00, 'UPCOMING', 'DINNER'),
+(16, 2, 'Jaipur Royal Meet', 'Royal themed matrimony meet.', '2026-05-22 18:30:00', 'Rambagh Palace', 'Jaipur', 'Rajasthan', 70, 1100.00, 'UPCOMING', 'CULTURAL'),
+(17, 2, 'Chandigarh Garden Party', 'Garden party meetup.', '2026-06-01 17:00:00', 'The Lalit, Chandigarh', 'Chandigarh', 'Punjab', 35, 650.00, 'UPCOMING', 'COFFEE_MEETUP'),
+(18, 2, 'Cancelled Test Event', 'This event was cancelled for testing.', '2025-06-10 19:00:00', 'Test Venue', 'Mumbai', 'Maharashtra', 20, 0.00, 'CANCELLED', 'SPEED_DATING');
 
 -- If you get "Duplicate entry" for id: run once only, or omit id and adjust event_registrations event_id below to your actual event IDs.
 

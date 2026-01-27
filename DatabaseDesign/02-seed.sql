@@ -40,10 +40,11 @@ INSERT INTO profiles (user_id, date_of_birth, gender, religion, caste, occupatio
 (4, '1992-08-20', 'FEMALE', 'Hindu', 'Kayastha', 'Teacher', 'Master of Arts', 'Delhi', 'Delhi', 'I am a teacher passionate about education and family values.', 'Seeking a supportive partner who values family and education.'),
 (5, '1988-12-10', 'MALE', 'Christian', 'Catholic', 'Doctor', 'Doctor of Medicine', 'Chennai', 'Tamil Nadu', 'I am a doctor dedicated to helping others and building a loving family.', 'Looking for a compassionate partner who shares my commitment to service.');
 
--- Insert sample events
-INSERT INTO events (organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status) VALUES
-(2, 'Matrimony Meetup 2024', 'A grand matrimonial event bringing together eligible singles from across the city.', '2024-12-15 18:00:00', 'Grand Ballroom, Taj Hotel', 'Mumbai', 'Maharashtra', 200, 500.00, 'UPCOMING'),
-(2, 'Speed Dating Event', 'Fast-paced speed dating event for busy professionals.', '2024-11-20 19:00:00', 'Lounge Bar, ITC Grand', 'Delhi', 'Delhi', 50, 1000.00, 'UPCOMING');
+-- Insert sample events (event_type spread across: SPEED_DATING, COFFEE_MEETUP, DINNER, CULTURAL)
+-- event_date in 2026 so they display as UPCOMING (aligns with getDisplayStatus / status logic)
+INSERT INTO events (organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status, event_type) VALUES
+(2, 'Matrimony Meetup 2026', 'A grand matrimonial event bringing together eligible singles from across the city.', '2026-02-15 18:00:00', 'Grand Ballroom, Taj Hotel', 'Mumbai', 'Maharashtra', 200, 500.00, 'UPCOMING', 'DINNER'),
+(2, 'Speed Dating Event', 'Fast-paced speed dating event for busy professionals.', '2026-03-20 19:00:00', 'Lounge Bar, ITC Grand', 'Delhi', 'Delhi', 50, 1000.00, 'UPCOMING', 'SPEED_DATING');
 
 -- Insert sample messages
 INSERT INTO messages (sender_id, receiver_id, subject, content) VALUES
