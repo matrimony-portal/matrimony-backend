@@ -59,6 +59,19 @@ public class GlobalExceptionHandler {
 				.body(ApiResponse.error("INVALID_PARAMETER", "Invalid value for parameter '" + ex.getName() + "'"));
 	}
 
+	@ExceptionHandler(IllegalStateException.class)
+	public ResponseEntity<ApiResponse<Void>> handleIllegalState(IllegalStateException ex) {
+		log.warn("Illegal state: {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error("ILLEGAL_STATE", ex.getMessage()));
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(IllegalArgumentException ex) {
+		log.warn("Illegal argument: {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(ApiResponse.error("INVALID_ARGUMENT", ex.getMessage()));
+	}
+
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<ApiResponse<Void>> handleBusinessException(BusinessException ex) {
 		log.warn("Business exception: {} - {}", ex.getCode(), ex.getMessage());
