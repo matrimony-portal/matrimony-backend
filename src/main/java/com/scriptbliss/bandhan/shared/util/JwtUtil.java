@@ -59,9 +59,7 @@ public class JwtUtil {
 	 */
 	public String generateRefreshToken(CustomUserPrincipal principal) {
 		return Jwts.builder().claim("userId", principal.getUserId()).claim("scope", JwtScope.REFRESH.name())
-				.issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7
-																													// days
-
+				.issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 days
 				.signWith(secretKey).compact();
 	}
 

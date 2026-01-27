@@ -6,6 +6,10 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration for ModelMapper bean
+ * Used for mapping between entities and DTOs
+ */
 @Configuration
 public class ModelMapperConfig {
 
