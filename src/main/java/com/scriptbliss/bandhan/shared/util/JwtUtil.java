@@ -7,9 +7,9 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.scriptbliss.bandhan.auth.entity.User;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
+import com.scriptbliss.bandhan.shared.security.CustomUserDetailsService.CustomUserPrincipal;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -38,27 +38,30 @@ public class JwtUtil {
 	}
 
 	/**
-	 * Generates access token for authenticated user with 24-hour expiration.
+	 * Generates access token from user principal with 24-hour expiration.
 	 * 
-	 * @param user User entity containing user details
+	 * @param principal User principal containing user details
 	 * @return JWT access token string
 	 */
-	public String generateAccessToken(User user) {
-		return Jwts.builder().claim("userId", user.getId()).claim("email", user.getEmail())
-				.claim("role", user.getRole().name()).claim("scope", JwtScope.ACCESS.name()).issuedAt(new Date())
+	public String generateAccessToken(CustomUserPrincipal principal) {
+		return Jwts.builder().claim("userId", principal.getUserId()).claim("email", principal.getEmail())
+				.claim("role", principal.getAuthorities().iterator().next().getAuthority().replace("ROLE_", ""))
+				.claim("scope", JwtScope.ACCESS.name()).issuedAt(new Date())
 				.expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // 24 hours
 				.signWith(secretKey).compact();
 	}
 
 	/**
-	 * Generates refresh token for token renewal with 7-day expiration.
+	 * Generates refresh token from user principal with 7-day expiration.
 	 * 
-	 * @param user User entity containing user details
+	 * @param principal User principal containing user details
 	 * @return JWT refresh token string
 	 */
-	public String generateRefreshToken(User user) {
-		return Jwts.builder().claim("userId", user.getId()).claim("scope", JwtScope.REFRESH.name()).issuedAt(new Date())
-				.expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 days
+	public String generateRefreshToken(CustomUserPrincipal principal) {
+		return Jwts.builder().claim("userId", principal.getUserId()).claim("scope", JwtScope.REFRESH.name())
+				.issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7
+																													// days
+
 				.signWith(secretKey).compact();
 	}
 
