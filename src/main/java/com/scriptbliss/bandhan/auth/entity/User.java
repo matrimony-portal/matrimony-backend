@@ -4,7 +4,6 @@ import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.UserRole;
 import com.scriptbliss.bandhan.shared.entity.BaseEntity;
 
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +18,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "users")
-@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
