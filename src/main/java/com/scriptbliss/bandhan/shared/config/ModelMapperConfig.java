@@ -15,11 +15,12 @@ public class ModelMapperConfig {
 		mapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
 			.setFieldMatchingEnabled(true)
-			.setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
-		
+			.setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+			.setSkipNullEnabled(true);
+
 		// Configure to skip null values during mapping
 		mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-		
+
 		return mapper;
 	}
 }

@@ -54,7 +54,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public String verifyEmailForRegistration(String tokenValue) {
-		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndIsUsedFalse(tokenValue,
+		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndUsedAtIsNull(tokenValue,
 				TokenType.EMAIL_VERIFICATION);
 
 		if (tokenOpt.isEmpty()) {

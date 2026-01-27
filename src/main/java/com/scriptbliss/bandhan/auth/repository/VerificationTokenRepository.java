@@ -9,8 +9,8 @@ import com.scriptbliss.bandhan.auth.enums.TokenType;
 
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
 
-	Optional<VerificationToken> findByTokenAndIsUsedFalse(String token);
+	Optional<VerificationToken> findByTokenAndUsedAtIsNull(String token);
 
-	Optional<VerificationToken> findByTokenAndTokenTypeAndIsUsedFalse(String token, TokenType tokenType);
+	Optional<VerificationToken> findByTokenAndTokenTypeAndUsedAtIsNull(String token, TokenType tokenType);
 
 }
