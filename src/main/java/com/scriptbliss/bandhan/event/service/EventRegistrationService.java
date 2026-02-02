@@ -7,8 +7,8 @@ import com.scriptbliss.bandhan.event.dto.EventStatisticsResponse;
 import com.scriptbliss.bandhan.event.dto.ParticipantProfileResponse;
 
 /**
- * Service interface for event registration management
- * Provides methods for event managers to manage registrations
+ * Registration and stats. Implemented by {@link EventRegistrationServiceImpl}.
+ * Organizer operations enforce: event’s organizer or ADMIN. Registration rules (UPCOMING, capacity, no duplicate) in impl.
  */
 public interface EventRegistrationService {
 	

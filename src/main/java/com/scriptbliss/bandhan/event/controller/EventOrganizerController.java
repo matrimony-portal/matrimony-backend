@@ -33,9 +33,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * REST Controller for Event Organizer specific endpoints
- * Provides a dedicated API structure for event organizers
- * All endpoints require EVENT_ORGANIZER or ADMIN role
+ * Organizer-scoped REST API under /bandhan/organizers/{organizerId}.
+ *
+ * <p>Puts organizerId in the path instead of query; same service layer as {@link EventController}.
+ * Sections: event CRUD, registrations (list, payment, attendance), statistics, organizer profile (GET/PUT).
+ * All operations require the user to be the organizer or ADMIN (enforced in services).
  */
 @RestController
 @RequestMapping("/organizers")

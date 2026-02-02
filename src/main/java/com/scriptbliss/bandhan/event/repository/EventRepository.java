@@ -12,8 +12,8 @@ import com.scriptbliss.bandhan.event.entity.Event;
 import com.scriptbliss.bandhan.event.entity.Event.EventStatus;
 
 /**
- * Repository interface for Event entity
- * Follows Repository Pattern and provides custom queries
+ * Spring Data JPA repository for {@link Event}. Custom methods: by organizer, status, city;
+ * findUpcomingEvents (eventDate > now and status UPCOMING); by organizer+status.
  */
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {

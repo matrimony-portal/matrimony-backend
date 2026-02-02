@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -13,8 +14,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * DTO for event creation and update requests
- * Follows Data Transfer Object pattern with validation
+ * Request body for create/update event. Validated: title, venue, city, state required;
+ * eventDate must be @Future. eventType and imageUrl optional.
  */
 @Getter
 @Setter
@@ -50,7 +51,8 @@ public class EventRequest {
 	@Size(max = 500, message = "Image URL must not exceed 500 characters")
 	private String imageUrl;
 	
-	@PositiveOrZero(message = "Max participants must be positive or zero")
+	@NotNull(message = "Max participants is required")
+	@Min(value = 5, message = "Max participants must be at least 5")
 	private Integer maxParticipants;
 	
 	@PositiveOrZero(message = "Registration fee must be positive or zero")

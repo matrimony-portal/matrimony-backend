@@ -2,6 +2,7 @@ package com.scriptbliss.bandhan.shared.config;
 
 import java.util.Arrays;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -67,6 +68,9 @@ public class SecurityConfig {
 				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 				.requestMatchers("/uploads/**").permitAll()
 				.requestMatchers("/dev/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/events/my-registrations").authenticated()
+				.requestMatchers(HttpMethod.GET, "/events").permitAll()
+				.requestMatchers(HttpMethod.GET, "/events/{eventId}").permitAll()
 				.anyRequest().authenticated())
 			.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.build();

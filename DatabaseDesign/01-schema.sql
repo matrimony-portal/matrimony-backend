@@ -84,6 +84,9 @@ CREATE TABLE IF NOT EXISTS profiles (
     country VARCHAR(100) DEFAULT 'India',
     about_me TEXT,
     preferences TEXT,
+    citizenship VARCHAR(100),
+    college VARCHAR(200),
+    company VARCHAR(200),
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -171,21 +174,37 @@ CREATE TABLE IF NOT EXISTS messages (
     INDEX idx_messages_is_read (is_read)
 );
 
--- 9. user_interests table
+-- 9. user_interests table (Interest entity: id, interest_type, updated_at for BaseEntity; PASS in enum)
 CREATE TABLE IF NOT EXISTS user_interests (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     from_user_id BIGINT NOT NULL,
     to_user_id BIGINT NOT NULL,
-    interest_type VARCHAR(20) NOT NULL CHECK (interest_type IN ('LIKE', 'SHORTLIST', 'BLOCK')),
+    interest_type VARCHAR(20) NOT NULL CHECK (interest_type IN ('LIKE', 'SHORTLIST', 'BLOCK', 'PASS')),
     compatibility_score DECIMAL(5,2) CHECK (compatibility_score >= 0 AND compatibility_score <= 100),
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT chk_no_self_interest CHECK (from_user_id != to_user_id),
     INDEX idx_user_interests_from_user_id (from_user_id),
     INDEX idx_user_interests_to_user_id (to_user_id),
     INDEX idx_user_interests_interest_type (interest_type)
+);
+
+-- 9b. matches table (Match entity: match_id, user1_id, user2_id, compatibility_score; BaseEntity: created_at, updated_at)
+CREATE TABLE IF NOT EXISTS matches (
+    match_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user1_id BIGINT NOT NULL,
+    user2_id BIGINT NOT NULL,
+    compatibility_score DOUBLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user1_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user2_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT chk_no_self_match CHECK (user1_id != user2_id),
+    INDEX idx_matches_user1_id (user1_id),
+    INDEX idx_matches_user2_id (user2_id)
 );
 
 -- 10. event_registrations table
@@ -312,7 +331,7 @@ CREATE TABLE IF NOT EXISTS success_stories (
     INDEX idx_success_stories_is_featured (is_featured)
 );
 
--- 17. verification_tokens table (matches VerificationToken entity)
+-- 17. verification_tokens table (VerificationToken extends BaseEntity; Flyway V2 adds updated_at)
 -- token UNIQUE already indexed; avoid duplicate idx
 CREATE TABLE IF NOT EXISTS verification_tokens (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -321,6 +340,7 @@ CREATE TABLE IF NOT EXISTS verification_tokens (
     user_id BIGINT NULL,
     token_type VARCHAR(20) NOT NULL CHECK (token_type IN ('EMAIL_VERIFICATION', 'PASSWORD_RESET')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     expires_at TIMESTAMP NOT NULL,
     used_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

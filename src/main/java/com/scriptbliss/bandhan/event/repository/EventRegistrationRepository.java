@@ -12,8 +12,8 @@ import com.scriptbliss.bandhan.event.entity.EventRegistration;
 import com.scriptbliss.bandhan.event.entity.EventRegistration.PaymentStatus;
 
 /**
- * Repository interface for EventRegistration entity
- * Provides queries for event registration management
+ * Spring Data JPA repository for {@link EventRegistration}. By user, event, user+event;
+ * count by event and by event+paymentStatus; JPQL for by organizer and by event+organizer.
  */
 @Repository
 public interface EventRegistrationRepository extends JpaRepository<EventRegistration, Long> {

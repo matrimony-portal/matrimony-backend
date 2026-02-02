@@ -2,191 +2,183 @@
 
 ## Overview
 
-The Event Management domain handles all matrimonial event operations including event creation, registration management, and organizer dashboard functionality.
+The **event** package manages matrimonial events: creation, registration, organizer profiles, and statistics. It follows a layered structure (controller → service → repository → entity) so each class has a clear responsibility.
+
+---
+
+## How to Read This Module
+
+| Layer | Folder | Purpose | Start With |
+|-------|--------|---------|------------|
+| **API** | `controller/` | REST endpoints; validates request, delegates to service | `EventController`, `EventOrganizerController` |
+| **Business logic** | `service/` | Rules, authorization, entity↔DTO mapping | `EventServiceImpl`, `EventRegistrationServiceImpl` |
+| **Data access** | `repository/` | JPA queries for `Event` and `EventRegistration` | `EventRepository`, `EventRegistrationRepository` |
+| **Domain model** | `entity/` | JPA entities for `events` and `event_registrations` tables | `Event`, `EventRegistration` |
+| **Contracts** | `dto/` | Request/response shapes; validation on request DTOs | `EventRequest`, `EventResponse` |
+
+**Request flow:** `Controller` → `Service` → `Repository` → DB. **Response flow:** Entity → `mapToResponse()` in service → DTO → controller.
+
+---
 
 ## Domain Structure
 
 ```
 event/
-├── controller/          # REST endpoints
-│   └── EventController.java
-├── service/            # Business logic
+├── controller/
+│   ├── EventController.java         # /bandhan/events – CRUD, registrations, stats
+│   └── EventOrganizerController.java # /bandhan/organizers – organizer-scoped APIs + profile
+├── service/
 │   ├── EventService.java
-│   ├── EventServiceImpl.java
+│   ├── EventServiceImpl.java        # Event CRUD, organizer profile, auth checks
 │   ├── EventRegistrationService.java
-│   └── EventRegistrationServiceImpl.java
-├── repository/         # Data access
+│   └── EventRegistrationServiceImpl.java  # Register/unregister, payment, attendance, participant profile
+├── repository/
 │   ├── EventRepository.java
 │   └── EventRegistrationRepository.java
-├── entity/             # JPA entities
-│   ├── Event.java
-│   └── EventRegistration.java
-└── dto/                # Request/Response DTOs
-    ├── EventRequest.java
-    ├── EventResponse.java
+├── entity/
+│   ├── Event.java                    # events table; extends BaseEntity
+│   └── EventRegistration.java     # event_registrations; user+event+payment+attendance
+└── dto/
+    ├── EventRequest.java           # Create/update payload (validated)
+    ├── EventResponse.java          # Event in API responses
     ├── EventRegistrationResponse.java
-    └── EventStatisticsResponse.java
+    ├── EventStatisticsResponse.java
+    ├── OrganizerProfileResponse.java    # Organizer user + profile + event stats
+    ├── OrganizerProfileUpdateRequest.java
+    └── ParticipantProfileResponse.java  # Registrant profile for organizer view
 ```
+
+---
 
 ## API Endpoints
 
-All endpoints are prefixed with `/api/events`
+Base: `server.servlet.context-path=/bandhan`. Auth: JWT; roles `EVENT_ORGANIZER`, `ADMIN` where noted.
 
-### Event Management (Organizer)
+### EventController — `/bandhan/events`
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/events` | Create new event | Yes (EVENT_ORGANIZER/ADMIN) |
-| GET | `/api/events` | Get all events | No |
-| GET | `/api/events/{id}` | Get event by ID | No |
-| GET | `/api/events/my-events` | Get organizer's events | Yes |
-| GET | `/api/events/organizer/{id}` | Get events by organizer | No |
-| PUT | `/api/events/{id}` | Update event | Yes (Owner/ADMIN) |
-| PUT | `/api/events/{id}/status` | Update event status | Yes (Owner/ADMIN) |
-| DELETE | `/api/events/{id}` | Delete event | Yes (Owner/ADMIN) |
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/events` | Create event (`?organizerId=`) | EVENT_ORGANIZER / ADMIN |
+| GET | `/events` | List all events | No |
+| GET | `/events/{eventId}` | Get event by ID | No |
+| GET | `/events/organizer/{organizerId}` | Events by organizer | No |
+| GET | `/events/my-events?organizerId=` | Current organizer’s events | Yes |
+| PUT | `/events/{eventId}` | Update event (`?organizerId=`) | Owner / ADMIN |
+| PUT | `/events/{eventId}/status?status=&organizerId=` | Update status | Owner / ADMIN |
+| DELETE | `/events/{eventId}?organizerId=` | Delete (soft: set CANCELLED, notify PAID) | Owner / ADMIN |
+| GET | `/events/{eventId}/registrations?organizerId=` | List registrations | Owner / ADMIN |
+| GET | `/events/registrations/my-events?organizerId=` | All registrations for organizer’s events | Owner / ADMIN |
+| PUT | `/events/registrations/{registrationId}/payment-status?paymentStatus=&organizerId=` | PENDING/PAID/REFUNDED | Owner / ADMIN |
+| PUT | `/events/registrations/{registrationId}/attendance?attended=&organizerId=` | Mark attended | Owner / ADMIN |
+| GET | `/events/registrations/{registrationId}/participant-profile?organizerId=` | View registrant profile | Owner / ADMIN |
+| GET | `/events/statistics?organizerId=` | Organizer stats | Owner / ADMIN |
+| POST | `/events/{eventId}/register?userId=&notes=` | Register for event | Yes |
+| DELETE | `/events/{eventId}/register?userId=` | Unregister | Yes |
+| GET | `/events/my-registrations?userId=` | Current user’s registrations | Yes |
 
-### Event Registration (Users)
+### EventOrganizerController — `/bandhan/organizers`
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/events/{id}/register` | Register for event | Yes |
-| DELETE | `/api/events/{id}/register` | Unregister from event | Yes |
-| GET | `/api/events/my-registrations` | Get user's registrations | Yes |
+Organizer ID in path; avoids `?organizerId=` on each call.
 
-### Registration Management (Organizer)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/organizers/{organizerId}/events` | Create event |
+| GET | `/organizers/{organizerId}/events` | Organizer’s events |
+| GET | `/organizers/{organizerId}/events/{eventId}` | Event by ID (must belong to organizer) |
+| PUT | `/organizers/{organizerId}/events/{eventId}` | Update event |
+| PUT | `/organizers/{organizerId}/events/{eventId}/status?status=` | Update status |
+| DELETE | `/organizers/{organizerId}/events/{eventId}` | Delete event |
+| GET | `/organizers/{organizerId}/events/{eventId}/registrations` | Event registrations |
+| GET | `/organizers/{organizerId}/registrations` | All registrations for organizer’s events |
+| PUT | `/organizers/{organizerId}/registrations/{registrationId}/payment-status?paymentStatus=` | Payment status |
+| PUT | `/organizers/{organizerId}/registrations/{registrationId}/attendance?attended=` | Attendance |
+| GET | `/organizers/{organizerId}/statistics` | Organizer statistics |
+| GET | `/organizers/{organizerId}/profile` | Organizer profile (user + profile + stats) |
+| PUT | `/organizers/{organizerId}/profile` | Update organizer profile |
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/events/{id}/registrations` | Get event registrations | Yes (Owner/ADMIN) |
-| GET | `/api/events/registrations/my-events` | Get all organizer registrations | Yes |
-| PUT | `/api/events/registrations/{id}/payment-status` | Update payment status | Yes (Owner/ADMIN) |
-| PUT | `/api/events/registrations/{id}/attendance` | Update attendance | Yes (Owner/ADMIN) |
-| GET | `/api/events/statistics` | Get organizer statistics | Yes |
+---
 
 ## Entities
 
-### Event
-- Represents a matrimonial event
-- Status: UPCOMING, ONGOING, COMPLETED, CANCELLED
-- Linked to organizer (User with EVENT_ORGANIZER role)
+### Event (`events`)
 
-### EventRegistration
-- Tracks user registrations for events
-- Payment Status: PENDING, PAID, REFUNDED
-- Tracks attendance
+- **Extends** `BaseEntity` (id, createdAt, updatedAt).
+- **organizer** → `User` (EVENT_ORGANIZER/ADMIN).
+- **eventType**: e.g. `SPEED_DATING`, `COFFEE_MEETUP`, `DINNER`, `CULTURAL`; default `SPEED_DATING`.
+- **status**: `UPCOMING` | `ONGOING` | `COMPLETED` | `CANCELLED`.
+- **imageUrl**: optional.
+
+### EventRegistration (`event_registrations`)
+
+- Does **not** extend `BaseEntity` (no `updated_at` in table).
+- **user**, **event**; **registrationDate** (set on create); **paymentStatus** (`PENDING`|`PAID`|`REFUNDED`); **attended**; **notes**.
+
+---
 
 ## Business Rules
 
-1. **Event Creation**
-   - Only EVENT_ORGANIZER or ADMIN can create events
-   - Event date must be in the future
-   - Registration fee defaults to 0 (free events)
+1. **Event**
+   - Only `EVENT_ORGANIZER` or `ADMIN` can create.
+   - Event date should be in the future (`@Future` on `EventRequest.eventDate`).
+   - `registrationFee` default 0; `maxParticipants` optional.
 
-2. **Event Registration**
-   - Users can only register for UPCOMING events
-   - Cannot register if event is full (maxParticipants reached)
-   - Cannot register twice for same event
-   - Registration creates PENDING payment status
+2. **Registration**
+   - Only for `UPCOMING` events; no duplicate (user+event); must not exceed `maxParticipants`.
+   - New registration → `paymentStatus = PENDING`. Organizer sets `PAID`/`REFUNDED`; on `PAID`, a notification is created.
+   - `currentParticipants` in `EventResponse` = count of registrations with `PAID`.
 
 3. **Authorization**
-   - Organizers can only manage their own events
-   - ADMIN can manage any event
-   - Users can only view/manage their own registrations
+   - Organizer can manage only their events; `ADMIN` can manage any. Same for registrations and participant profile.
 
-## DTOs
+4. **Delete event**
+   - Status set to `CANCELLED`; participants with `PAID` get an `EVENT_CANCELLED` notification.
 
-### EventRequest
-- Used for create/update operations
-- Validated with Jakarta Validation
-- Required fields: title, eventDate, venue, city, state
+---
 
-### EventResponse
-- Includes organizer information
-- Includes current participant count
-- Includes all event details
+## DTOs (Summary)
 
-### EventRegistrationResponse
-- Includes user and event information
-- Includes payment and attendance status
+| DTO | Use |
+|-----|-----|
+| **EventRequest** | Create/update; validated (e.g. `@NotBlank` title, venue, city, state; `@Future` eventDate). |
+| **EventResponse** | Event + organizerId, organizerName, currentParticipants, status. |
+| **EventRegistrationResponse** | Registration + user and event summary, paymentStatus, attended, notes. |
+| **EventStatisticsResponse** | totalEvents, active/completed/cancelled, total/pending/paid registrations, totalParticipants. |
+| **OrganizerProfileResponse** | User + profile (from `profiles`) + total/upcoming/completed events. |
+| **OrganizerProfileUpdateRequest** | firstName, lastName, phone, city, state, aboutMe. |
+| **ParticipantProfileResponse** | Registrant’s user + profile for organizer’s view. |
 
-### EventStatisticsResponse
-- Aggregated statistics for organizer dashboard
-- Total events, registrations, participants
+---
 
-## Service Layer
+## Database
 
-### EventService
-- Handles CRUD operations for events
-- Manages authorization checks
-- Maps entities to DTOs
+- **Tables:** `events`, `event_registrations`.
+- **FKs:** `events.organizer_id` → `users.id`; `event_registrations.user_id` → `users.id`, `event_registrations.event_id` → `events.id`.
+- **Indexes:** e.g. `organizer_id`, `event_date`, `city` on `events`; `user_id`, `event_id` on `event_registrations`.
 
-### EventRegistrationService
-- Manages user registrations
-- Handles payment status updates
-- Provides statistics for organizers
-- Validates registration rules
+---
 
-## Repository Layer
-
-### EventRepository
-- Custom queries for events by organizer, status, city
-- Upcoming events query
-
-### EventRegistrationRepository
-- Queries for registrations by user, event, organizer
-- Count queries for statistics
-
-## Testing
+## Quick Test (with context-path and auth)
 
 ```bash
-# Test event creation
-curl -X POST http://localhost:8080/api/events \
+# List events (no auth)
+curl http://localhost:8080/bandhan/events
+
+# Create event (add -H "Authorization: Bearer <JWT>")
+curl -X POST "http://localhost:8080/bandhan/events?organizerId=2" \
   -H "Content-Type: application/json" \
-  -d '{
-    "title": "Test Event",
-    "description": "Test Description",
-    "eventDate": "2025-12-31T18:00:00",
-    "venue": "Test Venue",
-    "city": "Mumbai",
-    "state": "Maharashtra",
-    "maxParticipants": 100,
-    "registrationFee": 500.00
-  }' \
-  -G --data-urlencode "organizerId=2"
+  -d '{"title":"Meet 2026","eventDate":"2026-03-15T18:00:00","venue":"Hall A","city":"Mumbai","state":"Maharashtra"}'
 
-# Get all events
-curl http://localhost:8080/api/events
+# Register (add auth)
+curl -X POST "http://localhost:8080/bandhan/events/1/register?userId=3"
 
-# Register for event
-curl -X POST "http://localhost:8080/api/events/1/register?userId=3"
+# Organizer profile
+curl "http://localhost:8080/bandhan/organizers/2/profile"
 ```
 
-## Integration
+---
 
-### Frontend Integration
-- Event service: `matrimony-frontend/src/services/eventService.js`
-- Components:
-  - `CreateEvent.jsx` - Event creation form
-  - `OrganizerEvents.jsx` - Organizer dashboard
-  - `Events.jsx` - Public event listing
+## Related
 
-### Database
-- Tables: `events`, `event_registrations`
-- Foreign keys to `users` table
-- Indexes on organizer_id, event_date, city
-
-## Future Enhancements
-
-- [ ] Event image upload
-- [ ] Event categories/tags
-- [ ] Event search and filtering
-- [ ] Email notifications for registrations
-- [ ] Event waitlist functionality
-- [ ] Event cancellation with refunds
-- [ ] Event analytics and reporting
-
-## Related Domains
-
-- **auth**: User authentication and roles
-- **payment**: Payment processing for registrations
-- **notification**: Event-related notifications
+- **auth**: `User`, roles, JWT.
+- **profile**: `profiles` for organizer and participant profile data.
+- **Shared**: `ResourceNotFoundException`, `UnauthorizedException`, `BaseEntity`, `ModelMapper`.

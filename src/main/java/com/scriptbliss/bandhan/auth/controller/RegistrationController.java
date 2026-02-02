@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scriptbliss.bandhan.auth.dto.request.CompleteRegistrationRequest;
 import com.scriptbliss.bandhan.auth.dto.request.EmailRequest;
+import com.scriptbliss.bandhan.auth.dto.request.RegisterRequest;
 import com.scriptbliss.bandhan.auth.dto.request.TokenValidationRequest;
+import com.scriptbliss.bandhan.auth.dto.response.RegisterResponse;
 import com.scriptbliss.bandhan.auth.service.RegistrationService;
 import com.scriptbliss.bandhan.shared.dto.ApiResponse;
 
@@ -21,6 +23,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RegistrationController {
 	private final RegistrationService registrationService;
+
+	@PostMapping("/register")
+	public ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
+		RegisterResponse response = registrationService.register(request);
+		return ResponseEntity.ok(ApiResponse.success("Registration successful. You can now log in.", response));
+	}
 
 	@PostMapping("/start-registration")
 	public ResponseEntity<ApiResponse<Void>> startRegistration(@Valid @RequestBody EmailRequest request) {

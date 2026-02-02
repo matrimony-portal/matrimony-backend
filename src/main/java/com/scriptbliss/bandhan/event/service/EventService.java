@@ -6,8 +6,8 @@ import com.scriptbliss.bandhan.event.dto.EventRequest;
 import com.scriptbliss.bandhan.event.dto.EventResponse;
 
 /**
- * Service interface for event management operations
- * Follows Interface Segregation Principle
+ * Event and organizer-profile operations. Implemented by {@link EventServiceImpl}.
+ * All write methods that take organizerId enforce: owner or ADMIN.
  */
 public interface EventService {
 	

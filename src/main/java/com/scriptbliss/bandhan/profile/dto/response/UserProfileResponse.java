@@ -47,5 +47,8 @@ public class UserProfileResponse {
 	private String country;
 	private String aboutMe;
 	private String preferences;
+	private String citizenship;
+	private String college;
+	private String company;
 	private boolean isVerified;
 }

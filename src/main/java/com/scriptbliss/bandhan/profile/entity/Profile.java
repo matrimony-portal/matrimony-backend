@@ -8,7 +8,6 @@ import com.scriptbliss.bandhan.profile.enums.Gender;
 import com.scriptbliss.bandhan.profile.enums.MaritalStatus;
 import com.scriptbliss.bandhan.shared.entity.BaseEntity;
 
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +24,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "profiles")
-@AttributeOverride(name = "id", column = @Column(name = "profile_id"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -37,11 +35,11 @@ public class Profile extends BaseEntity {
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
-	@Column(name = "date_of_birth")
+	@Column(name = "date_of_birth", nullable = false)
 	private LocalDate dateOfBirth;
 
 	@Enumerated(EnumType.STRING)
-	@Column(length = 10)
+	@Column(length = 10, nullable = false)
 	private Gender gender;
 
 	@Column(length = 50)
@@ -85,6 +83,15 @@ public class Profile extends BaseEntity {
 
 	@Column(columnDefinition = "TEXT")
 	private String preferences;
+
+	@Column(length = 100)
+	private String citizenship;
+
+	@Column(length = 200)
+	private String college;
+
+	@Column(length = 200)
+	private String company;
 
 	@Column(name = "is_verified", nullable = false)
 	@Builder.Default

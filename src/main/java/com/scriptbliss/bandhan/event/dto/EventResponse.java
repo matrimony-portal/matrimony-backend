@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO for event response
- * Contains event details for API responses
+ * Event in API responses. Includes organizerId/organizerName and currentParticipants
+ * (count of PAID registrations); status and eventType as strings.
  */
 @Getter
 @Setter

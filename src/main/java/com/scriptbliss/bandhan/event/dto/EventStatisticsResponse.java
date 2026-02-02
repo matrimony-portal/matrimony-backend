@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO for event statistics response
- * Contains statistics for organizer dashboard
+ * Organizer dashboard stats: event counts (total, active, completed, cancelled),
+ * registration counts (total, pending, paid), and totalParticipants (attended=true).
  */
 @Getter
 @Setter

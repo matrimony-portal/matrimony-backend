@@ -31,8 +31,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * REST Controller for event management endpoints
- * Follows RESTful API design principles
+ * Event and registration REST API under /bandhan/events.
+ *
+ * <ul>
+ *   <li>Event CRUD, list by organizer, my-events (organizerId in query).</li>
+ *   <li>Registration management: list, payment-status, attendance, participant-profile, statistics.</li>
+ *   <li>User actions: register, unregister, my-registrations (userId in query).</li>
+ * </ul>
+ * Authorization: organizerId/userId is passed as request param; actual JWT auth is in SecurityConfig.
  */
 @RestController
 @RequestMapping("/events")

@@ -22,8 +22,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Event Registration entity representing the event_registrations table.
- * Does not extend BaseEntity because this table doesn't have created_at/updated_at columns.
+ * JPA entity for the {@code event_registrations} table. Does not extend BaseEntity (no updated_at).
+ *
+ * <p>Links a user to an event. paymentStatus: PENDING until organizer sets PAID/REFUNDED.
+ * attended: set by organizer. registrationDate is set on insert via @PrePersist.
  */
 @Entity
 @Table(name = "event_registrations")
@@ -59,9 +61,6 @@ public class EventRegistration {
 	@Column(columnDefinition = "TEXT")
 	private String notes;
 
-	/**
-	 * Enum for payment status
-	 */
 	public enum PaymentStatus {
 		PENDING, PAID, REFUNDED
 	}

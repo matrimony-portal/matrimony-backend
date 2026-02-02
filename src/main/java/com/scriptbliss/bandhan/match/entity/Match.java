@@ -16,7 +16,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Match extends BaseEntity {
 
+	@Column(name = "user1_id", nullable = false)
 	private Long user1Id;
+
+	@Column(name = "user2_id", nullable = false)
 	private Long user2Id;
+
+	@Column(name = "compatibility_score")
 	private Double compatibilityScore;
 }

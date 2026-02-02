@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS notification_preferences;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS event_registrations;
+DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS user_interests;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS media_gallery;

@@ -29,8 +29,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service implementation for event management
- * Follows Single Responsibility Principle and Dependency Inversion Principle
+ * Event CRUD, status updates, delete (soft: CANCELLED + notify PAID users), organizer profile GET/PUT.
+ * Uses ModelMapper for entity↔DTO; EntityManager for native SQL (profiles, notifications).
+ * Authorization: owner or ADMIN for update/delete/status; EVENT_ORGANIZER or ADMIN to create.
  */
 @Service
 @Transactional
@@ -44,16 +45,17 @@ public class EventServiceImpl implements EventService {
 	private final ModelMapper modelMapper;
 	private final EntityManager entityManager;
 
+	// --- Event CRUD ---
+
 	@Override
 	public EventResponse createEvent(EventRequest request, Long organizerId) {
 		log.info("Creating event: {} by organizer: {}", request.getTitle(), organizerId);
-		
+
 		User organizer = userRepository.findById(organizerId)
 				.orElseThrow(() -> new RuntimeException("Organizer not found with ID: " + organizerId));
-		
-		// Check if user has permission to create events
-		if (!organizer.getRole().equals(UserRole.EVENT_ORGANIZER) && 
-			!organizer.getRole().equals(UserRole.ADMIN)) {
+
+		if (!organizer.getRole().equals(UserRole.EVENT_ORGANIZER) &&
+				!organizer.getRole().equals(UserRole.ADMIN)) {
 			throw new RuntimeException("User does not have permission to create events");
 		}
 		
@@ -135,11 +137,11 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void deleteEvent(Long eventId, Long organizerId) {
 		log.info("Cancelling event: {} by organizer: {}", eventId, organizerId);
-		
+
 		Event event = eventRepository.findById(eventId)
 				.orElseThrow(() -> new ResourceNotFoundException("Event not found with ID: " + eventId));
-		
-		// Check authorization
+
+		// Owner or ADMIN only
 		if (!event.getOrganizer().getId().equals(organizerId)) {
 			User organizer = userRepository.findById(organizerId)
 					.orElseThrow(() -> new RuntimeException("Organizer not found"));
@@ -149,7 +151,7 @@ public class EventServiceImpl implements EventService {
 		}
 		
 		String eventTitle = event.getTitle();
-		// Notify participants with PAID status that the event was cancelled
+		// Notify PAID participants (insert into notifications)
 		List<EventRegistration> registrations = registrationRepository.findByEventId(eventId);
 		for (EventRegistration reg : registrations) {
 			if (reg.getPaymentStatus() == EventRegistration.PaymentStatus.PAID) {
@@ -195,10 +197,7 @@ public class EventServiceImpl implements EventService {
 		return mapToResponse(event);
 	}
 
-	/**
-	 * Map Event entity to EventResponse DTO
-	 * Follows Single Responsibility Principle
-	 */
+	/** Map entity to EventResponse; currentParticipants = count of PAID registrations. */
 	private EventResponse mapToResponse(Event event) {
 		EventResponse response = modelMapper.map(event, EventResponse.class);
 		response.setOrganizerId(event.getOrganizer().getId());
@@ -206,28 +205,28 @@ public class EventServiceImpl implements EventService {
 		response.setStatus(event.getStatus().name());
 		response.setEventType(event.getEventType());
 		response.setImageUrl(event.getImageUrl());
-		// Count only PAID registrations (reject → REFUNDED excludes them)
 		long currentParticipants = registrationRepository.countByEventIdAndPaymentStatus(
 				event.getId(), EventRegistration.PaymentStatus.PAID);
 		response.setCurrentParticipants((int) currentParticipants);
 		return response;
 	}
 
+	// --- Organizer profile ---
+
 	@Override
 	@Transactional(readOnly = true)
 	public OrganizerProfileResponse getOrganizerProfile(Long organizerId) {
 		log.debug("Fetching organizer profile for ID: {}", organizerId);
-		
+
 		User organizer = userRepository.findById(organizerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Organizer not found with ID: " + organizerId));
-		
-		// Check if user is an organizer
-		if (!organizer.getRole().equals(UserRole.EVENT_ORGANIZER) && 
-			!organizer.getRole().equals(UserRole.ADMIN)) {
+
+		if (!organizer.getRole().equals(UserRole.EVENT_ORGANIZER) &&
+				!organizer.getRole().equals(UserRole.ADMIN)) {
 			throw new RuntimeException("User is not an organizer");
 		}
-		
-		// Build profile response
+
+		// User fields + profiles (native query) + event stats
 		OrganizerProfileResponse.OrganizerProfileResponseBuilder builder = OrganizerProfileResponse.builder()
 				.id(organizer.getId())
 				.email(organizer.getEmail())
@@ -309,10 +308,7 @@ public class EventServiceImpl implements EventService {
 		return getOrganizerProfile(organizerId);
 	}
 
-	/**
-	 * Safely convert native query DATE result to LocalDate.
-	 * MySQL JDBC can return java.sql.Date or java.time.LocalDate depending on driver/config.
-	 */
+	/** Native query may return java.sql.Date or LocalDate; normalize to LocalDate. */
 	private static LocalDate toLocalDate(Object value) {
 		if (value == null) return null;
 		if (value instanceof java.time.LocalDate) return (java.time.LocalDate) value;

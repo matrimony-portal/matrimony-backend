@@ -6,10 +6,6 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Configuration for ModelMapper bean
- * Used for mapping between entities and DTOs
- */
 @Configuration
 public class ModelMapperConfig {
 
@@ -19,12 +15,11 @@ public class ModelMapperConfig {
 		mapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
 			.setFieldMatchingEnabled(true)
-			.setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
-			.setSkipNullEnabled(true);
-
+			.setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+		
 		// Configure to skip null values during mapping
 		mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-
+		
 		return mapper;
 	}
 }

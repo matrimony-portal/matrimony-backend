@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO for organizer profile response
- * Contains organizer's personal and professional information
+ * Organizer profile for GET: user fields, profile from {@code profiles} (if exists),
+ * and event stats (totalEvents, upcomingEvents, completedEvents).
  */
 @Getter
 @Setter

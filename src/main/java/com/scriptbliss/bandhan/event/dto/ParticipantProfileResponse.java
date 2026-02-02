@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO for viewing a participant's (registrant's) profile by an event organizer.
- * Contains user and profile data for read-only display.
+ * Read-only view of a registrant's profile for organizers: user id/name/email
+ * and profile fields from {@code profiles} (age, gender, religion, etc.).
  */
 @Getter
 @Setter

@@ -15,9 +15,9 @@ The **01-schema.sql** and migrations are correctly structured for the APIs. A fe
 | Table | Schema (01-schema) | Entity / Usage | Status |
 |-------|--------------------|----------------|--------|
 | **users** | id, email, password, first_name, last_name, phone, role, status, created_at, updated_at | `User` entity | OK. `status` matches `AccountStatus` (ACTIVE, INACTIVE, BLOCKED). |
-| **events** | id, organizer_id, title, description, event_date, venue, city, state, max_participants, registration_fee, status, created_at, updated_at | `Event` entity | **Needs 06:** `event_type`, `image_url` are in the entity but **not** in 01-schema. Run **06-add-event-type-image.sql**. |
+| **events** | id, organizer_id, title, description, event_date, venue, city, state, **event_type, image_url**, max_participants, registration_fee, status, created_at, updated_at | `Event` entity | OK. **01-schema** includes event_type, image_url. For older DBs, run **06-add-event-type-image.sql**. |
 | **event_registrations** | id, user_id, event_id, registration_date, payment_status, attended, notes | `EventRegistration` entity | OK. payment_status (PENDING, PAID, REFUNDED) matches. |
-| **profiles** | id, user_id, date_of_birth, gender, religion, caste, occupation, education, income, marital_status, height_cm, weight_kg, city, state, country, about_me, preferences, is_verified, created_at, updated_at | Native queries: getOrganizerProfile, getParticipantProfile, updateOrganizerProfile | OK. All selected/updated columns exist. |
+| **profiles** | id, user_id, date_of_birth, gender, religion, caste, occupation, education, income, marital_status, height_cm, weight_kg, city, state, country, about_me, preferences, **citizenship, college, company**, is_verified, created_at, updated_at | `Profile` entity; native queries: getOrganizerProfile, getParticipantProfile, updateOrganizerProfile | OK. **01-schema** includes citizenship, college, company. For existing DBs created before this, run **08-profiles-citizenship-college-company.sql**. |
 | **notifications** | id, user_id, notification_type, title, message, is_read, action_url, created_at, read_at | Native INSERT: EVENT_REQUEST_ACCEPTED, EVENT_CANCELLED | OK. Inserts use (user_id, notification_type, title, message, is_read); others are optional or defaulted. |
 
 ---
@@ -29,8 +29,9 @@ The **01-schema.sql** and migrations are correctly structured for the APIs. A fe
 3. **03-event-organizer-seed.sql** – extra events, users, registrations  
 4. **04-migrate-users-to-status.sql** – **only if** the DB still has `is_active` (e.g. from an old `schema.sql`). **01-schema already has `status`**; skip 04 for a fresh 01-schema install.  
 5. **05-fix-password-hash-password123.sql** – if you use `password123` in seeds  
-6. **06-add-event-type-image.sql** – **required**. Adds `event_type` and `image_url` to `events`. The `Event` entity and APIs expect these.  
-7. **07-two-more-organizers-seed.sql** – optional extra organizers
+6. **06-add-event-type-image.sql** – **required** for DBs created from an older 01-schema. **01-schema** now includes `event_type` and `image_url` in `events`.  
+7. **07-two-more-organizers-seed.sql** – optional extra organizers  
+8. **08-profiles-citizenship-college-company.sql** – only for **existing** DBs whose `profiles` table was created before citizenship/college/company were in 01-schema. **01-schema** now includes these columns; skip 08 for fresh installs.
 
 ---
 
@@ -87,8 +88,17 @@ For **existing** databases created from the previous 01-schema (without these co
 
 ---
 
+## Other entity–schema alignment
+
+| Table | Entity | Notes |
+|-------|--------|-------|
+| **user_interests** | `Interest` | OK. `InterestType` enum: LIKE, SHORTLIST, BLOCK, PASS (matches 01-schema CHECK). Entity has `compatibility_score`, `notes` matching DB. |
+
+---
+
 ## Summary
 
 - You do **not** need to restructure the database for the current APIs.  
-- You **do** need to run **06-add-event-type-image.sql** (or the idempotent script above) if `events` does not yet have `event_type` and `image_url`.  
+- Run **06-add-event-type-image.sql** only if `events` does not have `event_type` and `image_url` (e.g. created from an older 01-schema).  
+- Run **08-profiles-citizenship-college-company.sql** only if `profiles` does not have `citizenship`, `college`, `company`.  
 - Use **04-migrate-users-to-status.sql** only when migrating from an old schema that had `is_active`; it is not needed when starting from **01-schema.sql**.

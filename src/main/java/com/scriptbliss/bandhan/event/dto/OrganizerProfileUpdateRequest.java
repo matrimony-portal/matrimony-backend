@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO for updating organizer profile (User + optional profile fields).
+ * Request body for PUT organizer profile. Updates users + profiles: firstName, lastName required;
+ * phone, city, state, aboutMe optional (profiles updated via native query where provided).
  */
 @Getter
 @Setter

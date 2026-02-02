@@ -21,8 +21,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Event entity representing the events table
- * Follows JPA best practices and Domain-Driven Design
+ * JPA entity for the {@code events} table. Extends {@link com.scriptbliss.bandhan.shared.entity.BaseEntity}
+ * (id, createdAt, updatedAt).
+ *
+ * <p>Organizer is a {@link com.scriptbliss.bandhan.auth.entity.User} with role EVENT_ORGANIZER or ADMIN.
+ * Status lifecycle: UPCOMING → ONGOING → COMPLETED, or CANCELLED. eventType examples: SPEED_DATING,
+ * COFFEE_MEETUP, DINNER, CULTURAL.
  */
 @Entity
 @Table(name = "events")
@@ -55,6 +59,7 @@ public class Event extends BaseEntity {
 	@Column(nullable = false, length = 100)
 	private String state;
 
+	/** e.g. SPEED_DATING, COFFEE_MEETUP, DINNER, CULTURAL. Default SPEED_DATING. */
 	@Column(name = "event_type", length = 50)
 	private String eventType = "SPEED_DATING";
 
@@ -71,9 +76,6 @@ public class Event extends BaseEntity {
 	@Column(nullable = false, length = 20)
 	private EventStatus status = EventStatus.UPCOMING;
 
-	/**
-	 * Enum for event status
-	 */
 	public enum EventStatus {
 		UPCOMING, ONGOING, COMPLETED, CANCELLED
 	}

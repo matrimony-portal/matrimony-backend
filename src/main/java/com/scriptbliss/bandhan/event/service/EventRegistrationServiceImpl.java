@@ -32,14 +32,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Service implementation for event registration management
- * Provides functionality for event managers to manage registrations
+ * Registrations: list (by event, by organizer), payment-status, attendance, participant profile;
+ * user register/unregister and my-registrations. Stats: event and registration counts.
+ * When payment set to PAID: creates EVENT_REQUEST_ACCEPTED notification. Auth: organizer or ADMIN.
  */
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-	public class EventRegistrationServiceImpl implements EventRegistrationService {
+public class EventRegistrationServiceImpl implements EventRegistrationService {
 
 	private final EventRegistrationRepository registrationRepository;
 	private final EventRepository eventRepository;
@@ -47,15 +48,16 @@ import lombok.extern.slf4j.Slf4j;
 	private final ModelMapper modelMapper;
 	private final EntityManager entityManager;
 
+	// --- Organizer: list registrations, payment, attendance, participant profile ---
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<EventRegistrationResponse> getEventRegistrations(Long eventId, Long organizerId) {
 		log.debug("Fetching registrations for event: {} by organizer: {}", eventId, organizerId);
-		
+
 		Event event = eventRepository.findById(eventId)
 				.orElseThrow(() -> new ResourceNotFoundException("Event not found with ID: " + eventId));
-		
-		// Check authorization
+
 		if (!event.getOrganizer().getId().equals(organizerId)) {
 			User organizer = userRepository.findById(organizerId)
 					.orElseThrow(() -> new RuntimeException("Organizer not found"));
@@ -106,8 +108,8 @@ import lombok.extern.slf4j.Slf4j;
 		
 		registration = registrationRepository.save(registration);
 
-		// Notify participant when request is accepted (PAID)
 		if (PaymentStatus.PAID.name().equals(paymentStatus.toUpperCase())) {
+			// Notify participant: registration accepted
 			String eventTitle = registration.getEvent().getTitle();
 			Long participantId = registration.getUser().getId();
 			var insert = entityManager.createNativeQuery(
@@ -147,11 +149,13 @@ import lombok.extern.slf4j.Slf4j;
 		return mapToResponse(registration);
 	}
 
+	// --- Statistics ---
+
 	@Override
 	@Transactional(readOnly = true)
 	public EventStatisticsResponse getEventStatistics(Long organizerId) {
 		log.debug("Fetching event statistics for organizer: {}", organizerId);
-		
+
 		List<Event> events = eventRepository.findByOrganizerId(organizerId);
 		
 		long totalEvents = events.size();
@@ -190,29 +194,28 @@ import lombok.extern.slf4j.Slf4j;
 		return stats;
 	}
 
+	// --- User: register, unregister, my-registrations ---
+
 	@Override
 	public EventRegistrationResponse registerForEvent(Long eventId, Long userId, String notes) {
 		log.info("Registering user: {} for event: {}", userId, eventId);
-		
+
 		Event event = eventRepository.findById(eventId)
 				.orElseThrow(() -> new ResourceNotFoundException("Event not found with ID: " + eventId));
-		
+
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
-		
-		// Check if already registered
+
 		Optional<EventRegistration> existingRegistration = registrationRepository.findByUserIdAndEventId(userId, eventId);
 		if (existingRegistration.isPresent()) {
 			throw new RuntimeException("User is already registered for this event");
 		}
-		
-		// Check if event is full
+
 		long currentRegistrations = registrationRepository.countByEventId(eventId);
 		if (event.getMaxParticipants() != null && currentRegistrations >= event.getMaxParticipants()) {
 			throw new RuntimeException("Event is full. Maximum participants reached.");
 		}
-		
-		// Check if event is still open for registration
+
 		if (event.getStatus() != Event.EventStatus.UPCOMING) {
 			throw new RuntimeException("Event is not open for registration. Status: " + event.getStatus());
 		}
@@ -257,6 +260,7 @@ import lombok.extern.slf4j.Slf4j;
 	@Transactional(readOnly = true)
 	public ParticipantProfileResponse getParticipantProfile(Long registrationId, Long organizerId) {
 		log.debug("Fetching participant profile for registration: {} by organizer: {}", registrationId, organizerId);
+		// Must be organizer of the event or ADMIN
 		EventRegistration registration = registrationRepository.findById(registrationId)
 				.orElseThrow(() -> new ResourceNotFoundException("Registration not found with ID: " + registrationId));
 		if (!registration.getEvent().getOrganizer().getId().equals(organizerId)) {
@@ -294,6 +298,7 @@ import lombok.extern.slf4j.Slf4j;
 		return r;
 	}
 
+	/** Normalize native query DATE to LocalDate (JDBC may return java.sql.Date or LocalDate). */
 	private static LocalDate toLocalDate(Object value) {
 		if (value == null) return null;
 		if (value instanceof java.time.LocalDate) return (java.time.LocalDate) value;
@@ -304,9 +309,6 @@ import lombok.extern.slf4j.Slf4j;
 		return null;
 	}
 
-	/**
-	 * Map EventRegistration entity to EventRegistrationResponse DTO
-	 */
 	private EventRegistrationResponse mapToResponse(EventRegistration registration) {
 		EventRegistrationResponse response = new EventRegistrationResponse();
 		response.setId(registration.getId());
@@ -315,6 +317,8 @@ import lombok.extern.slf4j.Slf4j;
 		response.setUserEmail(registration.getUser().getEmail());
 		response.setEventId(registration.getEvent().getId());
 		response.setEventTitle(registration.getEvent().getTitle());
+		response.setEventDate(registration.getEvent().getEventDate());
+		response.setVenue(registration.getEvent().getVenue());
 		response.setRegistrationDate(registration.getRegistrationDate());
 		response.setPaymentStatus(registration.getPaymentStatus().name());
 		response.setAttended(registration.getAttended());
