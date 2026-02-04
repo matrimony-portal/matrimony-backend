@@ -1,5 +1,6 @@
 package com.scriptbliss.bandhan.auth.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scriptbliss.bandhan.auth.dto.request.CompleteRegistrationRequest;
+import com.scriptbliss.bandhan.auth.dto.request.RegisterRequest;
+import com.scriptbliss.bandhan.auth.dto.response.RegisterResponse;
 import com.scriptbliss.bandhan.auth.entity.User;
 import com.scriptbliss.bandhan.auth.entity.VerificationToken;
 import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.enums.TokenType;
+import com.scriptbliss.bandhan.auth.enums.UserRole;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
 import com.scriptbliss.bandhan.auth.repository.VerificationTokenRepository;
 import com.scriptbliss.bandhan.profile.entity.Profile;
@@ -21,6 +25,12 @@ import com.scriptbliss.bandhan.profile.repository.ProfileRepository;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
 import com.scriptbliss.bandhan.shared.service.EmailService;
 import com.scriptbliss.bandhan.shared.util.JwtUtil;
+import com.scriptbliss.bandhan.subscription.entity.Subscription;
+import com.scriptbliss.bandhan.subscription.entity.SubscriptionPlan;
+import com.scriptbliss.bandhan.subscription.enums.BillingCycle;
+import com.scriptbliss.bandhan.subscription.enums.PlanType;
+import com.scriptbliss.bandhan.subscription.repository.SubscriptionPlanRepository;
+import com.scriptbliss.bandhan.subscription.repository.SubscriptionRepository;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +45,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 	private final UserRepository userRepository;
 	private final VerificationTokenRepository tokenRepository;
 	private final ProfileRepository profileRepository;
+	private final SubscriptionPlanRepository subscriptionPlanRepository;
+	private final SubscriptionRepository subscriptionRepository;
 	private final EmailService emailService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final JwtUtil jwtUtil;
@@ -54,7 +66,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public String verifyEmailForRegistration(String tokenValue) {
-		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndIsUsedFalse(tokenValue,
+		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndUsedAtIsNull(tokenValue,
 				TokenType.EMAIL_VERIFICATION);
 
 		if (tokenOpt.isEmpty()) {
@@ -98,6 +110,68 @@ public class RegistrationServiceImpl implements RegistrationService {
 		profileRepository.save(profile);
 
 		log.info("Registration completed for user: {}", email);
+	}
+
+	@Override
+	public RegisterResponse register(RegisterRequest req) {
+		Optional<User> existing = userRepository.findByEmail(req.getEmail().trim().toLowerCase());
+		if (existing.isPresent()) {
+			throw new BusinessException("EMAIL_ALREADY_EXISTS", "Email already registered");
+		}
+
+		User user = User.builder()
+				.email(req.getEmail().trim().toLowerCase())
+				.password(passwordEncoder.encode(req.getPassword()))
+				.firstName(req.getFirstName().trim())
+				.lastName(req.getLastName().trim())
+				.phone(req.getPhone() != null ? req.getPhone().trim() : null)
+				.role(UserRole.USER)
+				.status(AccountStatus.ACTIVE)
+				.build();
+		User savedUser = userRepository.save(user);
+
+		String country = (req.getCountry() != null && !req.getCountry().isBlank()) ? req.getCountry().trim() : "India";
+		Profile profile = Profile.builder()
+				.user(savedUser)
+				.dateOfBirth(req.getDateOfBirth())
+				.gender(req.getGender())
+				.religion(req.getReligion())
+				.caste(req.getCaste())
+				.occupation(req.getOccupation())
+				.education(req.getEducation())
+				.income(req.getIncome())
+				.maritalStatus(req.getMaritalStatus())
+				.city(req.getCity())
+				.state(req.getState())
+				.country(country)
+				.isVerified(false)
+				.build();
+		profileRepository.save(profile);
+
+		SubscriptionPlan freePlan = subscriptionPlanRepository.findByPlanType(PlanType.FREE)
+				.orElseThrow(() -> new BusinessException("FREE_PLAN_NOT_CONFIGURED", "FREE subscription plan is not configured"));
+
+		Subscription subscription = Subscription.builder()
+				.userId(savedUser.getId())
+				.plan(freePlan)
+				.billingCycle(BillingCycle.MONTHLY)
+				.startDate(LocalDate.now())
+				.isActive(true)
+				.autoRenew(false)
+				.paymentAmount(freePlan.getPriceMonthly())
+				.build();
+		subscriptionRepository.save(subscription);
+
+		RegisterResponse.UserInfo userInfo = RegisterResponse.UserInfo.builder()
+				.id(savedUser.getId())
+				.email(savedUser.getEmail())
+				.firstName(savedUser.getFirstName())
+				.lastName(savedUser.getLastName())
+				.userType("user")
+				.subscriptionTier("free")
+				.build();
+		log.info("Direct registration completed for user: {}", savedUser.getEmail());
+		return RegisterResponse.builder().user(userInfo).build();
 	}
 
 	private String createVerificationToken(String email) {

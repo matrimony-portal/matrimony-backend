@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import com.scriptbliss.bandhan.auth.enums.TokenType;
 import com.scriptbliss.bandhan.shared.entity.BaseEntity;
 
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,9 +19,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Verification token entity (email verification, password reset).
+ * Extends BaseEntity (id, createdAt, updatedAt). usedAt = when token was used; isUsed() derived from it.
+ */
 @Entity
 @Table(name = "verification_tokens")
-@AttributeOverride(name = "id", column = @Column(name = "token_id"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -50,7 +52,13 @@ public class VerificationToken extends BaseEntity {
 	@Column(name = "used_at")
 	private LocalDateTime usedAt;
 
-	@Column(name = "is_used", nullable = false)
-	@Builder.Default
-	private boolean isUsed = false;
+	/** Whether the token has been used (derived from usedAt). */
+	public boolean isUsed() {
+		return usedAt != null;
+	}
+
+	/** Set used state: sets or clears usedAt. */
+	public void setUsed(boolean used) {
+		this.usedAt = used ? LocalDateTime.now() : null;
+	}
 }

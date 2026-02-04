@@ -89,5 +89,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 		public String getEmail() {
 			return email;
 		}
+
+		public String getRole() {
+			return role;
+		}
 	}
 }

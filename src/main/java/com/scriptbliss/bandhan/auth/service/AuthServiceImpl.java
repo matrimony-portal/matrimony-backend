@@ -12,6 +12,7 @@ import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.JwtScope;
 import com.scriptbliss.bandhan.auth.repository.UserRepository;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
+import com.scriptbliss.bandhan.subscription.repository.SubscriptionRepository;
 import com.scriptbliss.bandhan.shared.security.CustomUserDetailsService.CustomUserPrincipal;
 import com.scriptbliss.bandhan.shared.util.JwtUtil;
 
@@ -27,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final JwtUtil jwtUtil;
+	private final SubscriptionRepository subscriptionRepository;
 
 	@Override
 	public AuthResponse login(LoginRequest request) {
@@ -56,9 +58,15 @@ public class AuthServiceImpl implements AuthService {
 
 		log.info("User logged in: {}", user.getEmail());
 
+		String planType = null;
+		if (user.getRole() == com.scriptbliss.bandhan.auth.enums.UserRole.USER) {
+			planType = subscriptionRepository.findActiveByUserIdWithPlan(user.getId())
+					.map(s -> s.getPlan().getPlanType().name()).orElse(null);
+		}
+
 		return AuthResponse.builder().token(accessToken).refreshToken(refreshToken).expiresIn(24 * 60 * 60) // 24 hours
 				.user(AuthResponse.UserInfo.builder().id(user.getId()).email(user.getEmail())
-						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).build())
+						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).planType(planType).build())
 				.build();
 	}
 
@@ -92,9 +100,15 @@ public class AuthServiceImpl implements AuthService {
 
 		log.info("Token refreshed for user: {}", user.getEmail());
 
+		String planType = null;
+		if (user.getRole() == com.scriptbliss.bandhan.auth.enums.UserRole.USER) {
+			planType = subscriptionRepository.findActiveByUserIdWithPlan(user.getId())
+					.map(s -> s.getPlan().getPlanType().name()).orElse(null);
+		}
+
 		return AuthResponse.builder().token(newAccessToken).refreshToken(newRefreshToken).expiresIn(24 * 60 * 60)
 				.user(AuthResponse.UserInfo.builder().id(user.getId()).email(user.getEmail())
-						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).build())
+						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).planType(planType).build())
 				.build();
 	}
 }

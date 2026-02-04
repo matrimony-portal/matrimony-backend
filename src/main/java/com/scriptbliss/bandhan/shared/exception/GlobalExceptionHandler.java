@@ -83,6 +83,13 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Route not found");
 	}
 
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handleResourceNotFound(ResourceNotFoundException ex) {
+		log.warn("Resource not found: {}", ex.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(ApiResponse.error("NOT_FOUND", ex.getMessage()));
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
 		log.error("Unexpected error", ex);

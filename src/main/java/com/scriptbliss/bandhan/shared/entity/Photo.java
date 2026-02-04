@@ -32,6 +32,9 @@ public class Photo {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
+	@Column(name = "file_name", nullable = false, length = 255)
+	private String fileName;
+
 	@Column(name = "file_path", nullable = false, length = 500)
 	private String filePath;
 

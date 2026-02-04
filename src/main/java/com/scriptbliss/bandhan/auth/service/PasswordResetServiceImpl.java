@@ -52,7 +52,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
 	@Override
 	public String verifyResetToken(String tokenValue) {
-		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndIsUsedFalse(tokenValue,
+		Optional<VerificationToken> tokenOpt = tokenRepository.findByTokenAndTokenTypeAndUsedAtIsNull(tokenValue,
 				TokenType.PASSWORD_RESET);
 
 		if (tokenOpt.isEmpty()) {

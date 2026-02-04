@@ -69,4 +69,13 @@ public class UpdateProfileRequest {
 
 	@Size(max = 2000, message = "Preferences must not exceed 2000 characters")
 	private String preferences;
+
+	@Size(max = 100, message = "Citizenship must not exceed 100 characters")
+	private String citizenship;
+
+	@Size(max = 200, message = "College must not exceed 200 characters")
+	private String college;
+
+	@Size(max = 200, message = "Company must not exceed 200 characters")
+	private String company;
 }

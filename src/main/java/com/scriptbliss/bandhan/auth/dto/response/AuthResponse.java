@@ -21,5 +21,7 @@ public class AuthResponse {
 		private String firstName;
 		private String lastName;
 		private UserRole role;
+		/** "FREE" or "PREMIUM" for USER role; null for ADMIN/EVENT_ORGANIZER */
+		private String planType;
 	}
 }

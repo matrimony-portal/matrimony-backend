@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   mysql:
-    image: mysql:lts
+    image: mysql:8.0.39
     container_name: bandhan-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root123
@@ -10,9 +8,16 @@ services:
       MYSQL_USER: bandhandb
       MYSQL_PASSWORD: bandhandb@123
     ports:
-      - "3306:3306"
+      - "3308:3306"
+    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./DatabaseDesign:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "bandhandb", "-pbandhandb@123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -27,4 +32,4 @@ services:
       - mysql
 
 volumes:
-  mysql_data:
+  mysql_data: {}
