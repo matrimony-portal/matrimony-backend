@@ -1,32 +1,34 @@
 package com.scriptbliss.bandhan.shared.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class EmailService {
 
-	private final JavaMailSender mailSender;
+	private final SesClient sesClient;
 
 	@Value("${app.email.from:noreply@bandhan.scriptbliss.com}")
 	private String fromEmail;
 
 	public void sendVerificationEmail(String toEmail, String token) {
 		try {
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(toEmail);
-			message.setSubject("Verify your Matrimony account");
-			message.setText(buildVerificationEmailContent(token));
-			message.setFrom(fromEmail); // Verified domain identity
+			SendEmailRequest request = SendEmailRequest.builder().source(fromEmail)
+					.destination(Destination.builder().toAddresses(toEmail).build())
+					.message(Message.builder().subject(Content.builder().data("Verify your Matrimony account").build())
+							.body(Body.builder()
+									.text(Content.builder().data(buildVerificationEmailContent(token)).build()).build())
+							.build())
+					.build();
 
-			mailSender.send(message);
+			sesClient.sendEmail(request);
 			log.info("Verification email sent to: {}", toEmail);
 		} catch (Exception e) {
 			log.error("Failed to send verification email to: {}", toEmail, e);
@@ -36,13 +38,16 @@ public class EmailService {
 
 	public void sendPasswordResetEmail(String toEmail, String token) {
 		try {
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(toEmail);
-			message.setSubject("Reset your password");
-			message.setText(buildPasswordResetEmailContent(token));
-			message.setFrom(fromEmail); // Verified domain identity
+			SendEmailRequest request = SendEmailRequest.builder().source(fromEmail)
+					.destination(Destination.builder().toAddresses(toEmail).build())
+					.message(Message.builder().subject(Content.builder().data("Reset your password").build())
+							.body(Body.builder()
+									.text(Content.builder().data(buildPasswordResetEmailContent(token)).build())
+									.build())
+							.build())
+					.build();
 
-			mailSender.send(message);
+			sesClient.sendEmail(request);
 			log.info("Password reset email sent to: {}", toEmail);
 		} catch (Exception e) {
 			log.error("Failed to send password reset email to: {}", toEmail, e);
