@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bandhan-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: matrimony_portal
+      MYSQL_USER: bandhandb
+      MYSQL_PASSWORD: bandhandb@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - bandhan-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  app:
+    build: .
+    container_name: bandhan-app
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/matrimony_portal
+      DB_USERNAME: bandhandb
+      DB_PASSWORD: bandhandb@123
+      JWT_SECRET: mySecretKey123456789012345678901234567890
+      SMTP_HOST: email-smtp.ap-south-1.amazonaws.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      APP_EMAIL_FROM: ${APP_EMAIL_FROM:-noreply@bandhan.com}
+    ports:
+      - "8080:8080"
+    volumes:
+      - app_uploads:/app/uploads
+    networks:
+      - bandhan-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: bandhan-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: bandhandb
+      PMA_PASSWORD: bandhandb@123
+    ports:
+      - "3307:80"
+    networks:
+      - bandhan-network
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  app_uploads:
+
+networks:
+  bandhan-network:
+    driver: bridge

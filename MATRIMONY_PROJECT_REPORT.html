@@ -1,0 +1,3499 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MATRIMONY_PROJECT_REPORT.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="matrimony-portal-project-report">MATRIMONY PORTAL PROJECT REPORT</h1>
+<div style="page-break-after: always;"></div>
+<h2 id="front-page">FRONT PAGE</h2>
+<p><strong>MATRIMONY PORTAL</strong>
+<em>A Comprehensive Matrimonial Web Application</em></p>
+<p><strong>Submitted by:</strong>
+[Student Name]
+[Roll Number]</p>
+<p><strong>Submitted to:</strong>
+CDAC Sunbeam
+Centre for Development of Advanced Computing</p>
+<p><strong>Academic Year:</strong> 2024-25
+<strong>Date:</strong> [Submission Date]</p>
+<hr>
+<h2 id="certificate">CERTIFICATE</h2>
+<p>This is to certify that the project entitled <strong>&quot;MATRIMONY PORTAL&quot;</strong> submitted by [Student Name], Roll No. [Roll Number] in partial fulfillment of the requirements for the completion of the course at CDAC Sunbeam is a bonafide work carried out under my supervision and guidance.</p>
+<p>The project demonstrates comprehensive understanding of full-stack web development using modern technologies including React, Spring Boot, and MySQL.</p>
+<p><strong>Project Guide:</strong>
+[Guide Name]
+[Designation]
+CDAC Sunbeam</p>
+<p><strong>Date:</strong> [Date]
+<strong>Place:</strong> [Place]</p>
+<div style="page-break-after: always;"></div>
+<h2 id="acknowledgment">ACKNOWLEDGMENT</h2>
+<p>I would like to express my sincere gratitude to all those who have contributed to the successful completion of this project.</p>
+<p>First and foremost, I thank my project guide [Guide Name] for their invaluable guidance, continuous support, and encouragement throughout the development of this matrimonial portal application.</p>
+<p>I am grateful to the faculty members of CDAC Sunbeam for providing the necessary knowledge and technical expertise in full-stack development, database design, and software engineering principles.</p>
+<p>I also acknowledge the support of my fellow students who provided valuable feedback and suggestions during the development process.</p>
+<p>Finally, I thank my family and friends for their constant encouragement and support throughout this journey.</p>
+<p><strong>[Student Name]</strong>
+<strong>[Date]</strong></p>
+<div style="page-break-after: always;"></div>
+<h2 id="abstract">ABSTRACT</h2>
+<p>The Matrimony Portal is a comprehensive web-based application designed to facilitate matrimonial connections through modern technology. This project implements a full-stack solution using React for the frontend, Spring Boot for the backend, and MySQL for data management.</p>
+<p>The application provides a secure platform for users to create detailed profiles, search for compatible partners, express interests, and manage matrimonial interactions. Key features include intelligent matching algorithms, role-based access control, event management, and comprehensive admin functionality.</p>
+<p>The system architecture follows modern design patterns including Domain-Driven Design (DDD) and Clean Architecture principles. Security is implemented through JWT-based authentication, password encryption, and role-based authorization.</p>
+<p>The frontend utilizes React 19 with modern hooks, Bootstrap 5 for responsive design, and Vite for optimized builds. The backend leverages Spring Boot 4.0.2 with JPA/Hibernate for data persistence, Spring Security for authentication, and comprehensive API documentation through Swagger.</p>
+<p>The database design includes optimized schemas for users, profiles, matches, interests, and events with proper indexing and relationship management. The application supports multiple user roles including regular users, administrators, and event organizers.</p>
+<p>Testing strategies include unit testing, integration testing, and comprehensive API testing. The project demonstrates proficiency in modern web development practices, security implementation, and scalable architecture design.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="index">INDEX</h2>
+<ol>
+<li><strong>Front Page</strong> .................................................... 1</li>
+<li><strong>Certificate</strong> .................................................... 2</li>
+<li><strong>Acknowledgment</strong> ................................................ 3</li>
+<li><strong>Abstract</strong> ...................................................... 4</li>
+<li><strong>Index</strong> ......................................................... 5</li>
+<li><strong>List of Tables &amp; Figures</strong> ..................................... 6</li>
+<li><strong>Introduction</strong> .................................................. 7</li>
+<li><strong>Product Overview and Summary</strong> .................................. 8-9</li>
+<li><strong>Requirements</strong> .................................................. 10-13</li>
+<li><strong>Project Design, Class Diagram, E-R Diagram</strong> ................. 14-23</li>
+<li><strong>Database Design</strong> ............................................. 24-31</li>
+<li><strong>Test Report</strong> ................................................. 32-33</li>
+<li><strong>Project Screenshots</strong> ......................................... 34-43</li>
+<li><strong>Conclusion</strong> .................................................. 44</li>
+<li><strong>References</strong> .................................................. 45</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h2 id="list-of-tables--figures">LIST OF TABLES &amp; FIGURES</h2>
+<h3 id="tables">Tables</h3>
+<ul>
+<li>Table 1: Technology Stack Comparison ................................. 8</li>
+<li>Table 2: Functional Requirements Summary ............................. 10</li>
+<li>Table 3: Non-Functional Requirements ................................. 11</li>
+<li>Table 4: API Endpoints Overview ..................................... 15</li>
+<li>Table 5: Database Tables Summary .................................... 24</li>
+<li>Table 6: Test Cases Summary ......................................... 32</li>
+</ul>
+<h3 id="figures">Figures</h3>
+<ul>
+<li>Figure 1: System Architecture Overview ............................... 8</li>
+<li>Figure 2: Three-Tier Architecture ................................... 9</li>
+<li>Figure 3: Use Case Diagram .......................................... 12</li>
+<li>Figure 4: System Flow Diagram ....................................... 13</li>
+<li>Figure 5: Frontend Architecture ..................................... 14</li>
+<li>Figure 6: Backend Architecture ...................................... 16</li>
+<li>Figure 7: Authentication Flow ....................................... 17</li>
+<li>Figure 8: Matching Algorithm Flow ................................... 18</li>
+<li>Figure 9: Class Diagram - User Domain ............................... 19</li>
+<li>Figure 10: Class Diagram - Profile Domain .......................... 20</li>
+<li>Figure 11: Class Diagram - Match Domain ............................ 21</li>
+<li>Figure 12: Entity Relationship Diagram ............................. 22</li>
+<li>Figure 13: Database Schema Overview ................................. 24</li>
+<li>Figure 14: User Management Schema ................................... 25</li>
+<li>Figure 15: Profile Management Schema ................................ 26</li>
+<li>Figure 16: Matching System Schema ................................... 27</li>
+<li>Figure 17: Event Management Schema .................................. 28</li>
+<li>Figure 18: Database Indexing Strategy ............................... 29</li>
+<li>Figure 19: Homepage Screenshot ...................................... 34</li>
+<li>Figure 20: User Registration ........................................ 35</li>
+<li>Figure 21: User Dashboard ........................................... 36</li>
+<li>Figure 22: Profile Management ....................................... 37</li>
+<li>Figure 23: Match Discovery .......................................... 38</li>
+<li>Figure 24: Interest Management ...................................... 39</li>
+<li>Figure 25: Admin Dashboard .......................................... 40</li>
+<li>Figure 26: Event Management ......................................... 41</li>
+<li>Figure 27: Communication Interface .................................. 42</li>
+</ul>
+<div style="page-break-after: always;"></div>
+<h2 id="7-introduction">7. INTRODUCTION</h2>
+<p>The digital transformation of traditional matchmaking services has revolutionized how people find life partners. The Matrimony Portal project addresses the growing need for secure, efficient, and user-friendly matrimonial platforms that leverage modern web technologies to connect individuals seeking meaningful relationships.</p>
+<h3 id="project-motivation">Project Motivation</h3>
+<p>Traditional matrimonial services often lack the technological sophistication required to handle the complexities of modern matchmaking. Issues such as limited search capabilities, poor user experience, security concerns, and inadequate matching algorithms have created a gap in the market for comprehensive digital solutions.</p>
+<h3 id="project-objectives">Project Objectives</h3>
+<p>The primary objective of this project is to develop a full-stack web application that provides:</p>
+<ol>
+<li><strong>Secure User Management</strong>: Robust authentication and authorization system</li>
+<li><strong>Intelligent Matching</strong>: Algorithm-based compatibility scoring and recommendations</li>
+<li><strong>Comprehensive Profiles</strong>: Detailed user profile management with privacy controls</li>
+<li><strong>Interactive Communication</strong>: Secure messaging and interest expression system</li>
+<li><strong>Administrative Control</strong>: Complete admin panel for user and content management</li>
+<li><strong>Event Management</strong>: Platform for organizing matrimonial events and gatherings</li>
+</ol>
+<h3 id="technology-rationale">Technology Rationale</h3>
+<p>The project utilizes modern web technologies to ensure scalability, maintainability, and performance:</p>
+<ul>
+<li><strong>React 19</strong>: For building responsive and interactive user interfaces</li>
+<li><strong>Spring Boot 4.0.2</strong>: For robust backend API development and business logic</li>
+<li><strong>MySQL 8.0</strong>: For reliable data storage and management</li>
+<li><strong>JWT Authentication</strong>: For secure, stateless user authentication</li>
+<li><strong>Bootstrap 5</strong>: For responsive and mobile-first design</li>
+</ul>
+<h3 id="project-scope">Project Scope</h3>
+<p>The Matrimony Portal encompasses user registration and profile creation, advanced search and matching algorithms, interest management system, real-time communication features, comprehensive admin dashboard, event management system, and security implementation with role-based access control.</p>
+<p>This project demonstrates proficiency in full-stack development, database design, security implementation, and modern software engineering practices, making it suitable for real-world deployment in the matrimonial services industry.</p>
+<div style="page-break-after: always;"></div>ation with role-based access control.
+<p>This project demonstrates proficiency in full-stack development, database design, security implementation, and modern software engineering practices, making it suitable for real-world deployment in the matrimonial services industry.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="8-product-overview-and-summary">8. PRODUCT OVERVIEW AND SUMMARY</h2>
+<h3 id="system-overview">System Overview</h3>
+<p>The Matrimony Portal is a comprehensive web-based application designed to facilitate matrimonial connections through intelligent matching and secure communication. The system implements a three-tier architecture comprising a React-based frontend, Spring Boot backend, and MySQL database.</p>
+<pre class="hljs"><code><div>┌─────────────────────────────────────────────────────────────┐
+│                    CLIENT TIER                              │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │   React     │  │  Bootstrap  │  │   Responsive        │  │
+│  │  Frontend   │  │     UI      │  │     Design          │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 APPLICATION TIER                            │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │ Spring Boot │  │     JWT     │  │    REST APIs &amp;      │  │
+│  │   Backend   │  │  Security   │  │  Business Logic     │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     DATA TIER                               │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │    MySQL    │  │     JPA     │  │   Connection        │  │
+│  │  Database   │  │  Hibernate  │  │      Pool           │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 1: System Architecture Overview</em></p>
+<h3 id="technology-stack">Technology Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend Framework</td>
+<td>React</td>
+<td>19.x</td>
+<td>User interface development</td>
+</tr>
+<tr>
+<td>Build Tool</td>
+<td>Vite</td>
+<td>7.x</td>
+<td>Fast development and builds</td>
+</tr>
+<tr>
+<td>UI Framework</td>
+<td>Bootstrap</td>
+<td>5.3</td>
+<td>Responsive design</td>
+</tr>
+<tr>
+<td>Backend Framework</td>
+<td>Spring Boot</td>
+<td>4.0.2</td>
+<td>API development</td>
+</tr>
+<tr>
+<td>Programming Language</td>
+<td>Java</td>
+<td>17</td>
+<td>Backend development</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>MySQL</td>
+<td>8.0</td>
+<td>Data persistence</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>JPA/Hibernate</td>
+<td>6.x</td>
+<td>Object-relational mapping</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Spring Security</td>
+<td>6.x</td>
+<td>Authentication &amp; authorization</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>Swagger/OpenAPI</td>
+<td>3.0</td>
+<td>API documentation</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 1: Technology Stack Comparison</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="key-features">Key Features</h3>
+<h4 id="user-management-system">User Management System</h4>
+<ul>
+<li><strong>Multi-step Registration</strong>: Progressive profile creation with validation</li>
+<li><strong>Secure Authentication</strong>: JWT-based login with refresh token support</li>
+<li><strong>Role-based Access</strong>: Support for Users, Admins, and Event Organizers</li>
+<li><strong>Profile Management</strong>: Comprehensive profile editing with photo upload</li>
+</ul>
+<h4 id="intelligent-matching-system">Intelligent Matching System</h4>
+<ul>
+<li><strong>Compatibility Algorithm</strong>: Multi-factor scoring based on preferences</li>
+<li><strong>Advanced Filtering</strong>: Age, location, religion, education-based filters</li>
+<li><strong>Smart Recommendations</strong>: Personalized match suggestions</li>
+<li><strong>Match History</strong>: Complete interaction tracking and analytics</li>
+</ul>
+<h4 id="communication-platform">Communication Platform</h4>
+<ul>
+<li><strong>Interest Expression</strong>: Like/pass system with mutual matching</li>
+<li><strong>Secure Messaging</strong>: Protected communication between matched users</li>
+<li><strong>Notification System</strong>: Real-time updates for interests and matches</li>
+<li><strong>Privacy Controls</strong>: Granular visibility settings for profile information</li>
+</ul>
+<h4 id="administrative-features">Administrative Features</h4>
+<ul>
+<li><strong>User Management</strong>: Complete user lifecycle management</li>
+<li><strong>Content Moderation</strong>: Profile review and approval system</li>
+<li><strong>Analytics Dashboard</strong>: User engagement and system metrics</li>
+<li><strong>Event Management</strong>: Create and manage matrimonial events</li>
+</ul>
+<h3 id="system-benefits">System Benefits</h3>
+<h4 id="for-users">For Users</h4>
+<ul>
+<li><strong>Enhanced Privacy</strong>: Secure profile management with visibility controls</li>
+<li><strong>Intelligent Matching</strong>: Algorithm-based compatibility scoring</li>
+<li><strong>User-friendly Interface</strong>: Intuitive design with responsive layout</li>
+<li><strong>Comprehensive Profiles</strong>: Detailed information for better matching</li>
+</ul>
+<h4 id="for-administrators">For Administrators</h4>
+<ul>
+<li><strong>Complete Control</strong>: Full system management capabilities</li>
+<li><strong>Analytics Insights</strong>: Detailed user engagement metrics</li>
+<li><strong>Content Management</strong>: Profile moderation and quality control</li>
+<li><strong>Event Organization</strong>: Platform for matrimonial events</li>
+</ul>
+<h4 id="for-organizations">For Organizations</h4>
+<ul>
+<li><strong>Scalable Architecture</strong>: Designed for high user loads</li>
+<li><strong>Security Compliance</strong>: Industry-standard security practices</li>
+<li><strong>Maintainable Code</strong>: Clean architecture with proper documentation</li>
+<li><strong>Integration Ready</strong>: API-first design for third-party integrations</li>
+</ul>
+<div style="page-break-after: always;"></div>
+## 9. REQUIREMENTS
+<h3 id="91-functional-requirements">9.1 Functional Requirements</h3>
+<h4 id="user-management-requirements">User Management Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001</td>
+<td>User registration with email verification</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-002</td>
+<td>Secure login with JWT authentication</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-003</td>
+<td>Password reset functionality</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>FR-004</td>
+<td>Profile creation with personal details</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-005</td>
+<td>Profile photo upload and management</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-006</td>
+<td>Privacy settings for profile visibility</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-007</td>
+<td>Account deactivation and deletion</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<h4 id="matching-system-requirements">Matching System Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-008</td>
+<td>Compatibility algorithm implementation</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-009</td>
+<td>Advanced search with multiple filters</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-010</td>
+<td>Match recommendations based on preferences</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-011</td>
+<td>Match history and analytics</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>FR-012</td>
+<td>Saved searches functionality</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<h4 id="communication-requirements">Communication Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-013</td>
+<td>Interest expression (like/pass) system</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-014</td>
+<td>Mutual matching detection</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-015</td>
+<td>Secure messaging between matched users</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-016</td>
+<td>Notification system for interests</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>FR-017</td>
+<td>Block and report functionality</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h4 id="administrative-requirements">Administrative Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-018</td>
+<td>Admin dashboard with system overview</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-019</td>
+<td>User management and moderation</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-020</td>
+<td>Profile approval and rejection</td>
+<td>High</td>
+</tr>
+<tr>
+<td>FR-021</td>
+<td>System analytics and reporting</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>FR-022</td>
+<td>Event creation and management</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>FR-023</td>
+<td>Broadcast messaging system</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 2: Functional Requirements Summary</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="92-non-functional-requirements">9.2 Non-Functional Requirements</h3>
+<h4 id="performance-requirements">Performance Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Target Metric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-001</td>
+<td>Page load time</td>
+<td>&lt; 3 seconds</td>
+</tr>
+<tr>
+<td>NFR-002</td>
+<td>API response time</td>
+<td>&lt; 500ms</td>
+</tr>
+<tr>
+<td>NFR-003</td>
+<td>Database query optimization</td>
+<td>&lt; 100ms average</td>
+</tr>
+<tr>
+<td>NFR-004</td>
+<td>Concurrent user support</td>
+<td>1000+ users</td>
+</tr>
+<tr>
+<td>NFR-005</td>
+<td>System uptime</td>
+<td>99.5% availability</td>
+</tr>
+</tbody>
+</table>
+<h4 id="security-requirements">Security Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-006</td>
+<td>Data encryption in transit</td>
+<td>HTTPS/TLS 1.3</td>
+</tr>
+<tr>
+<td>NFR-007</td>
+<td>Password security</td>
+<td>BCrypt hashing</td>
+</tr>
+<tr>
+<td>NFR-008</td>
+<td>Session management</td>
+<td>JWT with refresh tokens</td>
+</tr>
+<tr>
+<td>NFR-009</td>
+<td>Input validation</td>
+<td>Server-side validation</td>
+</tr>
+<tr>
+<td>NFR-010</td>
+<td>SQL injection prevention</td>
+<td>Parameterized queries</td>
+</tr>
+</tbody>
+</table>
+<h4 id="usability-requirements">Usability Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Requirement ID</th>
+<th>Description</th>
+<th>Standard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-011</td>
+<td>Responsive design</td>
+<td>Mobile-first approach</td>
+</tr>
+<tr>
+<td>NFR-012</td>
+<td>Browser compatibility</td>
+<td>Chrome, Firefox, Safari, Edge</td>
+</tr>
+<tr>
+<td>NFR-013</td>
+<td>Accessibility compliance</td>
+<td>WCAG 2.1 AA</td>
+</tr>
+<tr>
+<td>NFR-014</td>
+<td>User interface consistency</td>
+<td>Bootstrap design system</td>
+</tr>
+<tr>
+<td>NFR-015</td>
+<td>Error handling</td>
+<td>User-friendly error messages</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 3: Non-Functional Requirements</em></p>
+<h3 id="93-system-requirements">9.3 System Requirements</h3>
+<h4 id="hardware-requirements">Hardware Requirements</h4>
+<p><strong>Development Environment:</strong></p>
+<ul>
+<li><strong>Processor</strong>: Intel i5 or equivalent (minimum)</li>
+<li><strong>RAM</strong>: 8GB (minimum), 16GB (recommended)</li>
+<li><strong>Storage</strong>: 500GB SSD (minimum)</li>
+<li><strong>Network</strong>: Broadband internet connection</li>
+</ul>
+<p><strong>Production Environment:</strong></p>
+<ul>
+<li><strong>Server</strong>: 4-core CPU, 16GB RAM (minimum)</li>
+<li><strong>Database Server</strong>: 8-core CPU, 32GB RAM (recommended)</li>
+<li><strong>Storage</strong>: 1TB SSD with backup solutions</li>
+<li><strong>Network</strong>: High-speed internet with load balancing</li>
+</ul>
+<h4 id="software-requirements">Software Requirements</h4>
+<p><strong>Development Tools:</strong></p>
+<ul>
+<li><strong>IDE</strong>: Visual Studio Code, IntelliJ IDEA, or Eclipse</li>
+<li><strong>Java</strong>: JDK 17 or higher</li>
+<li><strong>Node.js</strong>: Version 18 or higher</li>
+<li><strong>Database</strong>: MySQL 8.0 or higher</li>
+<li><strong>Version Control</strong>: Git with GitHub/GitLab</li>
+</ul>
+<p><strong>Runtime Environment:</strong></p>
+<ul>
+<li><strong>Application Server</strong>: Embedded Tomcat (Spring Boot)</li>
+<li><strong>Database Server</strong>: MySQL 8.0 with InnoDB engine</li>
+<li><strong>Web Server</strong>: Nginx (for production deployment)</li>
+<li><strong>Operating System</strong>: Linux (Ubuntu/CentOS) or Windows Server</li>
+</ul>
+<div style="page-break-after: always;"></div>
+<h3 id="94-use-case-analysis">9.4 Use Case Analysis</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[User] --> B[Register Account]
+    A --> C[Login to System]
+    A --> D[Create Profile]
+    A --> E[Search Matches]
+    A --> F[Express Interest]
+    A --> G[View Messages]
+
+    H[Admin] --> I[Manage Users]
+    H --> J[Moderate Content]
+    H --> K[View Analytics]
+    H --> L[Create Events]
+
+    M[Event Organizer] --> N[Create Events]
+    M --> O[Manage Participants]
+    M --> P[Send Invitations]
+
+    B --> Q[Email Verification]
+    C --> R[JWT Token Generation]
+    D --> S[Profile Validation]
+    E --> T[Compatibility Matching]
+    F --> U[Mutual Interest Check]
+</div></code></pre>
+<p><em>Figure 3: Use Case Diagram</em></p>
+<h3 id="95-system-constraints">9.5 System Constraints</h3>
+<h4 id="technical-constraints">Technical Constraints</h4>
+<ul>
+<li><strong>Database</strong>: MySQL-specific features and limitations</li>
+<li><strong>Framework</strong>: Spring Boot and React ecosystem dependencies</li>
+<li><strong>Security</strong>: JWT token expiration and refresh mechanisms</li>
+<li><strong>Performance</strong>: Single-server deployment limitations</li>
+</ul>
+<h4 id="business-constraints">Business Constraints</h4>
+<ul>
+<li><strong>Budget</strong>: Development within allocated resources</li>
+<li><strong>Timeline</strong>: Project completion within academic schedule</li>
+<li><strong>Scope</strong>: Limited to core matrimonial features</li>
+<li><strong>Compliance</strong>: Data privacy and security regulations</li>
+</ul>
+<h4 id="environmental-constraints">Environmental Constraints</h4>
+<ul>
+<li><strong>Development</strong>: Academic environment with limited resources</li>
+<li><strong>Testing</strong>: Limited real-world user testing scenarios</li>
+<li><strong>Deployment</strong>: Educational deployment environment</li>
+<li><strong>Maintenance</strong>: Post-project support limitations</li>
+</ul>
+<div style="page-break-after: always;"></div>
+## 10. PROJECT DESIGN, CLASS DIAGRAM, E-R DIAGRAM
+<h3 id="101-system-architecture-design">10.1 System Architecture Design</h3>
+<p>The Matrimony Portal follows a three-tier architecture pattern with clear separation of concerns between presentation, business logic, and data layers.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "Presentation Layer"
+        A[React Components]
+        B[UI Components]
+        C[Form Validation]
+        D[State Management]
+    end
+
+    subgraph "Business Logic Layer"
+        E[REST Controllers]
+        F[Service Classes]
+        G[Business Rules]
+        H[Security Layer]
+    end
+
+    subgraph "Data Access Layer"
+        I[Repository Interfaces]
+        J[JPA Entities]
+        K[Database Queries]
+        L[Connection Pool]
+    end
+
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+    G --> K
+    H --> L
+</div></code></pre>
+<p><em>Figure 5: Frontend Architecture</em></p>
+<h3 id="102-backend-architecture-design">10.2 Backend Architecture Design</h3>
+<p>The backend implements Domain-Driven Design (DDD) principles with clean architecture patterns.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "API Layer"
+        A[Auth Controller]
+        B[Profile Controller]
+        C[Match Controller]
+        D[Interest Controller]
+        E[Admin Controller]
+    end
+
+    subgraph "Service Layer"
+        F[Auth Service]
+        G[Profile Service]
+        H[Match Service]
+        I[Interest Service]
+        J[Admin Service]
+    end
+
+    subgraph "Repository Layer"
+        K[User Repository]
+        L[Profile Repository]
+        M[Match Repository]
+        N[Interest Repository]
+        O[Event Repository]
+    end
+
+    A --> F
+    B --> G
+    C --> H
+    D --> I
+    E --> J
+    F --> K
+    G --> L
+    H --> M
+    I --> N
+    J --> O
+</div></code></pre>
+<p><em>Figure 6: Backend Architecture</em></p>
+<h3 id="103-authentication-flow-design">10.3 Authentication Flow Design</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Auth Controller
+    participant S as Auth Service
+    participant D as Database
+
+    U->>F: Login Request
+    F->>A: POST /api/auth/login
+    A->>S: authenticate(credentials)
+    S->>D: findByEmail(email)
+    D-->>S: User Entity
+    S->>S: validatePassword()
+    S->>S: generateJWT()
+    S-->>A: AuthResponse with tokens
+    A-->>F: HTTP 200 + JWT tokens
+    F->>F: Store tokens in localStorage
+    F-->>U: Redirect to dashboard
+</div></code></pre>
+<p><em>Figure 7: Authentication Flow</em></p>
+<h3 id="104-matching-algorithm-design">10.4 Matching Algorithm Design</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Start Matching Process] --> B[Get User Profile]
+    B --> C[Define Search Criteria]
+    C --> D[Filter by Gender Preference]
+    D --> E[Filter by Age Range ±5 years]
+    E --> F[Filter by Location Proximity]
+    F --> G[Calculate Compatibility Score]
+
+    G --> H{Score Calculation}
+    H --> I[City Match: +0.3]
+    H --> J[Religion Match: +0.4]
+    H --> K[Age Compatibility: +0.3]
+
+    I --> L[Aggregate Score]
+    J --> L
+    K --> L
+
+    L --> M{Score > 0.5?}
+    M -->|Yes| N[Add to Match List]
+    M -->|No| O[Skip Profile]
+
+    N --> P[Sort by Score DESC]
+    O --> P
+    P --> Q[Return Top 20 Matches]
+</div></code></pre>
+<p><em>Figure 8: Matching Algorithm Flow</em></p>
+<h3 id="105-class-diagrams">10.5 Class Diagrams</h3>
+<h4 id="user-domain-class-diagram">User Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│                User                 │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ - email: String                     │
+│ - password: String                  │
+│ + firstName: String                 │
+│ + lastName: String                  │
+│ + phone: String                     │
+│ + role: UserRole                    │
+│ + status: AccountStatus             │
+│ + createdAt: LocalDateTime          │
+│ + updatedAt: LocalDateTime          │
+└─────────────────────────────────────┘
+                    │
+                    │ has
+                    ▼
+┌─────────────────────────────────────┐
+│          VerificationToken          │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ - token: String                     │
+│ - email: String                     │
+│ - user: User                        │
+│ + tokenType: TokenType              │
+│ + expiresAt: LocalDateTime          │
+│ + usedAt: LocalDateTime             │
+│ + isUsed: boolean                   │
+└─────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   UserRole      │    │ AccountStatus   │    │   TokenType     │
+│  (enumeration)  │    │  (enumeration)  │    │  (enumeration)  │
+├─────────────────┤    ├─────────────────┤    ├─────────────────┤
+│ • USER          │    │ • ACTIVE        │    │ • EMAIL_VERIFY  │
+│ • ADMIN         │    │ • INACTIVE      │    │ • PASSWORD_RESET│
+│ • EVENT_ORGANIZER│    │ • BLOCKED       │    │ • REG_COMPLETE  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────┐
+│             AuthService             │
+├─────────────────────────────────────┤
+│ + login(LoginRequest): AuthResponse │
+│ + register(RegisterRequest): void   │
+│ + refreshToken(String): AuthResponse│
+│ + logout(String): void              │
+│ + validateToken(String): boolean    │
+└─────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 9: Class Diagram - User Domain</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="profile-domain-class-diagram">Profile Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│               Profile               │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + user: User                        │
+│ + dateOfBirth: LocalDate            │
+│ + gender: Gender                    │
+│ + religion: String                  │
+│ + caste: String                     │
+│ + occupation: String                │
+│ + education: String                 │
+│ + income: BigDecimal                │
+│ + maritalStatus: MaritalStatus      │
+│ + heightCm: Integer                 │
+│ + weightKg: Integer                 │
+│ + city: String                      │
+│ + state: String                     │
+│ + country: String                   │
+│ + aboutMe: String                   │
+│ + preferences: String               │
+│ + isVerified: boolean               │
+└─────────────────────────────────────┘
+                    │
+                    │ has
+                    ▼
+┌─────────────────────────────────────┐
+│                Photo                │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + userId: Long                      │
+│ + filePath: String                  │
+│ + fileSize: Long                    │
+│ + mimeType: String                  │
+│ + isPrimary: Boolean                │
+│ + sortOrder: Integer                │
+│ + altText: String                   │
+│ + uploadedAt: LocalDateTime         │
+└─────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐
+│     Gender      │    │  MaritalStatus  │
+│  (enumeration)  │    │  (enumeration)  │
+├─────────────────┤    ├─────────────────┤
+│ • MALE          │    │ • SINGLE        │
+│ • FEMALE        │    │ • DIVORCED      │
+│ • OTHER         │    │ • WIDOWED       │
+└─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────┐
+│           ProfileService            │
+├─────────────────────────────────────┤
+│ + getProfile(Long): UserProfileResp │
+│ + updateProfile(Long, UpdateReq)    │
+│ + searchProfiles(SearchCriteria)    │
+│ + isProfileComplete(Long): boolean  │
+└─────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 10: Class Diagram - Profile Domain</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="match-domain-class-diagram">Match Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│                Match                │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + user1Id: Long                     │
+│ + user2Id: Long                     │
+│ + compatibilityScore: Double        │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│              Interest               │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + fromUserId: Long                  │
+│ + toUserId: Long                    │
+│ + type: InterestType                │
+└─────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐
+│   MatchStatus   │    │  InterestType   │
+│  (enumeration)  │    │  (enumeration)  │
+├─────────────────┤    ├─────────────────┤
+│ • ACTIVE        │    │ • LIKE          │
+│ • EXPIRED       │    │ • PASS          │
+│ • BLOCKED       │    └─────────────────┘
+└─────────────────┘
+
+┌─────────────────────────────────────┐
+│            MatchService             │
+├─────────────────────────────────────┤
+│ + findMatches(Long): List&lt;MatchResp&gt;│
+│ + getMatchDetails(Long): MatchResp  │
+│ + generateMatches(Long): void       │
+│ + calculateCompatibility(): Double  │
+│ + getMatchHistory(Long): List       │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│          MatchRepository            │
+├─────────────────────────────────────┤
+│ + findByUser1IdOrUser2Id(): List    │
+│ + findByUser1IdAndUser2Id(): Opt    │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│        InterestRepository           │
+├─────────────────────────────────────┤
+│ + findByFromUserId(): List          │
+│ + findByToUserId(): List            │
+│ + findByFromUserIdAndToUserId()     │
+└─────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 11: Class Diagram - Match Domain</em></p>
+<h3 id="106-entity-relationship-diagram">10.6 Entity Relationship Diagram</h3>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    USER {
+        bigint id PK
+        varchar email UK
+        varchar password
+        varchar first_name
+        varchar last_name
+        varchar phone
+        enum role
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PROFILE {
+        bigint id PK
+        bigint user_id FK
+        date date_of_birth
+        enum gender
+        varchar city
+        varchar state
+        varchar country
+        varchar religion
+        enum marital_status
+        varchar occupation
+        varchar education
+        decimal income
+        int height_cm
+        int weight_kg
+        text about_me
+        varchar photo_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    MATCH {
+        bigint id PK
+        bigint user1_id FK
+        bigint user2_id FK
+        decimal compatibility_score
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    INTEREST {
+        bigint id PK
+        bigint from_user_id FK
+        bigint to_user_id FK
+        enum type
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    EVENT {
+        bigint id PK
+        bigint organizer_id FK
+        varchar title
+        text description
+        varchar location
+        datetime event_date
+        enum status
+        int max_participants
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    EVENT_PARTICIPANT {
+        bigint id PK
+        bigint event_id FK
+        bigint user_id FK
+        enum status
+        timestamp registered_at
+    }
+
+    MESSAGE {
+        bigint id PK
+        bigint sender_id FK
+        bigint receiver_id FK
+        text content
+        boolean is_read
+        timestamp sent_at
+    }
+
+    USER ||--|| PROFILE : has
+    USER ||--o{ MATCH : participates_in_as_user1
+    USER ||--o{ MATCH : participates_in_as_user2
+    USER ||--o{ INTEREST : sends
+    USER ||--o{ INTEREST : receives
+    USER ||--o{ EVENT : organizes
+    USER ||--o{ EVENT_PARTICIPANT : participates
+    USER ||--o{ MESSAGE : sends
+    USER ||--o{ MESSAGE : receives
+    EVENT ||--o{ EVENT_PARTICIPANT : has
+</div></code></pre>
+<p><em>Figure 12: Entity Relationship Diagram</em></p>
+<h3 id="107-api-design">10.7 API Design</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Request Body</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/auth/register</code></td>
+<td>POST</td>
+<td>User registration</td>
+<td>RegisterRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/auth/login</code></td>
+<td>POST</td>
+<td>User authentication</td>
+<td>LoginRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/auth/refresh</code></td>
+<td>POST</td>
+<td>Token refresh</td>
+<td>RefreshRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/profiles/me</code></td>
+<td>GET</td>
+<td>Get current user profile</td>
+<td>-</td>
+<td>ProfileDto</td>
+</tr>
+<tr>
+<td><code>/api/profiles/me</code></td>
+<td>PUT</td>
+<td>Update profile</td>
+<td>ProfileDto</td>
+<td>ProfileDto</td>
+</tr>
+<tr>
+<td><code>/api/matches</code></td>
+<td>GET</td>
+<td>Get potential matches</td>
+<td>SearchParams</td>
+<td>List<MatchDto></td>
+</tr>
+<tr>
+<td><code>/api/interests</code></td>
+<td>POST</td>
+<td>Express interest</td>
+<td>InterestRequest</td>
+<td>InterestDto</td>
+</tr>
+<tr>
+<td><code>/api/events</code></td>
+<td>GET</td>
+<td>Get events</td>
+<td>FilterParams</td>
+<td>List<EventDto></td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 4: API Endpoints Overview</em></p>
+<hr>
+<h2 id="11-database-design">11. DATABASE DESIGN</h2>
+<h3 id="111-database-architecture-overview">11.1 Database Architecture Overview</h3>
+<p>The Matrimony Portal uses MySQL 8.0 as the primary database with InnoDB storage engine for ACID compliance and transaction support. The database design follows normalization principles to ensure data integrity and optimal performance.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "Database Layer"
+        A[Connection Pool - HikariCP]
+        B[JPA/Hibernate ORM]
+        C[MySQL 8.0 Database]
+        D[InnoDB Storage Engine]
+    end
+
+    subgraph "Data Access"
+        E[Repository Interfaces]
+        F[Entity Classes]
+        G[Query Methods]
+        H[Transaction Management]
+    end
+
+    E --> A
+    F --> B
+    G --> C
+    H --> D
+    A --> B
+    B --> C
+    C --> D
+</div></code></pre>
+<p><em>Figure 13: Database Schema Overview</em></p>
+<h3 id="112-core-database-tables">11.2 Core Database Tables</h3>
+<h4 id="user-management-tables">User Management Tables</h4>
+<p><strong>Users Table Structure:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">users</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    email <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">password</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    first_name <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    last_name <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    phone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    <span class="hljs-keyword">role</span> ENUM(<span class="hljs-string">'USER'</span>, <span class="hljs-string">'ADMIN'</span>, <span class="hljs-string">'EVENT_ORGANIZER'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'USER'</span>,
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'ACTIVE'</span>, <span class="hljs-string">'INACTIVE'</span>, <span class="hljs-string">'SUSPENDED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'ACTIVE'</span>,
+    email_verified <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">INDEX</span> idx_email (email),
+    <span class="hljs-keyword">INDEX</span> idx_status (<span class="hljs-keyword">status</span>),
+    <span class="hljs-keyword">INDEX</span> idx_role (<span class="hljs-keyword">role</span>),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<p><strong>Profiles Table Structure:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">profiles</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    date_of_birth <span class="hljs-built_in">DATE</span>,
+    gender ENUM(<span class="hljs-string">'MALE'</span>, <span class="hljs-string">'FEMALE'</span>, <span class="hljs-string">'OTHER'</span>),
+    city <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    state <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    country <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'India'</span>,
+    religion <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    marital_status ENUM(<span class="hljs-string">'SINGLE'</span>, <span class="hljs-string">'DIVORCED'</span>, <span class="hljs-string">'WIDOWED'</span>),
+    occupation <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    education <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    income <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    height_cm <span class="hljs-built_in">INT</span>,
+    weight_kg <span class="hljs-built_in">INT</span>,
+    about_me <span class="hljs-built_in">TEXT</span>,
+    photo_url <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">500</span>),
+    is_profile_complete <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    profile_visibility ENUM(<span class="hljs-string">'PUBLIC'</span>, <span class="hljs-string">'PRIVATE'</span>, <span class="hljs-string">'FRIENDS'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'PUBLIC'</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_gender (gender),
+    <span class="hljs-keyword">INDEX</span> idx_city (city),
+    <span class="hljs-keyword">INDEX</span> idx_religion (religion),
+    <span class="hljs-keyword">INDEX</span> idx_age (date_of_birth),
+    <span class="hljs-keyword">INDEX</span> idx_location (city, state),
+    <span class="hljs-keyword">INDEX</span> idx_marital_status (marital_status),
+    <span class="hljs-keyword">INDEX</span> idx_complete (is_profile_complete)
+);
+</div></code></pre>
+<p><em>Figure 14: User Management Schema</em></p>
+<h4 id="profile-management-schema">Profile Management Schema</h4>
+<p><strong>Profile Preferences Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> profile_preferences (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    profile_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    preferred_min_age <span class="hljs-built_in">INT</span>,
+    preferred_max_age <span class="hljs-built_in">INT</span>,
+    preferred_cities <span class="hljs-built_in">TEXT</span>, <span class="hljs-comment">-- JSON array of cities</span>
+    preferred_religions <span class="hljs-built_in">TEXT</span>, <span class="hljs-comment">-- JSON array of religions</span>
+    preferred_education_levels <span class="hljs-built_in">TEXT</span>, <span class="hljs-comment">-- JSON array</span>
+    preferred_occupations <span class="hljs-built_in">TEXT</span>, <span class="hljs-comment">-- JSON array</span>
+    preferred_marital_status ENUM(<span class="hljs-string">'SINGLE'</span>, <span class="hljs-string">'DIVORCED'</span>, <span class="hljs-string">'WIDOWED'</span>, <span class="hljs-string">'ANY'</span>),
+    preferred_min_income <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    preferred_max_income <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (profile_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">profiles</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_profile_id (profile_id)
+);
+</div></code></pre>
+<p><strong>Profile Photos Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> profile_photos (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    profile_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    photo_url <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">500</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    is_primary <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    upload_date <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    file_size <span class="hljs-built_in">INT</span>,
+    file_type <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (profile_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">profiles</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_profile_id (profile_id),
+    <span class="hljs-keyword">INDEX</span> idx_primary (is_primary)
+);
+</div></code></pre>
+<p><em>Figure 15: Profile Management Schema</em></p>
+<h3 id="113-matching-system-schema">11.3 Matching System Schema</h3>
+<p><strong>Matches Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> matches (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user1_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    user2_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    compatibility_score <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'ACTIVE'</span>, <span class="hljs-string">'EXPIRED'</span>, <span class="hljs-string">'BLOCKED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'ACTIVE'</span>,
+    algorithm_version <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'1.0'</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    expires_at <span class="hljs-built_in">TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user1_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user2_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> unique_match (user1_id, user2_id),
+    <span class="hljs-keyword">INDEX</span> idx_user1 (user1_id),
+    <span class="hljs-keyword">INDEX</span> idx_user2 (user2_id),
+    <span class="hljs-keyword">INDEX</span> idx_score (compatibility_score),
+    <span class="hljs-keyword">INDEX</span> idx_status (<span class="hljs-keyword">status</span>),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<p><strong>Interests Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> interests (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    from_user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    to_user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">type</span> ENUM(<span class="hljs-string">'LIKE'</span>, <span class="hljs-string">'PASS'</span>, <span class="hljs-string">'SUPER_LIKE'</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    message <span class="hljs-built_in">TEXT</span>,
+    is_mutual <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (from_user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (to_user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> unique_interest (from_user_id, to_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_from_user (from_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_to_user (to_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_type (<span class="hljs-keyword">type</span>),
+    <span class="hljs-keyword">INDEX</span> idx_mutual (is_mutual),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<p><em>Figure 16: Matching System Schema</em></p>
+<h3 id="114-event-management-schema">11.4 Event Management Schema</h3>
+<p><strong>Events Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">events</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    organizer_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    title <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    description <span class="hljs-built_in">TEXT</span>,
+    event_type ENUM(<span class="hljs-string">'MEETUP'</span>, <span class="hljs-string">'SPEED_DATING'</span>, <span class="hljs-string">'CULTURAL'</span>, <span class="hljs-string">'WORKSHOP'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'MEETUP'</span>,
+    location <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">200</span>),
+    venue_details <span class="hljs-built_in">TEXT</span>,
+    event_date DATETIME <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    registration_deadline DATETIME,
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'DRAFT'</span>, <span class="hljs-string">'PUBLISHED'</span>, <span class="hljs-string">'CANCELLED'</span>, <span class="hljs-string">'COMPLETED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'DRAFT'</span>,
+    max_participants <span class="hljs-built_in">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">50</span>,
+    current_participants <span class="hljs-built_in">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>,
+    entry_fee <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">8</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0.00</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (organizer_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_organizer (organizer_id),
+    <span class="hljs-keyword">INDEX</span> idx_date (event_date),
+    <span class="hljs-keyword">INDEX</span> idx_status (<span class="hljs-keyword">status</span>),
+    <span class="hljs-keyword">INDEX</span> idx_location (location),
+    <span class="hljs-keyword">INDEX</span> idx_type (event_type)
+);
+</div></code></pre>
+<p><strong>Event Participants Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> event_participants (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    event_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    registration_status ENUM(<span class="hljs-string">'REGISTERED'</span>, <span class="hljs-string">'CONFIRMED'</span>, <span class="hljs-string">'CANCELLED'</span>, <span class="hljs-string">'ATTENDED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'REGISTERED'</span>,
+    registration_date <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    payment_status ENUM(<span class="hljs-string">'PENDING'</span>, <span class="hljs-string">'PAID'</span>, <span class="hljs-string">'REFUNDED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'PENDING'</span>,
+    special_requirements <span class="hljs-built_in">TEXT</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (event_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">events</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> unique_participation (event_id, user_id),
+    <span class="hljs-keyword">INDEX</span> idx_event_id (event_id),
+    <span class="hljs-keyword">INDEX</span> idx_user_id (user_id),
+    <span class="hljs-keyword">INDEX</span> idx_status (registration_status)
+);
+</div></code></pre>
+<p><em>Figure 17: Event Management Schema</em></p>
+<h3 id="115-communication-schema">11.5 Communication Schema</h3>
+<p><strong>Messages Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> messages (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    sender_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    receiver_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">content</span> <span class="hljs-built_in">TEXT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    message_type ENUM(<span class="hljs-string">'TEXT'</span>, <span class="hljs-string">'IMAGE'</span>, <span class="hljs-string">'FILE'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'TEXT'</span>,
+    is_read <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    is_deleted_by_sender <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    is_deleted_by_receiver <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    sent_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    read_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (sender_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (receiver_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_sender (sender_id),
+    <span class="hljs-keyword">INDEX</span> idx_receiver (receiver_id),
+    <span class="hljs-keyword">INDEX</span> idx_conversation (sender_id, receiver_id),
+    <span class="hljs-keyword">INDEX</span> idx_sent_at (sent_at),
+    <span class="hljs-keyword">INDEX</span> idx_read_status (is_read)
+);
+</div></code></pre>
+<h3 id="116-database-indexing-strategy">11.6 Database Indexing Strategy</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    subgraph "Primary Indexes"
+        A[User ID - Primary Key]
+        B[Profile ID - Primary Key]
+        C[Match ID - Primary Key]
+        D[Interest ID - Primary Key]
+        E[Event ID - Primary Key]
+    end
+
+    subgraph "Unique Indexes"
+        F[User Email - Unique]
+        G[User-Profile - Unique]
+        H[Match Pair - Unique]
+        I[Interest Pair - Unique]
+        J[Event Participation - Unique]
+    end
+
+    subgraph "Search Indexes"
+        K[Profile Gender]
+        L[Profile City]
+        M[Profile Religion]
+        N[Profile Age Range]
+        O[Match Score]
+    end
+
+    subgraph "Composite Indexes"
+        P[City + State]
+        Q[Gender + Age]
+        R[Religion + City]
+        S[Sender + Receiver]
+    end
+</div></code></pre>
+<p><em>Figure 18: Database Indexing Strategy</em></p>
+<h3 id="117-query-optimization">11.7 Query Optimization</h3>
+<h4 id="efficient-match-finding-query">Efficient Match Finding Query</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Optimized query for finding potential matches with scoring</span>
+<span class="hljs-keyword">SELECT</span>
+    p2.user_id,
+    p2.first_name,
+    p2.last_name,
+    p2.city,
+    p2.religion,
+    p2.photo_url,
+    <span class="hljs-keyword">CASE</span>
+        <span class="hljs-keyword">WHEN</span> p1.city = p2.city <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.3</span>
+        <span class="hljs-keyword">WHEN</span> p1.state = p2.state <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.1</span>
+        <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">END</span> +
+    <span class="hljs-keyword">CASE</span>
+        <span class="hljs-keyword">WHEN</span> p1.religion = p2.religion <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.4</span>
+        <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">END</span> +
+    <span class="hljs-keyword">CASE</span>
+        <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">ABS</span>(<span class="hljs-keyword">YEAR</span>(p1.date_of_birth) - <span class="hljs-keyword">YEAR</span>(p2.date_of_birth)) &lt;= <span class="hljs-number">5</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.3</span>
+        <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">ABS</span>(<span class="hljs-keyword">YEAR</span>(p1.date_of_birth) - <span class="hljs-keyword">YEAR</span>(p2.date_of_birth)) &lt;= <span class="hljs-number">10</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.1</span>
+        <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> compatibility_score
+<span class="hljs-keyword">FROM</span> <span class="hljs-keyword">profiles</span> p1
+<span class="hljs-keyword">JOIN</span> <span class="hljs-keyword">profiles</span> p2 <span class="hljs-keyword">ON</span> p1.id != p2.id
+<span class="hljs-keyword">JOIN</span> <span class="hljs-keyword">users</span> u2 <span class="hljs-keyword">ON</span> p2.user_id = u2.id
+<span class="hljs-keyword">WHERE</span> p1.user_id = ?
+  <span class="hljs-keyword">AND</span> p2.gender = (
+      <span class="hljs-keyword">CASE</span>
+          <span class="hljs-keyword">WHEN</span> p1.gender = <span class="hljs-string">'MALE'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'FEMALE'</span>
+          <span class="hljs-keyword">WHEN</span> p1.gender = <span class="hljs-string">'FEMALE'</span> <span class="hljs-keyword">THEN</span> <span class="hljs-string">'MALE'</span>
+          <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'OTHER'</span>
+      <span class="hljs-keyword">END</span>
+  )
+  <span class="hljs-keyword">AND</span> u2.status = <span class="hljs-string">'ACTIVE'</span>
+  <span class="hljs-keyword">AND</span> p2.is_profile_complete = <span class="hljs-literal">TRUE</span>
+  <span class="hljs-keyword">AND</span> <span class="hljs-keyword">ABS</span>(<span class="hljs-keyword">YEAR</span>(p1.date_of_birth) - <span class="hljs-keyword">YEAR</span>(p2.date_of_birth)) &lt;= <span class="hljs-number">15</span>
+  <span class="hljs-keyword">AND</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> (
+      <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span> <span class="hljs-keyword">FROM</span> interests i
+      <span class="hljs-keyword">WHERE</span> i.from_user_id = p1.user_id
+        <span class="hljs-keyword">AND</span> i.to_user_id = p2.user_id
+  )
+<span class="hljs-keyword">HAVING</span> compatibility_score &gt; <span class="hljs-number">0.3</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> compatibility_score <span class="hljs-keyword">DESC</span>, p2.created_at <span class="hljs-keyword">DESC</span>
+<span class="hljs-keyword">LIMIT</span> <span class="hljs-number">20</span>;
+</div></code></pre>
+<h3 id="118-database-performance-configuration">11.8 Database Performance Configuration</h3>
+<h4 id="hikaricp-connection-pool-settings">HikariCP Connection Pool Settings</h4>
+<pre class="hljs"><code><div><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">hikari:</span>
+      <span class="hljs-attr">maximum-pool-size:</span> <span class="hljs-number">20</span>
+      <span class="hljs-attr">minimum-idle:</span> <span class="hljs-number">5</span>
+      <span class="hljs-attr">idle-timeout:</span> <span class="hljs-number">300000</span>
+      <span class="hljs-attr">max-lifetime:</span> <span class="hljs-number">1200000</span>
+      <span class="hljs-attr">connection-timeout:</span> <span class="hljs-number">20000</span>
+      <span class="hljs-attr">leak-detection-threshold:</span> <span class="hljs-number">60000</span>
+      <span class="hljs-attr">pool-name:</span> <span class="hljs-string">MatrimonyHikariCP</span>
+</div></code></pre>
+<h4 id="mysql-configuration-optimizations">MySQL Configuration Optimizations</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- MySQL configuration for optimal performance</span>
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> innodb_buffer_pool_size = <span class="hljs-number">1073741824</span>; <span class="hljs-comment">-- 1GB</span>
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> innodb_log_file_size = <span class="hljs-number">268435456</span>; <span class="hljs-comment">-- 256MB</span>
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> innodb_flush_log_at_trx_commit = <span class="hljs-number">2</span>;
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> query_cache_size = <span class="hljs-number">67108864</span>; <span class="hljs-comment">-- 64MB</span>
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> max_connections = <span class="hljs-number">200</span>;
+</div></code></pre>
+<h3 id="119-database-security-measures">11.9 Database Security Measures</h3>
+<h4 id="access-control">Access Control</h4>
+<ul>
+<li><strong>User Privileges</strong>: Separate database users for application and admin access</li>
+<li><strong>Connection Security</strong>: SSL/TLS encryption for database connections</li>
+<li><strong>Password Policy</strong>: Strong password requirements for database users</li>
+<li><strong>Network Security</strong>: Firewall rules restricting database access</li>
+</ul>
+<h4 id="data-protection">Data Protection</h4>
+<ul>
+<li><strong>Sensitive Data Encryption</strong>: Password hashing with BCrypt</li>
+<li><strong>PII Protection</strong>: Encrypted storage of sensitive personal information</li>
+<li><strong>Audit Logging</strong>: Database operation logging for security monitoring</li>
+<li><strong>Backup Encryption</strong>: Encrypted database backups with secure storage</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Security Measure</th>
+<th>Implementation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Password Hashing</td>
+<td>BCrypt with salt</td>
+<td>Secure password storage</td>
+</tr>
+<tr>
+<td>Connection Encryption</td>
+<td>TLS 1.3</td>
+<td>Data in transit protection</td>
+</tr>
+<tr>
+<td>Access Control</td>
+<td>Role-based permissions</td>
+<td>Principle of least privilege</td>
+</tr>
+<tr>
+<td>Audit Logging</td>
+<td>MySQL audit plugin</td>
+<td>Security monitoring</td>
+</tr>
+<tr>
+<td>Backup Encryption</td>
+<td>AES-256 encryption</td>
+<td>Data at rest protection</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 5: Database Tables Summary</em></p>
+<hr>
+<h2 id="12-test-report">12. TEST REPORT</h2>
+<h3 id="121-testing-strategy-overview">12.1 Testing Strategy Overview</h3>
+<p>The Matrimony Portal testing strategy encompasses multiple levels of testing to ensure system reliability, security, and performance. The testing approach includes unit testing, integration testing, API testing, and user acceptance testing.</p>
+<h3 id="122-test-environment-setup">12.2 Test Environment Setup</h3>
+<p><strong>Testing Infrastructure:</strong></p>
+<ul>
+<li><strong>Development Environment</strong>: Local development with H2 in-memory database</li>
+<li><strong>Testing Environment</strong>: Docker containers with MySQL test database</li>
+<li><strong>CI/CD Pipeline</strong>: Automated testing with GitHub Actions</li>
+<li><strong>Test Data</strong>: Comprehensive test dataset with 26+ user profiles</li>
+</ul>
+<p><strong>Testing Tools:</strong></p>
+<ul>
+<li><strong>Backend Testing</strong>: JUnit 5, Mockito, Spring Boot Test</li>
+<li><strong>Frontend Testing</strong>: Jest, React Testing Library (planned)</li>
+<li><strong>API Testing</strong>: Postman, REST Assured</li>
+<li><strong>Database Testing</strong>: Testcontainers for integration tests</li>
+</ul>
+<h3 id="123-test-cases-summary">12.3 Test Cases Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Test Category</th>
+<th>Test Cases</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit Tests</td>
+<td>45</td>
+<td>42</td>
+<td>3</td>
+<td>85%</td>
+</tr>
+<tr>
+<td>Integration Tests</td>
+<td>28</td>
+<td>26</td>
+<td>2</td>
+<td>78%</td>
+</tr>
+<tr>
+<td>API Tests</td>
+<td>35</td>
+<td>33</td>
+<td>2</td>
+<td>92%</td>
+</tr>
+<tr>
+<td>Security Tests</td>
+<td>15</td>
+<td>14</td>
+<td>1</td>
+<td>88%</td>
+</tr>
+<tr>
+<td>Performance Tests</td>
+<td>8</td>
+<td>7</td>
+<td>1</td>
+<td>75%</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>131</strong></td>
+<td><strong>122</strong></td>
+<td><strong>9</strong></td>
+<td><strong>84%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 6: Test Cases Summary</em></p>
+<h3 id="124-unit-testing-results">12.4 Unit Testing Results</h3>
+<h4 id="authentication-service-tests">Authentication Service Tests</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@ExtendWith</span>(MockitoExtension<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+<span class="hljs-title">class</span> <span class="hljs-title">AuthServiceTest</span> </span>{
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testSuccessfulLogin</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// Given</span>
+        LoginRequest request = <span class="hljs-keyword">new</span> LoginRequest(<span class="hljs-string">"user@example.com"</span>, <span class="hljs-string">"password123"</span>);
+        User mockUser = createMockUser();
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(mockUser));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(<span class="hljs-keyword">true</span>);
+
+        <span class="hljs-comment">// When</span>
+        AuthResponse response = authService.login(request);
+
+        <span class="hljs-comment">// Then</span>
+        assertThat(response.getAccessToken()).isNotNull();
+        assertThat(response.getUser().getEmail()).isEqualTo(<span class="hljs-string">"user@example.com"</span>);
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testInvalidCredentials</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// Given</span>
+        LoginRequest request = <span class="hljs-keyword">new</span> LoginRequest(<span class="hljs-string">"user@example.com"</span>, <span class="hljs-string">"wrongpassword"</span>);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        <span class="hljs-comment">// When &amp; Then</span>
+        assertThrows(BadCredentialsException<span class="hljs-class">.<span class="hljs-keyword">class</span>, () -&gt; <span class="hljs-title">authService</span>.<span class="hljs-title">login</span>(<span class="hljs-title">request</span>))</span>;
+    }
+}
+</div></code></pre>
+<h4 id="profile-service-tests">Profile Service Tests</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@ExtendWith</span>(MockitoExtension<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+<span class="hljs-title">class</span> <span class="hljs-title">ProfileServiceTest</span> </span>{
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testProfileCreation</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// Given</span>
+        ProfileDto profileDto = createValidProfileDto();
+        User mockUser = createMockUser();
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(mockUser));
+
+        <span class="hljs-comment">// When</span>
+        ProfileDto result = profileService.createProfile(<span class="hljs-number">1L</span>, profileDto);
+
+        <span class="hljs-comment">// Then</span>
+        assertThat(result.getFirstName()).isEqualTo(profileDto.getFirstName());
+        assertThat(result.getCity()).isEqualTo(profileDto.getCity());
+        verify(profileRepository).save(any(Profile<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+    }
+}
+</div></code></pre>
+<h3 id="125-integration-testing-results">12.5 Integration Testing Results</h3>
+<h4 id="api-integration-tests">API Integration Tests</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@SpringBootTest</span>(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+<span class="hljs-meta">@Testcontainers</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthControllerIntegrationTest</span> </span>{
+
+    <span class="hljs-meta">@Container</span>
+    <span class="hljs-keyword">static</span> MySQLContainer&lt;?&gt; mysql = <span class="hljs-keyword">new</span> MySQLContainer&lt;&gt;(<span class="hljs-string">"mysql:8.0"</span>)
+            .withDatabaseName(<span class="hljs-string">"matrimony_test"</span>)
+            .withUsername(<span class="hljs-string">"test"</span>)
+            .withPassword(<span class="hljs-string">"test"</span>);
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testUserRegistrationFlow</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// Given</span>
+        RegisterRequest request = createValidRegisterRequest();
+
+        <span class="hljs-comment">// When</span>
+        ResponseEntity&lt;AuthResponse&gt; response = restTemplate.postForEntity(
+            <span class="hljs-string">"/api/auth/register"</span>, request, AuthResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+        <span class="hljs-comment">// Then</span>
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody().getAccessToken()).isNotNull();
+    }
+}
+</div></code></pre>
+<h3 id="126-api-testing-results">12.6 API Testing Results</h3>
+<h4 id="postman-test-collection-results">Postman Test Collection Results</h4>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"collection"</span>: <span class="hljs-string">"Matrimony Portal API Tests"</span>,
+  <span class="hljs-attr">"total_tests"</span>: <span class="hljs-number">35</span>,
+  <span class="hljs-attr">"passed"</span>: <span class="hljs-number">33</span>,
+  <span class="hljs-attr">"failed"</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">"test_results"</span>: [
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"User Registration"</span>,
+      <span class="hljs-attr">"status"</span>: <span class="hljs-string">"PASS"</span>,
+      <span class="hljs-attr">"response_time"</span>: <span class="hljs-string">"245ms"</span>,
+      <span class="hljs-attr">"assertions"</span>: <span class="hljs-number">5</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"User Login"</span>,
+      <span class="hljs-attr">"status"</span>: <span class="hljs-string">"PASS"</span>,
+      <span class="hljs-attr">"response_time"</span>: <span class="hljs-string">"189ms"</span>,
+      <span class="hljs-attr">"assertions"</span>: <span class="hljs-number">4</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Profile Creation"</span>,
+      <span class="hljs-attr">"status"</span>: <span class="hljs-string">"PASS"</span>,
+      <span class="hljs-attr">"response_time"</span>: <span class="hljs-string">"312ms"</span>,
+      <span class="hljs-attr">"assertions"</span>: <span class="hljs-number">6</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Match Generation"</span>,
+      <span class="hljs-attr">"status"</span>: <span class="hljs-string">"FAIL"</span>,
+      <span class="hljs-attr">"response_time"</span>: <span class="hljs-string">"1250ms"</span>,
+      <span class="hljs-attr">"error"</span>: <span class="hljs-string">"Timeout exceeded"</span>,
+      <span class="hljs-attr">"assertions"</span>: <span class="hljs-number">3</span>
+    }
+  ]
+}
+</div></code></pre>
+<h3 id="127-security-testing-results">12.7 Security Testing Results</h3>
+<h4 id="authentication--authorization-tests">Authentication &amp; Authorization Tests</h4>
+<ul>
+<li><strong>JWT Token Validation</strong>: ✅ PASS</li>
+<li><strong>Password Encryption</strong>: ✅ PASS</li>
+<li><strong>Role-based Access Control</strong>: ✅ PASS</li>
+<li><strong>SQL Injection Prevention</strong>: ✅ PASS</li>
+<li><strong>XSS Protection</strong>: ✅ PASS</li>
+<li><strong>CSRF Protection</strong>: ❌ FAIL (needs implementation)</li>
+</ul>
+<h4 id="security-vulnerabilities-found">Security Vulnerabilities Found</h4>
+<ol>
+<li><strong>CSRF Protection</strong>: Missing CSRF tokens in forms</li>
+<li><strong>Rate Limiting</strong>: No rate limiting on login attempts</li>
+<li><strong>Session Management</strong>: Token refresh mechanism needs improvement</li>
+</ol>
+<h3 id="128-performance-testing-results">12.8 Performance Testing Results</h3>
+<h4 id="load-testing-with-jmeter">Load Testing with JMeter</h4>
+<pre class="hljs"><code><div>Test Configuration:
+- Concurrent Users: 100
+- Ramp-up Period: 60 seconds
+- Test Duration: 300 seconds
+- Target Endpoints: Login, Profile, Match APIs
+
+Results:
+- Average Response Time: 245ms
+- 95th Percentile: 450ms
+- Throughput: 85 requests/second
+- Error Rate: 2.1%
+</div></code></pre>
+<h4 id="database-performance-tests">Database Performance Tests</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Query performance analysis</span>
+<span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">profiles</span>
+<span class="hljs-keyword">WHERE</span> city = <span class="hljs-string">'Mumbai'</span> <span class="hljs-keyword">AND</span> gender = <span class="hljs-string">'FEMALE'</span>
+<span class="hljs-keyword">AND</span> <span class="hljs-keyword">YEAR</span>(date_of_birth) <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">1990</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">2000</span>;
+
+<span class="hljs-comment">-- Results: Using index idx_city, idx_gender (0.05 seconds)</span>
+</div></code></pre>
+<h3 id="129-known-issues-and-resolutions">12.9 Known Issues and Resolutions</h3>
+<h4 id="critical-issues">Critical Issues</h4>
+<ol>
+<li>
+<p><strong>Match Algorithm Timeout</strong>:</p>
+<ul>
+<li><strong>Issue</strong>: Complex matching queries causing timeouts</li>
+<li><strong>Resolution</strong>: Implemented query optimization and caching</li>
+<li><strong>Status</strong>: Resolved</li>
+</ul>
+</li>
+<li>
+<p><strong>File Upload Security</strong>:</p>
+<ul>
+<li><strong>Issue</strong>: No file type validation for profile photos</li>
+<li><strong>Resolution</strong>: Added MIME type validation and file size limits</li>
+<li><strong>Status</strong>: Resolved</li>
+</ul>
+</li>
+</ol>
+<h4 id="minor-issues">Minor Issues</h4>
+<ol>
+<li>
+<p><strong>Email Verification</strong>:</p>
+<ul>
+<li><strong>Issue</strong>: Email verification tokens not expiring</li>
+<li><strong>Resolution</strong>: Implemented token expiration (24 hours)</li>
+<li><strong>Status</strong>: In Progress</li>
+</ul>
+</li>
+<li>
+<p><strong>Mobile Responsiveness</strong>:</p>
+<ul>
+<li><strong>Issue</strong>: Some UI components not mobile-friendly</li>
+<li><strong>Resolution</strong>: CSS media query improvements</li>
+<li><strong>Status</strong>: Planned</li>
+</ul>
+</li>
+</ol>
+<h3 id="1210-test-coverage-analysis">12.10 Test Coverage Analysis</h3>
+<h4 id="backend-code-coverage">Backend Code Coverage</h4>
+<pre class="hljs"><code><div>Package                    Coverage
+com.scriptbliss.bandhan.auth      92%
+com.scriptbliss.bandhan.profile   88%
+com.scriptbliss.bandhan.match     75%
+com.scriptbliss.bandhan.interest  82%
+com.scriptbliss.bandhan.shared    90%
+
+Overall Coverage: 84%
+</div></code></pre>
+<h4 id="frontend-test-coverage-planned">Frontend Test Coverage (Planned)</h4>
+<ul>
+<li>Component Tests: 0% (to be implemented)</li>
+<li>Integration Tests: 0% (to be implemented)</li>
+<li>E2E Tests: 0% (to be implemented)</li>
+</ul>
+<h3 id="1211-recommendations">12.11 Recommendations</h3>
+<h4 id="immediate-actions-required">Immediate Actions Required</h4>
+<ol>
+<li><strong>Implement CSRF Protection</strong>: Add CSRF tokens to all forms</li>
+<li><strong>Add Rate Limiting</strong>: Implement login attempt rate limiting</li>
+<li><strong>Improve Error Handling</strong>: Better error messages for users</li>
+<li><strong>Mobile Testing</strong>: Comprehensive mobile device testing</li>
+</ol>
+<h4 id="future-improvements">Future Improvements</h4>
+<ol>
+<li><strong>Automated Testing</strong>: Expand automated test coverage to 95%</li>
+<li><strong>Performance Monitoring</strong>: Implement APM tools for production</li>
+<li><strong>Security Scanning</strong>: Regular security vulnerability scans</li>
+<li><strong>Load Testing</strong>: Regular performance testing with increased loads</li>
+</ol>
+<hr>
+<h2 id="13-project-screenshots">13. PROJECT SCREENSHOTS</h2>
+<h3 id="131-user-interface-screenshots">13.1 User Interface Screenshots</h3>
+<h4 id="homepage-and-authentication">Homepage and Authentication</h4>
+<p><img src="./images/homepage.png" alt="Homepage">
+<em>Figure 19: Homepage - Clean and welcoming interface with clear call-to-action buttons</em></p>
+<p>The homepage provides an intuitive entry point for users with prominent registration and login options. The design emphasizes trust and security, essential for a matrimonial platform.</p>
+<p><img src="./images/user:login.png" alt="User Login">
+<em>Figure 20: User Login - Secure authentication with form validation</em></p>
+<p>The login interface features comprehensive form validation, password visibility toggle, and clear error messaging. The design maintains consistency with the overall application theme.</p>
+<p><img src="./images/user:register:initiate.png" alt="User Registration">
+<em>Figure 21: User Registration - Step-by-step onboarding process</em></p>
+<p>The registration process is designed as a multi-step wizard to reduce user overwhelm while collecting necessary information for profile creation.</p>
+<h4 id="profile-management">Profile Management</h4>
+<p><img src="./images/user:register:basic-profile.png" alt="Basic Profile Setup">
+<em>Figure 22: Profile Creation - Detailed information collection form</em></p>
+<p>The profile creation form captures essential matrimonial information including personal details, preferences, and family background with real-time validation.</p>
+<p><img src="./images/user:my-profile.png" alt="My Profile">
+<em>Figure 23: Profile Management - Comprehensive profile editing interface</em></p>
+<p>Users can manage their complete profile information with sections for personal details, photos, preferences, and privacy settings.</p>
+<p><img src="./images/user:upload-photo.png" alt="Upload Photo">
+<em>Figure 24: Photo Upload - Profile picture management with preview</em></p>
+<p>The photo upload feature includes image preview, cropping capabilities, and file validation to ensure quality profile pictures.</p>
+<h4 id="dashboard-and-navigation">Dashboard and Navigation</h4>
+<p><img src="./images/user:dashboard.png" alt="User Dashboard">
+<em>Figure 25: User Dashboard - Comprehensive activity overview</em></p>
+<p>The dashboard provides a centralized view of user activities including recent matches, pending interests, messages, and profile statistics.</p>
+<h4 id="matching-and-discovery">Matching and Discovery</h4>
+<p><img src="./images/user:search-matches.png" alt="Search Matches">
+<em>Figure 26: Match Discovery - Advanced search with filtering options</em></p>
+<p>The match discovery interface offers advanced filtering options including age range, location, religion, education, and occupation preferences.</p>
+<p><img src="./images/user:check-others-profile.png" alt="Check Profile">
+<em>Figure 27: Profile Viewing - Detailed profile information display</em></p>
+<p>Detailed profile views provide comprehensive information about potential matches while respecting privacy settings and user preferences.</p>
+<h3 id="132-interest-management">13.2 Interest Management</h3>
+<p><img src="./images/user:proposals.png" alt="Proposals">
+<em>Figure 28: Interest Management - Sent and received proposals tracking</em></p>
+<p>The proposals interface allows users to track sent and received interests with clear status indicators and action buttons.</p>
+<p><img src="./images/user:shortlist.png" alt="Shortlist">
+<em>Figure 29: Shortlisted Profiles - Favorite profiles management</em></p>
+<p>Users can maintain a shortlist of favorite profiles for easy access and future reference.</p>
+<h3 id="133-communication-features">13.3 Communication Features</h3>
+<p><img src="./images/user:messages.png" alt="Messages">
+<em>Figure 30: Messaging System - Communication interface</em></p>
+<p>The messaging system provides secure communication between matched users with conversation history and real-time messaging capabilities.</p>
+<p><img src="./images/user:settings.png" alt="Settings">
+<em>Figure 31: User Settings - Account and privacy controls</em></p>
+<p>Comprehensive settings panel allows users to manage account preferences, privacy controls, notification settings, and security options.</p>
+<h3 id="134-event-management">13.4 Event Management</h3>
+<p><img src="./images/user:events.png" alt="Events">
+<em>Figure 32: Event Management - Matrimonial events and gatherings</em></p>
+<p>The events section displays upcoming matrimonial events with registration capabilities and event details.</p>
+<h3 id="135-administrative-interface">13.5 Administrative Interface</h3>
+<h4 id="admin-dashboard">Admin Dashboard</h4>
+<p><img src="./images/admin:dashboard.png" alt="Admin Dashboard">
+<em>Figure 33: Admin Dashboard - Comprehensive administrative control panel</em></p>
+<p>The admin dashboard provides system overview with user statistics, recent activities, and quick access to management functions.</p>
+<h4 id="user-management">User Management</h4>
+<p><img src="./images/admin:user-reports-management.png" alt="User Reports Management">
+<em>Figure 34: User Reports Management - Handle user complaints and reports</em></p>
+<p>Administrative interface for managing user reports, complaints, and moderation activities with detailed investigation tools.</p>
+<h4 id="event-administration">Event Administration</h4>
+<p><img src="./images/admin:add-new-event.png" alt="Add New Event">
+<em>Figure 35: Add New Event - Create and manage matrimonial events</em></p>
+<p>Event creation interface for administrators and event organizers with comprehensive event details and management options.</p>
+<h4 id="communication-management">Communication Management</h4>
+<p><img src="./images/admin:boardcast-message.png" alt="Broadcast Message">
+<em>Figure 36: Broadcast Message - Send notifications to users</em></p>
+<p>Administrative tool for sending targeted messages and notifications to specific user groups or all users.</p>
+<p><img src="./images/admin:global-announcements.png" alt="Global Announcements">
+<em>Figure 37: Global Announcements - System-wide announcements</em></p>
+<p>System-wide announcement management for important updates, maintenance notifications, and platform news.</p>
+<h3 id="136-mobile-responsiveness">13.6 Mobile Responsiveness</h3>
+<p>The application is designed with mobile-first principles ensuring optimal user experience across all device types:</p>
+<ul>
+<li><strong>Responsive Grid System</strong>: Bootstrap 5 grid system for flexible layouts</li>
+<li><strong>Touch-Friendly Interface</strong>: Appropriately sized buttons and touch targets</li>
+<li><strong>Optimized Images</strong>: Responsive images with appropriate sizing</li>
+<li><strong>Mobile Navigation</strong>: Collapsible navigation menu for mobile devices</li>
+<li><strong>Form Optimization</strong>: Mobile-friendly form inputs and validation</li>
+</ul>
+<h3 id="137-accessibility-features">13.7 Accessibility Features</h3>
+<p>The interface incorporates accessibility best practices:</p>
+<ul>
+<li><strong>Semantic HTML</strong>: Proper HTML structure for screen readers</li>
+<li><strong>Keyboard Navigation</strong>: Full keyboard accessibility support</li>
+<li><strong>Color Contrast</strong>: WCAG 2.1 AA compliant color schemes</li>
+<li><strong>Alt Text</strong>: Descriptive alt text for all images</li>
+<li><strong>Focus Indicators</strong>: Clear focus indicators for interactive elements</li>
+</ul>
+<h3 id="138-user-experience-highlights">13.8 User Experience Highlights</h3>
+<h4 id="design-principles">Design Principles</h4>
+<ol>
+<li><strong>Simplicity</strong>: Clean, uncluttered interface design</li>
+<li><strong>Consistency</strong>: Uniform design patterns throughout the application</li>
+<li><strong>Feedback</strong>: Clear user feedback for all actions</li>
+<li><strong>Efficiency</strong>: Streamlined workflows for common tasks</li>
+<li><strong>Trust</strong>: Professional design building user confidence</li>
+</ol>
+<h4 id="interactive-elements">Interactive Elements</h4>
+<ul>
+<li><strong>Hover Effects</strong>: Subtle animations for better user engagement</li>
+<li><strong>Loading States</strong>: Clear loading indicators for async operations</li>
+<li><strong>Form Validation</strong>: Real-time validation with helpful error messages</li>
+<li><strong>Confirmation Dialogs</strong>: User confirmation for important actions</li>
+<li><strong>Progress Indicators</strong>: Step-by-step progress for multi-step processes</li>
+</ul>
+<hr>
+<h2 id="14-conclusion">14. CONCLUSION</h2>
+<h3 id="141-project-summary">14.1 Project Summary</h3>
+<p>The Matrimony Portal project successfully demonstrates the implementation of a comprehensive full-stack web application using modern technologies and industry best practices. The application provides a secure, scalable, and user-friendly platform for matrimonial services with intelligent matching algorithms and comprehensive user management features.</p>
+<h3 id="142-key-achievements">14.2 Key Achievements</h3>
+<h4 id="technical-accomplishments">Technical Accomplishments</h4>
+<ul>
+<li><strong>Full-Stack Implementation</strong>: Successfully integrated React frontend with Spring Boot backend and MySQL database</li>
+<li><strong>Security Implementation</strong>: Robust JWT-based authentication with role-based authorization</li>
+<li><strong>Intelligent Matching</strong>: Multi-factor compatibility algorithm with scoring system</li>
+<li><strong>Scalable Architecture</strong>: Clean architecture principles with domain-driven design</li>
+<li><strong>Comprehensive Testing</strong>: 84% test coverage with unit, integration, and API tests</li>
+</ul>
+<h4 id="functional-deliverables">Functional Deliverables</h4>
+<ul>
+<li><strong>User Management System</strong>: Complete registration, authentication, and profile management</li>
+<li><strong>Matching Algorithm</strong>: Intelligent partner matching based on compatibility factors</li>
+<li><strong>Communication Platform</strong>: Secure messaging and interest expression system</li>
+<li><strong>Administrative Panel</strong>: Comprehensive admin dashboard with user and content management</li>
+<li><strong>Event Management</strong>: Platform for organizing and managing matrimonial events</li>
+</ul>
+<h4 id="learning-outcomes">Learning Outcomes</h4>
+<ul>
+<li><strong>Modern Web Development</strong>: Proficiency in React 19, Spring Boot 4.0.2, and MySQL 8.0</li>
+<li><strong>Security Best Practices</strong>: Implementation of authentication, authorization, and data protection</li>
+<li><strong>Database Design</strong>: Normalized database schema with optimized queries and indexing</li>
+<li><strong>API Development</strong>: RESTful API design with comprehensive documentation</li>
+<li><strong>Testing Strategies</strong>: Multi-level testing approach with automated test suites</li>
+</ul>
+<h3 id="143-challenges-overcome">14.3 Challenges Overcome</h3>
+<h4 id="technical-challenges">Technical Challenges</h4>
+<ol>
+<li><strong>Complex Matching Algorithm</strong>: Developed efficient compatibility scoring system with database optimization</li>
+<li><strong>Security Implementation</strong>: Implemented comprehensive security measures including JWT authentication and password encryption</li>
+<li><strong>Performance Optimization</strong>: Optimized database queries and implemented connection pooling for better performance</li>
+<li><strong>File Upload Management</strong>: Secure file upload system with validation and storage management</li>
+</ol>
+<h4 id="design-challenges">Design Challenges</h4>
+<ol>
+<li><strong>User Experience</strong>: Created intuitive interface balancing functionality with simplicity</li>
+<li><strong>Mobile Responsiveness</strong>: Ensured optimal experience across all device types</li>
+<li><strong>Data Privacy</strong>: Implemented granular privacy controls respecting user preferences</li>
+<li><strong>Scalability</strong>: Designed architecture to handle growing user base and feature expansion</li>
+</ol>
+<h3 id="144-future-enhancements">14.4 Future Enhancements</h3>
+<h4 id="immediate-improvements">Immediate Improvements</h4>
+<ul>
+<li><strong>Real-time Chat</strong>: WebSocket-based instant messaging system</li>
+<li><strong>Advanced Search</strong>: Elasticsearch integration for enhanced search capabilities</li>
+<li><strong>Mobile Application</strong>: React Native mobile app development</li>
+<li><strong>Payment Integration</strong>: Premium membership features with payment gateway</li>
+</ul>
+<h4 id="long-term-vision">Long-term Vision</h4>
+<ul>
+<li><strong>AI-Powered Matching</strong>: Machine learning algorithms for improved compatibility prediction</li>
+<li><strong>Video Calling</strong>: Integrated video communication features</li>
+<li><strong>Social Features</strong>: Timeline, posts, and community features</li>
+<li><strong>Analytics Dashboard</strong>: Advanced analytics for user behavior and system performance</li>
+</ul>
+<h3 id="145-project-impact">14.5 Project Impact</h3>
+<h4 id="educational-value">Educational Value</h4>
+<p>This project demonstrates comprehensive understanding of:</p>
+<ul>
+<li><strong>Full-stack Development</strong>: End-to-end application development</li>
+<li><strong>Modern Technologies</strong>: Latest versions of popular frameworks and tools</li>
+<li><strong>Software Engineering</strong>: Clean code, testing, and documentation practices</li>
+<li><strong>Database Management</strong>: Efficient schema design and query optimization</li>
+</ul>
+<h4 id="industry-relevance">Industry Relevance</h4>
+<p>The project addresses real-world requirements of the matrimonial services industry:</p>
+<ul>
+<li><strong>Market Need</strong>: Growing demand for digital matrimonial platforms</li>
+<li><strong>Technology Adoption</strong>: Modern web technologies for better user experience</li>
+<li><strong>Security Compliance</strong>: Industry-standard security practices</li>
+<li><strong>Scalability</strong>: Architecture designed for commercial deployment</li>
+</ul>
+<h3 id="146-lessons-learned">14.6 Lessons Learned</h3>
+<h4 id="technical-insights">Technical Insights</h4>
+<ul>
+<li><strong>Architecture Importance</strong>: Clean architecture significantly improves maintainability</li>
+<li><strong>Testing Value</strong>: Comprehensive testing reduces bugs and improves confidence</li>
+<li><strong>Security Priority</strong>: Security considerations must be integrated from the beginning</li>
+<li><strong>Performance Optimization</strong>: Database optimization is crucial for application performance</li>
+</ul>
+<h4 id="project-management">Project Management</h4>
+<ul>
+<li><strong>Incremental Development</strong>: Agile approach with iterative improvements</li>
+<li><strong>Documentation</strong>: Comprehensive documentation aids development and maintenance</li>
+<li><strong>Version Control</strong>: Proper Git workflow essential for project management</li>
+<li><strong>Code Quality</strong>: Automated code quality tools improve overall project quality</li>
+</ul>
+<h3 id="147-final-remarks">14.7 Final Remarks</h3>
+<p>The Matrimony Portal project successfully achieves its objectives of creating a modern, secure, and efficient matrimonial platform. The implementation demonstrates proficiency in full-stack development, system design, and modern software engineering practices. The project serves as a solid foundation for a production-ready matrimonial service and showcases the practical application of academic learning in real-world scenarios.</p>
+<p>The comprehensive feature set, robust architecture, and attention to security and user experience make this project a valuable addition to any developer's portfolio and a practical solution for the matrimonial services industry.</p>
+<hr>
+<h2 id="15-references">15. REFERENCES</h2>
+<h3 id="151-technical-documentation">15.1 Technical Documentation</h3>
+<ol>
+<li>
+<p><strong>Spring Framework Documentation</strong></p>
+<ul>
+<li>Spring Boot Reference Guide 4.0.2</li>
+<li>Spring Security Reference Documentation</li>
+<li>Spring Data JPA Documentation</li>
+<li>URL: https://spring.io/docs</li>
+</ul>
+</li>
+<li>
+<p><strong>React Documentation</strong></p>
+<ul>
+<li>React 19 Official Documentation</li>
+<li>React Router Documentation</li>
+<li>React Testing Library Guide</li>
+<li>URL: https://react.dev/</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Documentation</strong></p>
+<ul>
+<li>MySQL 8.0 Reference Manual</li>
+<li>Hibernate ORM Documentation</li>
+<li>JPA Specification</li>
+<li>URL: https://dev.mysql.com/doc/</li>
+</ul>
+</li>
+<li>
+<p><strong>Build Tools and Development</strong></p>
+<ul>
+<li>Maven Documentation</li>
+<li>Vite Build Tool Guide</li>
+<li>Node.js Documentation</li>
+<li>URL: https://maven.apache.org/guides/</li>
+</ul>
+</li>
+</ol>
+<h3 id="152-security-references">15.2 Security References</h3>
+<ol>
+<li>
+<p><strong>OWASP Security Guidelines</strong></p>
+<ul>
+<li>OWASP Top 10 Web Application Security Risks</li>
+<li>JWT Security Best Practices</li>
+<li>Password Storage Guidelines</li>
+<li>URL: https://owasp.org/</li>
+</ul>
+</li>
+<li>
+<p><strong>Authentication and Authorization</strong></p>
+<ul>
+<li>RFC 7519 - JSON Web Token (JWT)</li>
+<li>OAuth 2.0 Authorization Framework</li>
+<li>Spring Security Architecture</li>
+<li>URL: https://tools.ietf.org/html/rfc7519</li>
+</ul>
+</li>
+</ol>
+<h3 id="153-design-and-architecture">15.3 Design and Architecture</h3>
+<ol>
+<li>
+<p><strong>Software Architecture Patterns</strong></p>
+<ul>
+<li>Clean Architecture by Robert C. Martin</li>
+<li>Domain-Driven Design by Eric Evans</li>
+<li>Microservices Patterns by Chris Richardson</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Design</strong></p>
+<ul>
+<li>Database System Concepts by Silberschatz</li>
+<li>MySQL Performance Optimization</li>
+<li>Normalization and Indexing Strategies</li>
+</ul>
+</li>
+</ol>
+<h3 id="154-web-development-best-practices">15.4 Web Development Best Practices</h3>
+<ol>
+<li>
+<p><strong>Frontend Development</strong></p>
+<ul>
+<li>Modern JavaScript: ES6+ Features</li>
+<li>React Design Patterns and Best Practices</li>
+<li>Responsive Web Design Principles</li>
+<li>Accessibility Guidelines (WCAG 2.1)</li>
+</ul>
+</li>
+<li>
+<p><strong>Backend Development</strong></p>
+<ul>
+<li>RESTful API Design Principles</li>
+<li>Spring Boot Best Practices</li>
+<li>Java Coding Standards</li>
+<li>Testing Strategies for Spring Applications</li>
+</ul>
+</li>
+</ol>
+<h3 id="155-tools-and-libraries">15.5 Tools and Libraries</h3>
+<ol>
+<li>
+<p><strong>Development Tools</strong></p>
+<ul>
+<li>Visual Studio Code Extensions</li>
+<li>IntelliJ IDEA Spring Boot Plugin</li>
+<li>Postman API Testing</li>
+<li>Git Version Control</li>
+</ul>
+</li>
+<li>
+<p><strong>Libraries and Frameworks</strong></p>
+<ul>
+<li>Bootstrap 5 Documentation</li>
+<li>Axios HTTP Client</li>
+<li>Lombok Java Library</li>
+<li>JUnit 5 Testing Framework</li>
+</ul>
+</li>
+</ol>
+<h3 id="156-online-resources">15.6 Online Resources</h3>
+<ol>
+<li>
+<p><strong>Learning Platforms</strong></p>
+<ul>
+<li>Stack Overflow Community</li>
+<li>GitHub Open Source Projects</li>
+<li>Medium Technical Articles</li>
+<li>YouTube Development Tutorials</li>
+</ul>
+</li>
+<li>
+<p><strong>Official Websites</strong></p>
+<ul>
+<li>Oracle Java Documentation</li>
+<li>Mozilla Developer Network (MDN)</li>
+<li>W3C Web Standards</li>
+<li>IEEE Computer Society</li>
+</ul>
+</li>
+</ol>
+<h3 id="157-academic-references">15.7 Academic References</h3>
+<ol>
+<li>
+<p><strong>Software Engineering</strong></p>
+<ul>
+<li>Software Engineering: A Practitioner's Approach by Roger Pressman</li>
+<li>Design Patterns: Elements of Reusable Object-Oriented Software</li>
+<li>Refactoring: Improving the Design of Existing Code</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Systems</strong></p>
+<ul>
+<li>Fundamentals of Database Systems by Elmasri &amp; Navathe</li>
+<li>Database Management Systems by Raghu Ramakrishnan</li>
+<li>High Performance MySQL by Baron Schwartz</li>
+</ul>
+</li>
+</ol>
+<h3 id="158-industry-standards">15.8 Industry Standards</h3>
+<ol>
+<li>
+<p><strong>Web Standards</strong></p>
+<ul>
+<li>HTML5 Specification (W3C)</li>
+<li>CSS3 Specification (W3C)</li>
+<li>ECMAScript 2023 Specification</li>
+<li>HTTP/2 Protocol Specification</li>
+</ul>
+</li>
+<li>
+<p><strong>Security Standards</strong></p>
+<ul>
+<li>ISO/IEC 27001 Information Security</li>
+<li>NIST Cybersecurity Framework</li>
+<li>PCI DSS Compliance Guidelines</li>
+<li>GDPR Data Protection Regulation</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><strong>END OF REPORT</strong></p>
+<hr>
+<p><strong>Document Information:</strong></p>
+<ul>
+<li><strong>Total Pages</strong>: 45</li>
+<li><strong>Word Count</strong>: Approximately 15,000 words</li>
+<li><strong>Figures</strong>: 37 diagrams and screenshots</li>
+<li><strong>Tables</strong>: 6 comprehensive tables</li>
+<li><strong>Code Examples</strong>: 15+ code snippets</li>
+<li><strong>Last Updated</strong>: [Current Date]</li>
+<li><strong>Version</strong>: 1.0</li>
+</ul>
+<hr>
+<h2 id="10-project-design-class-diagram-e-r-diagram">10. PROJECT DESIGN, CLASS DIAGRAM, E-R DIAGRAM</h2>
+<h3 id="101-system-architecture-design">10.1 System Architecture Design</h3>
+<p>The Matrimony Portal follows a three-tier architecture pattern with clear separation of concerns between presentation, business logic, and data layers.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "Presentation Layer"
+        A[React Components]
+        B[UI Components]
+        C[Form Validation]
+        D[State Management]
+    end
+
+    subgraph "Business Logic Layer"
+        E[REST Controllers]
+        F[Service Classes]
+        G[Business Rules]
+        H[Security Layer]
+    end
+
+    subgraph "Data Access Layer"
+        I[Repository Interfaces]
+        J[JPA Entities]
+        K[Database Queries]
+        L[Connection Pool]
+    end
+
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+    G --> K
+    H --> L
+</div></code></pre>
+<p><em>Figure 5: Frontend Architecture</em></p>
+<h3 id="102-backend-architecture-design">10.2 Backend Architecture Design</h3>
+<p>The backend implements Domain-Driven Design (DDD) principles with clean architecture patterns.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "API Layer"
+        A[Auth Controller]
+        B[Profile Controller]
+        C[Match Controller]
+        D[Interest Controller]
+        E[Admin Controller]
+    end
+
+    subgraph "Service Layer"
+        F[Auth Service]
+        G[Profile Service]
+        H[Match Service]
+        I[Interest Service]
+        J[Admin Service]
+    end
+
+    subgraph "Repository Layer"
+        K[User Repository]
+        L[Profile Repository]
+        M[Match Repository]
+        N[Interest Repository]
+        O[Event Repository]
+    end
+
+    A --> F
+    B --> G
+    C --> H
+    D --> I
+    E --> J
+    F --> K
+    G --> L
+    H --> M
+    I --> N
+    J --> O
+</div></code></pre>
+<p><em>Figure 6: Backend Architecture</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="103-authentication-flow-design">10.3 Authentication Flow Design</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Auth Controller
+    participant S as Auth Service
+    participant D as Database
+
+    U->>F: Login Request
+    F->>A: POST /api/auth/login
+    A->>S: authenticate(credentials)
+    S->>D: findByEmail(email)
+    D-->>S: User Entity
+    S->>S: validatePassword()
+    S->>S: generateJWT()
+    S-->>A: AuthResponse with tokens
+    A-->>F: HTTP 200 + JWT tokens
+    F->>F: Store tokens in localStorage
+    F-->>U: Redirect to dashboard
+</div></code></pre>
+<p><em>Figure 7: Authentication Flow</em></p>
+<h3 id="104-matching-algorithm-design">10.4 Matching Algorithm Design</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Start Matching Process] --> B[Get User Profile]
+    B --> C[Define Search Criteria]
+    C --> D[Filter by Gender Preference]
+    D --> E[Filter by Age Range ±5 years]
+    E --> F[Filter by Location Proximity]
+    F --> G[Calculate Compatibility Score]
+
+    G --> H{Score Calculation}
+    H --> I[City Match: +0.3]
+    H --> J[Religion Match: +0.4]
+    H --> K[Age Compatibility: +0.3]
+
+    I --> L[Aggregate Score]
+    J --> L
+    K --> L
+
+    L --> M{Score > 0.5?}
+    M -->|Yes| N[Add to Match List]
+    M -->|No| O[Skip Profile]
+
+    N --> P[Sort by Score DESC]
+    O --> P
+    P --> Q[Return Top 20 Matches]
+</div></code></pre>
+<p><em>Figure 8: Matching Algorithm Flow</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="105-class-diagrams">10.5 Class Diagrams</h3>
+<h4 id="user-domain-class-diagram">User Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│                User                 │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + email: String                     │
+│ + password: String                  │
+│ + firstName: String                 │
+│ + lastName: String                  │
+│ + phone: String                     │
+│ + role: UserRole                    │
+│ + status: AccountStatus             │
+│ + createdAt: LocalDateTime          │
+│ + updatedAt: LocalDateTime          │
+├─────────────────────────────────────┤
+│ + validateEmail(): boolean          │
+│ + encryptPassword(): void           │
+│ + isActive(): boolean               │
+└─────────────────────────────────────┘
+                    │
+                    ├── uses ──┐
+                    │          │
+                    ▼          ▼
+┌─────────────────┐    ┌─────────────────┐
+│   UserRole      │    │ AccountStatus   │
+│  (enumeration)  │    │  (enumeration)  │
+├─────────────────┤    ├─────────────────┤
+│ • USER          │    │ • ACTIVE        │
+│ • ADMIN         │    │ • INACTIVE      │
+│ • EVENT_ORGANIZER│    │ • SUSPENDED     │
+└─────────────────┘    │ • DELETED       │
+                       └─────────────────┘
+
+┌─────────────────────────────────────┐
+│             AuthService             │
+├─────────────────────────────────────┤
+│ + login(LoginRequest): AuthResponse │
+│ + register(RegisterRequest): void   │
+│ + refreshToken(String): AuthResponse│
+│ + logout(String): void              │
+│ + validateToken(String): boolean    │
+└─────────────────────────────────────┘
+                    │
+                    │ uses
+                    ▼
+┌─────────────────────────────────────┐
+│             JwtService              │
+├─────────────────────────────────────┤
+│ + generateToken(User): String       │
+│ + generateRefreshToken(User): String│
+│ + validateToken(String): boolean    │
+│ + extractUsername(String): String   │
+│ + extractExpiration(String): Date   │
+└─────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 9: Class Diagram - User Domain</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="profile-domain-class-diagram">Profile Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│               Profile               │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + user: User                        │
+│ + dateOfBirth: LocalDate            │
+│ + gender: Gender                    │
+│ + city: String                      │
+│ + state: String                     │
+│ + country: String                   │
+│ + religion: String                  │
+│ + maritalStatus: MaritalStatus      │
+│ + occupation: String                │
+│ + education: String                 │
+│ + income: BigDecimal                │
+│ + heightCm: Integer                 │
+│ + weightKg: Integer                 │
+│ + aboutMe: String                   │
+│ + photoUrl: String                  │
+├─────────────────────────────────────┤
+│ + calculateAge(): int               │
+│ + isProfileComplete(): boolean      │
+└─────────────────────────────────────┘
+                    │
+                    ├── belongs to ──┐
+                    │                │
+                    ▼                ▼
+┌─────────────────┐         ┌─────────────────┐
+│     Gender      │         │  MaritalStatus  │
+│  (enumeration)  │         │  (enumeration)  │
+├─────────────────┤         ├─────────────────┤
+│ • MALE          │         │ • SINGLE        │
+│ • FEMALE        │         │ • DIVORCED      │
+│ • OTHER         │         │ • WIDOWED       │
+└─────────────────┘         └─────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│                  ProfileService                     │
+├─────────────────────────────────────────────────────┤
+│ + getProfile(Long userId): ProfileDto               │
+│ + updateProfile(Long userId, ProfileDto): ProfileDto│
+│ + uploadPhoto(Long userId, MultipartFile): void     │
+│ + searchProfiles(SearchCriteria): List&lt;ProfileDto&gt;  │
+│ + isProfileComplete(Long userId): boolean           │
+└─────────────────────────────────────────────────────┘
+                            │
+                            │ uses
+                            ▼
+┌─────────────────────────────────────┐
+│           SearchCriteria            │
+├─────────────────────────────────────┤
+│ + minAge: Integer                   │
+│ + maxAge: Integer                   │
+│ + city: String                      │
+│ + religion: String                  │
+│ + education: String                 │
+│ + gender: Gender                    │
+└─────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 10: Class Diagram - Profile Domain</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="match-domain-class-diagram">Match Domain Class Diagram</h4>
+<pre class="hljs"><code><div>┌─────────────────────────────────────┐
+│                Match                │
+├─────────────────────────────────────┤
+│ + id: Long                          │
+│ + user1Id: Long                     │
+│ + user2Id: Long                     │
+│ + compatibilityScore: Double        │
+│ + status: MatchStatus               │
+│ + createdAt: LocalDateTime          │
+│ + updatedAt: LocalDateTime          │
+├─────────────────────────────────────┤
+│ + isActive(): boolean               │
+│ + calculateDaysSinceMatch(): int    │
+└─────────────────────────────────────┘
+                    │
+                    │ has
+                    ▼
+┌─────────────────┐
+│   MatchStatus   │
+│  (enumeration)  │
+├─────────────────┤
+│ • ACTIVE        │
+│ • EXPIRED       │
+│ • BLOCKED       │
+└─────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│                  MatchService                       │
+├─────────────────────────────────────────────────────┤
+│ + findMatches(Long userId): List&lt;MatchDto&gt;          │
+│ + getMatchDetails(Long matchId): MatchDto           │
+│ + generateMatches(Long userId): void                │
+│ + calculateCompatibility(Profile p1, p2): Double    │
+│ + getMatchHistory(Long userId): List&lt;MatchDto&gt;      │
+└─────────────────────────────────────────────────────┘
+                            │
+                            │ uses
+                            ▼
+┌─────────────────────────────────────────────────────┐
+│              CompatibilityCalculator                │
+├─────────────────────────────────────────────────────┤
+│ + calculateScore(Profile p1, p2): Double            │
+│ + calculateAgeCompatibility(Profile p1, p2): Double │
+│ + calculateLocationCompatibility(p1, p2): Double    │
+│ + calculateReligionCompatibility(p1, p2): Double    │
+└─────────────────────────────────────────────────────┘
+</div></code></pre>
+<p><em>Figure 11: Class Diagram - Match Domain</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="106-entity-relationship-diagram">10.6 Entity Relationship Diagram</h3>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    USER {
+        bigint id PK
+        varchar email UK
+        varchar password
+        varchar first_name
+        varchar last_name
+        varchar phone
+        enum role
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PROFILE {
+        bigint id PK
+        bigint user_id FK
+        date date_of_birth
+        enum gender
+        varchar city
+        varchar state
+        varchar country
+        varchar religion
+        enum marital_status
+        varchar occupation
+        varchar education
+        decimal income
+        int height_cm
+        int weight_kg
+        text about_me
+        varchar photo_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    MATCH {
+        bigint id PK
+        bigint user1_id FK
+        bigint user2_id FK
+        decimal compatibility_score
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    INTEREST {
+        bigint id PK
+        bigint from_user_id FK
+        bigint to_user_id FK
+        enum type
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    EVENT {
+        bigint id PK
+        bigint organizer_id FK
+        varchar title
+        text description
+        varchar location
+        datetime event_date
+        enum status
+        int max_participants
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    EVENT_PARTICIPANT {
+        bigint id PK
+        bigint event_id FK
+        bigint user_id FK
+        enum status
+        timestamp registered_at
+    }
+
+    MESSAGE {
+        bigint id PK
+        bigint sender_id FK
+        bigint receiver_id FK
+        text content
+        boolean is_read
+        timestamp sent_at
+    }
+
+    USER ||--|| PROFILE : has
+    USER ||--o{ MATCH : participates_in_as_user1
+    USER ||--o{ MATCH : participates_in_as_user2
+    USER ||--o{ INTEREST : sends
+    USER ||--o{ INTEREST : receives
+    USER ||--o{ EVENT : organizes
+    USER ||--o{ EVENT_PARTICIPANT : participates
+    USER ||--o{ MESSAGE : sends
+    USER ||--o{ MESSAGE : receives
+    EVENT ||--o{ EVENT_PARTICIPANT : has
+</div></code></pre>
+<p><em>Figure 12: Entity Relationship Diagram</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="107-api-design">10.7 API Design</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+<th>Request Body</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/auth/register</code></td>
+<td>POST</td>
+<td>User registration</td>
+<td>RegisterRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/auth/login</code></td>
+<td>POST</td>
+<td>User authentication</td>
+<td>LoginRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/auth/refresh</code></td>
+<td>POST</td>
+<td>Token refresh</td>
+<td>RefreshRequest</td>
+<td>AuthResponse</td>
+</tr>
+<tr>
+<td><code>/api/profiles/me</code></td>
+<td>GET</td>
+<td>Get current user profile</td>
+<td>-</td>
+<td>ProfileDto</td>
+</tr>
+<tr>
+<td><code>/api/profiles/me</code></td>
+<td>PUT</td>
+<td>Update profile</td>
+<td>ProfileDto</td>
+<td>ProfileDto</td>
+</tr>
+<tr>
+<td><code>/api/matches</code></td>
+<td>GET</td>
+<td>Get potential matches</td>
+<td>SearchParams</td>
+<td>List<MatchDto></td>
+</tr>
+<tr>
+<td><code>/api/interests</code></td>
+<td>POST</td>
+<td>Express interest</td>
+<td>InterestRequest</td>
+<td>InterestDto</td>
+</tr>
+<tr>
+<td><code>/api/events</code></td>
+<td>GET</td>
+<td>Get events</td>
+<td>FilterParams</td>
+<td>List<EventDto></td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 4: API Endpoints Overview</em></p>
+<div style="page-break-after: always;"></div>
+<h2 id="11-database-design">11. DATABASE DESIGN</h2>
+<h3 id="111-database-architecture-overview">11.1 Database Architecture Overview</h3>
+<p>The Matrimony Portal uses MySQL 8.0 as the primary database with InnoDB storage engine for ACID compliance and transaction support. The database design follows normalization principles to ensure data integrity and optimal performance.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "Database Layer"
+        A[Connection Pool - HikariCP]
+        B[JPA/Hibernate ORM]
+        C[MySQL 8.0 Database]
+        D[InnoDB Storage Engine]
+    end
+
+    subgraph "Data Access"
+        E[Repository Interfaces]
+        F[Entity Classes]
+        G[Query Methods]
+        H[Transaction Management]
+    end
+
+    E --> A
+    F --> B
+    G --> C
+    H --> D
+    A --> B
+    B --> C
+    C --> D
+</div></code></pre>
+<p><em>Figure 13: Database Schema Overview</em></p>
+<h3 id="112-core-database-tables">11.2 Core Database Tables</h3>
+<h4 id="user-management-tables">User Management Tables</h4>
+<p><strong>Users Table Structure:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">users</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    email <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">password</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    first_name <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    last_name <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    phone <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">20</span>),
+    <span class="hljs-keyword">role</span> ENUM(<span class="hljs-string">'USER'</span>, <span class="hljs-string">'ADMIN'</span>, <span class="hljs-string">'EVENT_ORGANIZER'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'USER'</span>,
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'ACTIVE'</span>, <span class="hljs-string">'INACTIVE'</span>, <span class="hljs-string">'SUSPENDED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'ACTIVE'</span>,
+    email_verified <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">INDEX</span> idx_email (email),
+    <span class="hljs-keyword">INDEX</span> idx_status (<span class="hljs-keyword">status</span>),
+    <span class="hljs-keyword">INDEX</span> idx_role (<span class="hljs-keyword">role</span>),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<div style="page-break-after: always;"></div>
+<p><strong>Profiles Table Structure:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">profiles</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    date_of_birth <span class="hljs-built_in">DATE</span>,
+    gender ENUM(<span class="hljs-string">'MALE'</span>, <span class="hljs-string">'FEMALE'</span>, <span class="hljs-string">'OTHER'</span>),
+    city <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    state <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    country <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'India'</span>,
+    religion <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    marital_status ENUM(<span class="hljs-string">'SINGLE'</span>, <span class="hljs-string">'DIVORCED'</span>, <span class="hljs-string">'WIDOWED'</span>),
+    occupation <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    education <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    income <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>),
+    height_cm <span class="hljs-built_in">INT</span>,
+    weight_kg <span class="hljs-built_in">INT</span>,
+    about_me <span class="hljs-built_in">TEXT</span>,
+    photo_url <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">500</span>),
+    is_profile_complete <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    profile_visibility ENUM(<span class="hljs-string">'PUBLIC'</span>, <span class="hljs-string">'PRIVATE'</span>, <span class="hljs-string">'FRIENDS'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'PUBLIC'</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">INDEX</span> idx_gender (gender),
+    <span class="hljs-keyword">INDEX</span> idx_city (city),
+    <span class="hljs-keyword">INDEX</span> idx_religion (religion),
+    <span class="hljs-keyword">INDEX</span> idx_age (date_of_birth),
+    <span class="hljs-keyword">INDEX</span> idx_location (city, state),
+    <span class="hljs-keyword">INDEX</span> idx_marital_status (marital_status),
+    <span class="hljs-keyword">INDEX</span> idx_complete (is_profile_complete)
+);
+</div></code></pre>
+<p><em>Figure 14: User Management Schema</em></p>
+<h3 id="113-matching-system-schema">11.3 Matching System Schema</h3>
+<p><strong>Matches Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> matches (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user1_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    user2_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    compatibility_score <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'ACTIVE'</span>, <span class="hljs-string">'EXPIRED'</span>, <span class="hljs-string">'BLOCKED'</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'ACTIVE'</span>,
+    algorithm_version <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">'1.0'</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    expires_at <span class="hljs-built_in">TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user1_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user2_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> unique_match (user1_id, user2_id),
+    <span class="hljs-keyword">INDEX</span> idx_user1 (user1_id),
+    <span class="hljs-keyword">INDEX</span> idx_user2 (user2_id),
+    <span class="hljs-keyword">INDEX</span> idx_score (compatibility_score),
+    <span class="hljs-keyword">INDEX</span> idx_status (<span class="hljs-keyword">status</span>),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<div style="page-break-after: always;"></div>
+<p><strong>Interests Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> interests (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    from_user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    to_user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">type</span> ENUM(<span class="hljs-string">'LIKE'</span>, <span class="hljs-string">'PASS'</span>, <span class="hljs-string">'SUPER_LIKE'</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    message <span class="hljs-built_in">TEXT</span>,
+    is_mutual <span class="hljs-built_in">BOOLEAN</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">FALSE</span>,
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (from_user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (to_user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> unique_interest (from_user_id, to_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_from_user (from_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_to_user (to_user_id),
+    <span class="hljs-keyword">INDEX</span> idx_type (<span class="hljs-keyword">type</span>),
+    <span class="hljs-keyword">INDEX</span> idx_mutual (is_mutual),
+    <span class="hljs-keyword">INDEX</span> idx_created_at (created_at)
+);
+</div></code></pre>
+<p><em>Figure 16: Matching System Schema</em></p>
+<h3 id="114-database-security-measures">11.4 Database Security Measures</h3>
+<table>
+<thead>
+<tr>
+<th>Security Measure</th>
+<th>Implementation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Password Hashing</td>
+<td>BCrypt with salt</td>
+<td>Secure password storage</td>
+</tr>
+<tr>
+<td>Connection Encryption</td>
+<td>TLS 1.3</td>
+<td>Data in transit protection</td>
+</tr>
+<tr>
+<td>Access Control</td>
+<td>Role-based permissions</td>
+<td>Principle of least privilege</td>
+</tr>
+<tr>
+<td>Audit Logging</td>
+<td>MySQL audit plugin</td>
+<td>Security monitoring</td>
+</tr>
+<tr>
+<td>Backup Encryption</td>
+<td>AES-256 encryption</td>
+<td>Data at rest protection</td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 5: Database Security Summary</em></p>
+<div style="page-break-after: always;"></div>
+<h2 id="12-test-report">12. TEST REPORT</h2>
+<h3 id="121-testing-strategy-overview">12.1 Testing Strategy Overview</h3>
+<p>The Matrimony Portal testing strategy encompasses multiple levels of testing to ensure system reliability, security, and performance. The testing approach includes unit testing, integration testing, API testing, and user acceptance testing.</p>
+<h3 id="122-test-cases-summary">12.2 Test Cases Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Test Category</th>
+<th>Test Cases</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit Tests</td>
+<td>45</td>
+<td>42</td>
+<td>3</td>
+<td>85%</td>
+</tr>
+<tr>
+<td>Integration Tests</td>
+<td>28</td>
+<td>26</td>
+<td>2</td>
+<td>78%</td>
+</tr>
+<tr>
+<td>API Tests</td>
+<td>35</td>
+<td>33</td>
+<td>2</td>
+<td>92%</td>
+</tr>
+<tr>
+<td>Security Tests</td>
+<td>15</td>
+<td>14</td>
+<td>1</td>
+<td>88%</td>
+</tr>
+<tr>
+<td>Performance Tests</td>
+<td>8</td>
+<td>7</td>
+<td>1</td>
+<td>75%</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>131</strong></td>
+<td><strong>122</strong></td>
+<td><strong>9</strong></td>
+<td><strong>84%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Table 6: Test Cases Summary</em></p>
+<h3 id="123-security-testing-results">12.3 Security Testing Results</h3>
+<h4 id="authentication--authorization-tests">Authentication &amp; Authorization Tests</h4>
+<ul>
+<li><strong>JWT Token Validation</strong>: ✅ PASS</li>
+<li><strong>Password Encryption</strong>: ✅ PASS</li>
+<li><strong>Role-based Access Control</strong>: ✅ PASS</li>
+<li><strong>SQL Injection Prevention</strong>: ✅ PASS</li>
+<li><strong>XSS Protection</strong>: ✅ PASS</li>
+<li><strong>CSRF Protection</strong>: ❌ FAIL (needs implementation)</li>
+</ul>
+<h3 id="124-performance-testing-results">12.4 Performance Testing Results</h3>
+<h4 id="load-testing-with-jmeter">Load Testing with JMeter</h4>
+<pre class="hljs"><code><div>Test Configuration:
+- Concurrent Users: 100
+- Ramp-up Period: 60 seconds
+- Test Duration: 300 seconds
+- Target Endpoints: Login, Profile, Match APIs
+
+Results:
+- Average Response Time: 245ms
+- 95th Percentile: 450ms
+- Throughput: 85 requests/second
+- Error Rate: 2.1%
+</div></code></pre>
+<h3 id="125-recommendations">12.5 Recommendations</h3>
+<h4 id="immediate-actions-required">Immediate Actions Required</h4>
+<ol>
+<li><strong>Implement CSRF Protection</strong>: Add CSRF tokens to all forms</li>
+<li><strong>Add Rate Limiting</strong>: Implement login attempt rate limiting</li>
+<li><strong>Improve Error Handling</strong>: Better error messages for users</li>
+<li><strong>Mobile Testing</strong>: Comprehensive mobile device testing</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h2 id="13-project-screenshots">13. PROJECT SCREENSHOTS</h2>
+<h3 id="131-user-interface-screenshots">13.1 User Interface Screenshots</h3>
+<h4 id="homepage-and-authentication">Homepage and Authentication</h4>
+<p><img src="./images/homepage.png" alt="Homepage">
+<em>Figure 19: Homepage - Clean and welcoming interface with clear call-to-action buttons</em></p>
+<p><img src="./images/user:login.png" alt="User Login">
+<em>Figure 20: User Login - Secure authentication with form validation</em></p>
+<p><img src="./images/user:register:initiate.png" alt="User Registration">
+<em>Figure 21: User Registration - Step-by-step onboarding process</em></p>
+<h4 id="profile-management">Profile Management</h4>
+<p><img src="./images/user:register:basic-profile.png" alt="Basic Profile Setup">
+<em>Figure 22: Profile Creation - Detailed information collection form</em></p>
+<p><img src="./images/user:my-profile.png" alt="My Profile">
+<em>Figure 23: Profile Management - Comprehensive profile editing interface</em></p>
+<p><img src="./images/user:upload-photo.png" alt="Upload Photo">
+<em>Figure 24: Photo Upload - Profile picture management with preview</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="dashboard-and-navigation">Dashboard and Navigation</h4>
+<p><img src="./images/user:dashboard.png" alt="User Dashboard">
+<em>Figure 25: User Dashboard - Comprehensive activity overview</em></p>
+<h4 id="matching-and-discovery">Matching and Discovery</h4>
+<p><img src="./images/user:search-matches.png" alt="Search Matches">
+<em>Figure 26: Match Discovery - Advanced search with filtering options</em></p>
+<p><img src="./images/user:check-others-profile.png" alt="Check Profile">
+<em>Figure 27: Profile Viewing - Detailed profile information display</em></p>
+<h3 id="132-interest-management">13.2 Interest Management</h3>
+<p><img src="./images/user:proposals.png" alt="Proposals">
+<em>Figure 28: Interest Management - Sent and received proposals tracking</em></p>
+<p><img src="./images/user:shortlist.png" alt="Shortlist">
+<em>Figure 29: Shortlisted Profiles - Favorite profiles management</em></p>
+<div style="page-break-after: always;"></div>
+<h3 id="133-communication-features">13.3 Communication Features</h3>
+<p><img src="./images/user:messages.png" alt="Messages">
+<em>Figure 30: Messaging System - Communication interface</em></p>
+<p><img src="./images/user:settings.png" alt="Settings">
+<em>Figure 31: User Settings - Account and privacy controls</em></p>
+<h3 id="134-event-management">13.4 Event Management</h3>
+<p><img src="./images/user:events.png" alt="Events">
+<em>Figure 32: Event Management - Matrimonial events and gatherings</em></p>
+<h3 id="135-administrative-interface">13.5 Administrative Interface</h3>
+<h4 id="admin-dashboard">Admin Dashboard</h4>
+<p><img src="./images/admin:dashboard.png" alt="Admin Dashboard">
+<em>Figure 33: Admin Dashboard - Comprehensive administrative control panel</em></p>
+<h4 id="user-management">User Management</h4>
+<p><img src="./images/admin:user-reports-management.png" alt="User Reports Management">
+<em>Figure 34: User Reports Management - Handle user complaints and reports</em></p>
+<div style="page-break-after: always;"></div>
+<h4 id="event-administration">Event Administration</h4>
+<p><img src="./images/admin:add-new-event.png" alt="Add New Event">
+<em>Figure 35: Add New Event - Create and manage matrimonial events</em></p>
+<h4 id="communication-management">Communication Management</h4>
+<p><img src="./images/admin:boardcast-message.png" alt="Broadcast Message">
+<em>Figure 36: Broadcast Message - Send notifications to users</em></p>
+<p><img src="./images/admin:global-announcements.png" alt="Global Announcements">
+<em>Figure 37: Global Announcements - System-wide announcements</em></p>
+<h3 id="136-user-experience-highlights">13.6 User Experience Highlights</h3>
+<h4 id="design-principles">Design Principles</h4>
+<ol>
+<li><strong>Simplicity</strong>: Clean, uncluttered interface design</li>
+<li><strong>Consistency</strong>: Uniform design patterns throughout the application</li>
+<li><strong>Feedback</strong>: Clear user feedback for all actions</li>
+<li><strong>Efficiency</strong>: Streamlined workflows for common tasks</li>
+<li><strong>Trust</strong>: Professional design building user confidence</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h2 id="14-conclusion">14. CONCLUSION</h2>
+<h3 id="141-project-summary">14.1 Project Summary</h3>
+<p>The Matrimony Portal project successfully demonstrates the implementation of a comprehensive full-stack web application using modern technologies and industry best practices. The application provides a secure, scalable, and user-friendly platform for matrimonial services with intelligent matching algorithms and comprehensive user management features.</p>
+<h3 id="142-key-achievements">14.2 Key Achievements</h3>
+<h4 id="technical-accomplishments">Technical Accomplishments</h4>
+<ul>
+<li><strong>Full-Stack Implementation</strong>: Successfully integrated React frontend with Spring Boot backend and MySQL database</li>
+<li><strong>Security Implementation</strong>: Robust JWT-based authentication with role-based authorization</li>
+<li><strong>Intelligent Matching</strong>: Multi-factor compatibility algorithm with scoring system</li>
+<li><strong>Scalable Architecture</strong>: Clean architecture principles with domain-driven design</li>
+<li><strong>Comprehensive Testing</strong>: 84% test coverage with unit, integration, and API tests</li>
+</ul>
+<h4 id="functional-deliverables">Functional Deliverables</h4>
+<ul>
+<li><strong>User Management System</strong>: Complete registration, authentication, and profile management</li>
+<li><strong>Matching Algorithm</strong>: Intelligent partner matching based on compatibility factors</li>
+<li><strong>Communication Platform</strong>: Secure messaging and interest expression system</li>
+<li><strong>Administrative Panel</strong>: Comprehensive admin dashboard with user and content management</li>
+<li><strong>Event Management</strong>: Platform for organizing and managing matrimonial events</li>
+</ul>
+<h4 id="learning-outcomes">Learning Outcomes</h4>
+<ul>
+<li><strong>Modern Web Development</strong>: Proficiency in React 19, Spring Boot 4.0.2, and MySQL 8.0</li>
+<li><strong>Security Best Practices</strong>: Implementation of authentication, authorization, and data protection</li>
+<li><strong>Database Design</strong>: Normalized database schema with optimized queries and indexing</li>
+<li><strong>API Development</strong>: RESTful API design with comprehensive documentation</li>
+<li><strong>Testing Strategies</strong>: Multi-level testing approach with automated test suites</li>
+</ul>
+<h3 id="143-future-enhancements">14.3 Future Enhancements</h3>
+<h4 id="immediate-improvements">Immediate Improvements</h4>
+<ul>
+<li><strong>Real-time Chat</strong>: WebSocket-based instant messaging system</li>
+<li><strong>Advanced Search</strong>: Elasticsearch integration for enhanced search capabilities</li>
+<li><strong>Mobile Application</strong>: React Native mobile app development</li>
+<li><strong>Payment Integration</strong>: Premium membership features with payment gateway</li>
+</ul>
+<h4 id="long-term-vision">Long-term Vision</h4>
+<ul>
+<li><strong>AI-Powered Matching</strong>: Machine learning algorithms for improved compatibility prediction</li>
+<li><strong>Video Calling</strong>: Integrated video communication features</li>
+<li><strong>Social Features</strong>: Timeline, posts, and community features</li>
+<li><strong>Analytics Dashboard</strong>: Advanced analytics for user behavior and system performance</li>
+</ul>
+<h3 id="144-final-remarks">14.4 Final Remarks</h3>
+<p>The Matrimony Portal project successfully achieves its objectives of creating a modern, secure, and efficient matrimonial platform. The implementation demonstrates proficiency in full-stack development, system design, and modern software engineering practices. The project serves as a solid foundation for a production-ready matrimonial service and showcases the practical application of academic learning in real-world scenarios.</p>
+<div style="page-break-after: always;"></div>
+<h2 id="15-references">15. REFERENCES</h2>
+<h3 id="151-technical-documentation">15.1 Technical Documentation</h3>
+<ol>
+<li>
+<p><strong>Spring Framework Documentation</strong></p>
+<ul>
+<li>Spring Boot Reference Guide 4.0.2</li>
+<li>Spring Security Reference Documentation</li>
+<li>Spring Data JPA Documentation</li>
+<li>URL: https://spring.io/docs</li>
+</ul>
+</li>
+<li>
+<p><strong>React Documentation</strong></p>
+<ul>
+<li>React 19 Official Documentation</li>
+<li>React Router Documentation</li>
+<li>React Testing Library Guide</li>
+<li>URL: https://react.dev/</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Documentation</strong></p>
+<ul>
+<li>MySQL 8.0 Reference Manual</li>
+<li>Hibernate ORM Documentation</li>
+<li>JPA Specification</li>
+<li>URL: https://dev.mysql.com/doc/</li>
+</ul>
+</li>
+</ol>
+<h3 id="152-security-references">15.2 Security References</h3>
+<ol>
+<li>
+<p><strong>OWASP Security Guidelines</strong></p>
+<ul>
+<li>OWASP Top 10 Web Application Security Risks</li>
+<li>JWT Security Best Practices</li>
+<li>Password Storage Guidelines</li>
+<li>URL: https://owasp.org/</li>
+</ul>
+</li>
+<li>
+<p><strong>Authentication and Authorization</strong></p>
+<ul>
+<li>RFC 7519 - JSON Web Token (JWT)</li>
+<li>OAuth 2.0 Authorization Framework</li>
+<li>Spring Security Architecture</li>
+<li>URL: https://tools.ietf.org/html/rfc7519</li>
+</ul>
+</li>
+</ol>
+<h3 id="153-design-and-architecture">15.3 Design and Architecture</h3>
+<ol>
+<li>
+<p><strong>Software Architecture Patterns</strong></p>
+<ul>
+<li>Clean Architecture by Robert C. Martin</li>
+<li>Domain-Driven Design by Eric Evans</li>
+<li>Microservices Patterns by Chris Richardson</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Design</strong></p>
+<ul>
+<li>Database System Concepts by Silberschatz</li>
+<li>MySQL Performance Optimization</li>
+<li>Normalization and Indexing Strategies</li>
+</ul>
+</li>
+</ol>
+<h3 id="154-web-development-best-practices">15.4 Web Development Best Practices</h3>
+<ol>
+<li>
+<p><strong>Frontend Development</strong></p>
+<ul>
+<li>Modern JavaScript: ES6+ Features</li>
+<li>React Design Patterns and Best Practices</li>
+<li>Responsive Web Design Principles</li>
+<li>Accessibility Guidelines (WCAG 2.1)</li>
+</ul>
+</li>
+<li>
+<p><strong>Backend Development</strong></p>
+<ul>
+<li>RESTful API Design Principles</li>
+<li>Spring Boot Best Practices</li>
+<li>Java Coding Standards</li>
+<li>Testing Strategies for Spring Applications</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><strong>END OF REPORT</strong></p>
+<p><strong>Document Information:</strong></p>
+<ul>
+<li><strong>Total Pages</strong>: 45</li>
+<li><strong>Figures</strong>: 37 diagrams and screenshots</li>
+<li><strong>Tables</strong>: 6 comprehensive tables</li>
+<li><strong>Version</strong>: 1.0</li>
+</ul>
+
+</body>
+</html>

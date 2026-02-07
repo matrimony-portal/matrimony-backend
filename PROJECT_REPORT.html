@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PROJECT_REPORT.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="matrimony-portal---complete-project-report">Matrimony Portal - Complete Project Report</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The Matrimony Portal is a comprehensive full-stack web application designed to facilitate matrimonial connections. Built with modern technologies, it provides a secure, scalable, and user-friendly platform for users to find compatible life partners through advanced matching algorithms and interactive features.</p>
+<p><img src="./images/homepage.png" alt="Homepage">
+<em>Figure 1: Application Homepage - Clean and welcoming interface</em></p>
+<h2 id="project-overview">Project Overview</h2>
+<h3 id="vision">Vision</h3>
+<p>To create a modern, secure, and efficient matrimonial platform that connects individuals seeking life partners through intelligent matching and comprehensive profile management.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>User Authentication &amp; Authorization</strong> with JWT tokens</li>
+<li><strong>Advanced Profile Management</strong> with detailed personal information</li>
+<li><strong>Intelligent Matching Algorithm</strong> based on compatibility scoring</li>
+<li><strong>Interest Management System</strong> with likes/passes and mutual matching</li>
+<li><strong>Multi-role Support</strong> (User, Admin, Event Organizer)</li>
+<li><strong>Comprehensive Admin Dashboard</strong> for user and content management</li>
+<li><strong>Event Management System</strong> for matrimonial events</li>
+<li><strong>Responsive Web Interface</strong> with modern UI/UX</li>
+</ul>
+<p><img src="./images/user:dashboard.png" alt="User Dashboard">
+<em>Figure 2: User Dashboard - Comprehensive overview of user activities</em></p>
+<hr>
+<h2 id="backend-architecture">Backend Architecture</h2>
+<h3 id="technology-stack">Technology Stack</h3>
+<ul>
+<li><strong>Framework</strong>: Spring Boot 4.0.2</li>
+<li><strong>Language</strong>: Java 17</li>
+<li><strong>Database</strong>: MySQL with JPA/Hibernate</li>
+<li><strong>Security</strong>: Spring Security with JWT authentication</li>
+<li><strong>Documentation</strong>: OpenAPI/Swagger 3.0.1</li>
+<li><strong>Build Tool</strong>: Maven</li>
+<li><strong>Additional Libraries</strong>: Lombok, ModelMapper, FreeMarker, JavaMail</li>
+</ul>
+<h3 id="project-structure">Project Structure</h3>
+<pre class="hljs"><code><div>src/main/java/com/scriptbliss/bandhan/
+├── auth/                    # Authentication domain
+│   ├── controller/          # REST controllers
+│   ├── service/            # Business logic
+│   ├── repository/         # Data access layer
+│   ├── entity/             # JPA entities
+│   └── dto/                # Data transfer objects
+├── profile/                # User profile management
+├── match/                  # Matchmaking system
+├── interest/               # User interest management
+├── shared/                 # Common components
+│   ├── config/             # Configuration classes
+│   ├── exception/          # Global exception handling
+│   ├── dto/                # Shared DTOs
+│   └── entity/             # Base entities
+└── BandhanBackendApplication.java
+</div></code></pre>
+<h3 id="domain-architecture">Domain Architecture</h3>
+<h4 id="1-authentication-domain-auth">1. Authentication Domain (<code>auth/</code>)</h4>
+<ul>
+<li><strong>User Entity</strong>: Core user information with roles and status</li>
+<li><strong>JWT Security</strong>: Token-based authentication with refresh tokens</li>
+<li><strong>Role-based Access</strong>: USER, ADMIN, EVENT_ORGANIZER roles</li>
+<li><strong>Account Management</strong>: Registration, login, password reset</li>
+</ul>
+<h4 id="2-profile-domain-profile">2. Profile Domain (<code>profile/</code>)</h4>
+<ul>
+<li><strong>Comprehensive Profiles</strong>: Personal, family, and preference details</li>
+<li><strong>Photo Management</strong>: Profile picture upload and management</li>
+<li><strong>Privacy Controls</strong>: Visibility settings for profile information</li>
+<li><strong>Profile Validation</strong>: Data integrity and completeness checks</li>
+</ul>
+<h4 id="3-match-domain-match">3. Match Domain (<code>match/</code>)</h4>
+<ul>
+<li><strong>Compatibility Algorithm</strong>: Multi-factor scoring system</li>
+<li><strong>Match Generation</strong>: Automated compatible partner suggestions</li>
+<li><strong>Match Filtering</strong>: Age, location, religion-based filtering</li>
+<li><strong>Match History</strong>: Track and manage match interactions</li>
+</ul>
+<h4 id="4-interest-domain-interest">4. Interest Domain (<code>interest/</code>)</h4>
+<ul>
+<li><strong>Like/Pass System</strong>: Express interest or pass on profiles</li>
+<li><strong>Mutual Matching</strong>: Automatic match creation on mutual likes</li>
+<li><strong>Interest History</strong>: Track all user interactions</li>
+<li><strong>Notification System</strong>: Alert users of mutual interests</li>
+</ul>
+<h3 id="key-backend-features">Key Backend Features</h3>
+<h4 id="security-implementation">Security Implementation</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableWebSecurity</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityConfig</span> </span>{
+    <span class="hljs-comment">// JWT-based authentication</span>
+    <span class="hljs-comment">// Role-based authorization</span>
+    <span class="hljs-comment">// CORS configuration</span>
+    <span class="hljs-comment">// Password encryption with BCrypt</span>
+}
+</div></code></pre>
+<h4 id="global-exception-handling">Global Exception Handling</h4>
+<ul>
+<li><strong>Custom Exceptions</strong>: BusinessException, ResourceNotFoundException, IllegalStateException</li>
+<li><strong>HTTP Status Mapping</strong>: Proper status codes for different error types</li>
+<li><strong>Structured Error Responses</strong>: Consistent error format across APIs</li>
+<li><strong>Validation Error Handling</strong>: Field-level validation messages</li>
+</ul>
+<h4 id="data-loading--testing">Data Loading &amp; Testing</h4>
+<ul>
+<li><strong>Comprehensive Test Data</strong>: 26 users across 9 cities</li>
+<li><strong>Realistic Profiles</strong>: Diverse demographics and preferences</li>
+<li><strong>Sample Interactions</strong>: Pre-loaded interests and matches</li>
+<li><strong>Development Environment</strong>: Profile-based data loading</li>
+</ul>
+<h3 id="api-endpoints">API Endpoints</h3>
+<h4 id="authentication-apis">Authentication APIs</h4>
+<ul>
+<li><code>POST /api/auth/register</code> - User registration</li>
+<li><code>POST /api/auth/login</code> - User login</li>
+<li><code>POST /api/auth/refresh</code> - Token refresh</li>
+<li><code>POST /api/auth/logout</code> - User logout</li>
+</ul>
+<p><img src="./images/user:login.png" alt="User Login">
+<em>Figure 3: Login Interface - Secure authentication system</em></p>
+<p><img src="./images/user:register:initiate.png" alt="User Registration">
+<em>Figure 4: Registration Process - Step-by-step user onboarding</em></p>
+<h4 id="profile-apis">Profile APIs</h4>
+<ul>
+<li><code>GET /api/profiles/me</code> - Get current user profile</li>
+<li><code>PUT /api/profiles/me</code> - Update profile</li>
+<li><code>POST /api/profiles/photo</code> - Upload profile photo</li>
+<li><code>GET /api/profiles/{id}</code> - Get specific profile</li>
+</ul>
+<p><img src="./images/user:my-profile.png" alt="My Profile">
+<em>Figure 5: Profile Management - Comprehensive profile editing</em></p>
+<p><img src="./images/user:upload-photo.png" alt="Upload Photo">
+<em>Figure 6: Photo Upload - Profile picture management</em></p>
+<p><img src="./images/user:register:basic-profile.png" alt="Basic Profile Setup">
+<em>Figure 7: Profile Creation - Detailed information collection</em></p>
+<h4 id="match-apis">Match APIs</h4>
+<ul>
+<li><code>GET /api/matches</code> - Get potential matches</li>
+<li><code>GET /api/matches/{id}</code> - Get specific match details</li>
+<li><code>POST /api/matches/generate</code> - Generate new matches</li>
+</ul>
+<p><img src="./images/user:search-matches.png" alt="Search Matches">
+<em>Figure 8: Match Discovery - Advanced search and filtering</em></p>
+<p><img src="./images/user:check-others-profile.png" alt="Check Profile">
+<em>Figure 9: Profile Viewing - Detailed profile information display</em></p>
+<h4 id="interest-apis">Interest APIs</h4>
+<ul>
+<li><code>POST /api/interests</code> - Express interest</li>
+<li><code>GET /api/interests/sent</code> - Get sent interests</li>
+<li><code>GET /api/interests/received</code> - Get received interests</li>
+</ul>
+<p><img src="./images/user:proposals.png" alt="Proposals">
+<em>Figure 10: Interest Management - Sent and received proposals</em></p>
+<p><img src="./images/user:shortlist.png" alt="Shortlist">
+<em>Figure 11: Shortlisted Profiles - Favorite profiles management</em></p>
+<hr>
+<h2 id="frontend-architecture">Frontend Architecture</h2>
+<h3 id="technology-stack">Technology Stack</h3>
+<ul>
+<li><strong>Framework</strong>: React 19</li>
+<li><strong>Build Tool</strong>: Vite</li>
+<li><strong>Styling</strong>: Bootstrap 5 + Custom CSS</li>
+<li><strong>Routing</strong>: React Router 7</li>
+<li><strong>State Management</strong>: React Context API</li>
+<li><strong>Form Handling</strong>: Formik + Yup validation</li>
+<li><strong>HTTP Client</strong>: Axios</li>
+<li><strong>Notifications</strong>: React Toastify</li>
+<li><strong>Code Quality</strong>: ESLint, Prettier, Stylelint</li>
+<li><strong>Git Hooks</strong>: Husky, Commitlint</li>
+</ul>
+<h3 id="project-structure">Project Structure</h3>
+<pre class="hljs"><code><div>src/
+├── components/              # React components
+│   ├── auth/               # Authentication components
+│   ├── common/             # Shared components
+│   ├── dashboard/          # Dashboard components
+│   ├── ui/                 # UI components
+│   └── upgrade/            # Upgrade components
+├── hooks/                  # Custom React hooks
+│   ├── useAuth.jsx         # Authentication hook
+│   ├── useApi.js           # API interaction hook
+│   └── useLocalStorage.jsx # Local storage hook
+├── services/               # API services
+│   ├── authService.js      # Authentication APIs
+│   ├── userService.js      # User management APIs
+│   ├── eventService.js     # Event management APIs
+│   └── proposalService.js  # Proposal APIs
+├── context/                # React contexts
+├── providers/              # Context providers
+├── utils/                  # Utility functions
+└── styles/                 # CSS stylesheets
+</div></code></pre>
+<h3 id="key-frontend-features">Key Frontend Features</h3>
+<h4 id="authentication-system">Authentication System</h4>
+<ul>
+<li><strong>JWT Token Management</strong>: Automatic token refresh and storage</li>
+<li><strong>Protected Routes</strong>: Route guards for authenticated users</li>
+<li><strong>Role-based Navigation</strong>: Different interfaces for different user roles</li>
+<li><strong>Session Management</strong>: Persistent login state</li>
+</ul>
+<h4 id="user-interface">User Interface</h4>
+<ul>
+<li><strong>Responsive Design</strong>: Mobile-first approach with Bootstrap</li>
+<li><strong>Modern UI Components</strong>: Clean, intuitive interface design</li>
+<li><strong>Form Validation</strong>: Real-time validation with Formik and Yup</li>
+<li><strong>Loading States</strong>: User feedback during API operations</li>
+<li><strong>Error Handling</strong>: Graceful error display and recovery</li>
+</ul>
+<p><img src="./images/user:messages.png" alt="Messages">
+<em>Figure 13: Messaging System - Communication interface</em></p>
+<p><img src="./images/user:settings.png" alt="Settings">
+<em>Figure 14: User Settings - Account and privacy controls</em></p>
+<h4 id="dashboard-system">Dashboard System</h4>
+<ul>
+<li><strong>Multi-role Dashboards</strong>: Separate interfaces for users, admins, and organizers</li>
+<li><strong>Profile Management</strong>: Comprehensive profile editing capabilities</li>
+<li><strong>Match Browsing</strong>: Interactive match discovery interface</li>
+<li><strong>Interest Management</strong>: Like/pass functionality with visual feedback</li>
+</ul>
+<h3 id="development-workflow">Development Workflow</h3>
+<ul>
+<li><strong>Code Quality</strong>: Automated linting and formatting</li>
+<li><strong>Git Hooks</strong>: Pre-commit validation and conventional commits</li>
+<li><strong>Development Server</strong>: Hot reload with Vite</li>
+<li><strong>Build Optimization</strong>: Production-ready builds with code splitting</li>
+</ul>
+<hr>
+<h2 id="database-design">Database Design</h2>
+<h3 id="entity-relationship-model">Entity Relationship Model</h3>
+<h4 id="core-entities">Core Entities</h4>
+<ol>
+<li><strong>User</strong>: Authentication and basic information</li>
+<li><strong>Profile</strong>: Detailed user profile information</li>
+<li><strong>Match</strong>: Compatibility matches between users</li>
+<li><strong>Interest</strong>: User interactions (likes/passes)</li>
+<li><strong>Event</strong>: Matrimonial events and gatherings</li>
+</ol>
+<h4 id="key-relationships">Key Relationships</h4>
+<ul>
+<li>User ↔ Profile (One-to-One)</li>
+<li>User ↔ Interest (One-to-Many as sender/receiver)</li>
+<li>User ↔ Match (Many-to-Many through Match entity)</li>
+<li>User ↔ Event (Many-to-Many for event participation)</li>
+</ul>
+<h3 id="database-schema-highlights">Database Schema Highlights</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Users table with authentication info</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">users</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    email <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">password</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-keyword">role</span> ENUM(<span class="hljs-string">'USER'</span>, <span class="hljs-string">'ADMIN'</span>, <span class="hljs-string">'EVENT_ORGANIZER'</span>),
+    <span class="hljs-keyword">status</span> ENUM(<span class="hljs-string">'ACTIVE'</span>, <span class="hljs-string">'INACTIVE'</span>, <span class="hljs-string">'SUSPENDED'</span>),
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>
+);
+
+<span class="hljs-comment">-- Profiles table with detailed information</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">profiles</span> (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user_id <span class="hljs-built_in">BIGINT</span> <span class="hljs-keyword">UNIQUE</span>,
+    date_of_birth <span class="hljs-built_in">DATE</span>,
+    gender ENUM(<span class="hljs-string">'MALE'</span>, <span class="hljs-string">'FEMALE'</span>, <span class="hljs-string">'OTHER'</span>),
+    city <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>),
+    religion <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">50</span>),
+    marital_status ENUM(<span class="hljs-string">'SINGLE'</span>, <span class="hljs-string">'DIVORCED'</span>, <span class="hljs-string">'WIDOWED'</span>),
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>)
+);
+
+<span class="hljs-comment">-- Matches table for compatibility tracking</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> matches (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">BIGINT</span> PRIMARY <span class="hljs-keyword">KEY</span> AUTO_INCREMENT,
+    user1_id <span class="hljs-built_in">BIGINT</span>,
+    user2_id <span class="hljs-built_in">BIGINT</span>,
+    compatibility_score <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>),
+    created_at <span class="hljs-built_in">TIMESTAMP</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CURRENT_TIMESTAMP</span>,
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user1_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>),
+    <span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (user2_id) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-keyword">users</span>(<span class="hljs-keyword">id</span>)
+);
+</div></code></pre>
+<hr>
+<h2 id="system-features">System Features</h2>
+<h3 id="1-user-management">1. User Management</h3>
+<ul>
+<li><strong>Registration Process</strong>: Multi-step registration with validation</li>
+<li><strong>Profile Creation</strong>: Comprehensive profile building</li>
+<li><strong>Account Verification</strong>: Email verification system</li>
+<li><strong>Privacy Controls</strong>: Granular privacy settings</li>
+</ul>
+<h3 id="2-matching-algorithm">2. Matching Algorithm</h3>
+<ul>
+<li><strong>Compatibility Scoring</strong>: Multi-factor algorithm considering:
+<ul>
+<li>Age compatibility (±5 years preference)</li>
+<li>Geographic proximity (same city bonus)</li>
+<li>Religious compatibility</li>
+<li>Educational background</li>
+<li>Professional status</li>
+</ul>
+</li>
+<li><strong>Smart Filtering</strong>: Automatic filtering based on preferences</li>
+<li><strong>Match Quality</strong>: Scoring system from 0.0 to 1.0</li>
+</ul>
+<h3 id="3-interest-management">3. Interest Management</h3>
+<ul>
+<li><strong>Like/Pass System</strong>: Simple interaction mechanism</li>
+<li><strong>Mutual Matching</strong>: Automatic match creation on mutual likes</li>
+<li><strong>Interest History</strong>: Complete interaction tracking</li>
+<li><strong>Notification System</strong>: Real-time interest notifications</li>
+</ul>
+<h3 id="4-admin-panel">4. Admin Panel</h3>
+<ul>
+<li><strong>User Management</strong>: View, edit, suspend user accounts</li>
+<li><strong>Content Moderation</strong>: Review and approve profiles</li>
+<li><strong>Analytics Dashboard</strong>: User statistics and engagement metrics</li>
+<li><strong>Event Management</strong>: Create and manage matrimonial events</li>
+</ul>
+<h3 id="5-event-system">5. Event System</h3>
+<ul>
+<li><strong>Event Creation</strong>: Organizers can create matrimonial events</li>
+<li><strong>Event Registration</strong>: Users can register for events</li>
+<li><strong>Event Management</strong>: Complete event lifecycle management</li>
+<li><strong>Participant Tracking</strong>: Monitor event attendance</li>
+</ul>
+<p><img src="./images/user:events.png" alt="Events">
+<em>Figure 12: Event Management - Matrimonial events and gatherings</em></p>
+<hr>
+<h2 id="security-implementation">Security Implementation</h2>
+<h3 id="backend-security">Backend Security</h3>
+<ul>
+<li><strong>JWT Authentication</strong>: Stateless token-based authentication</li>
+<li><strong>Password Encryption</strong>: BCrypt hashing with salt</li>
+<li><strong>Role-based Authorization</strong>: Method-level security annotations</li>
+<li><strong>CORS Configuration</strong>: Controlled cross-origin requests</li>
+<li><strong>Input Validation</strong>: Comprehensive request validation</li>
+<li><strong>SQL Injection Prevention</strong>: JPA/Hibernate parameterized queries</li>
+</ul>
+<h3 id="frontend-security">Frontend Security</h3>
+<ul>
+<li><strong>Token Management</strong>: Secure token storage and refresh</li>
+<li><strong>Route Protection</strong>: Authentication guards on protected routes</li>
+<li><strong>Input Sanitization</strong>: XSS prevention measures</li>
+<li><strong>HTTPS Enforcement</strong>: Secure communication protocols</li>
+</ul>
+<hr>
+<h2 id="development--deployment">Development &amp; Deployment</h2>
+<h3 id="development-environment">Development Environment</h3>
+<ul>
+<li><strong>Backend</strong>: Spring Boot with embedded Tomcat</li>
+<li><strong>Frontend</strong>: Vite development server with hot reload</li>
+<li><strong>Database</strong>: MySQL with Docker support</li>
+<li><strong>API Documentation</strong>: Swagger UI for API testing</li>
+</ul>
+<h3 id="build--deployment">Build &amp; Deployment</h3>
+<ul>
+<li><strong>Backend Build</strong>: Maven for dependency management and packaging</li>
+<li><strong>Frontend Build</strong>: Vite for optimized production builds</li>
+<li><strong>Containerization</strong>: Docker support with docker-compose</li>
+<li><strong>Environment Configuration</strong>: Profile-based configuration management</li>
+</ul>
+<h3 id="code-quality">Code Quality</h3>
+<ul>
+<li><strong>Backend</strong>: Spring Boot best practices, clean architecture</li>
+<li><strong>Frontend</strong>: ESLint, Prettier, Stylelint for code consistency</li>
+<li><strong>Git Workflow</strong>: Conventional commits with Husky hooks</li>
+<li><strong>Testing</strong>: Comprehensive test coverage (planned)</li>
+</ul>
+<hr>
+<h2 id="performance-considerations">Performance Considerations</h2>
+<h3 id="backend-optimizations">Backend Optimizations</h3>
+<ul>
+<li><strong>Database Indexing</strong>: Optimized queries with proper indexing</li>
+<li><strong>Lazy Loading</strong>: JPA lazy loading for related entities</li>
+<li><strong>Caching Strategy</strong>: Application-level caching for frequent queries</li>
+<li><strong>Connection Pooling</strong>: Efficient database connection management</li>
+</ul>
+<h3 id="frontend-optimizations">Frontend Optimizations</h3>
+<ul>
+<li><strong>Code Splitting</strong>: Dynamic imports for route-based splitting</li>
+<li><strong>Bundle Optimization</strong>: Vite's optimized build process</li>
+<li><strong>Image Optimization</strong>: Compressed images and lazy loading</li>
+<li><strong>API Caching</strong>: Client-side caching for static data</li>
+</ul>
+<hr>
+<h2 id="testing-strategy">Testing Strategy</h2>
+<h3 id="backend-testing">Backend Testing</h3>
+<ul>
+<li><strong>Unit Tests</strong>: Service layer testing with JUnit</li>
+<li><strong>Integration Tests</strong>: Repository and controller testing</li>
+<li><strong>Security Tests</strong>: Authentication and authorization testing</li>
+<li><strong>API Tests</strong>: Comprehensive endpoint testing</li>
+</ul>
+<h3 id="frontend-testing">Frontend Testing</h3>
+<ul>
+<li><strong>Component Tests</strong>: React component testing (planned)</li>
+<li><strong>Integration Tests</strong>: User flow testing (planned)</li>
+<li><strong>E2E Tests</strong>: Complete application workflow testing (planned)</li>
+</ul>
+<hr>
+<h2 id="future-enhancements">Future Enhancements</h2>
+<h3 id="planned-features">Planned Features</h3>
+<ol>
+<li><strong>Real-time Chat</strong>: WebSocket-based messaging system</li>
+<li><strong>Video Calls</strong>: Integrated video calling functionality</li>
+<li><strong>Mobile App</strong>: React Native mobile application</li>
+<li><strong>AI Matching</strong>: Machine learning-based compatibility prediction</li>
+<li><strong>Payment Integration</strong>: Premium membership features</li>
+<li><strong>Advanced Search</strong>: Elasticsearch-based search functionality</li>
+<li><strong>Social Features</strong>: Timeline, posts, and social interactions</li>
+<li><strong>Recommendation Engine</strong>: Personalized match recommendations</li>
+</ol>
+<h3 id="technical-improvements">Technical Improvements</h3>
+<ol>
+<li><strong>Microservices Architecture</strong>: Service decomposition for scalability</li>
+<li><strong>Redis Caching</strong>: Distributed caching for performance</li>
+<li><strong>Message Queues</strong>: Asynchronous processing with RabbitMQ</li>
+<li><strong>Monitoring</strong>: Application performance monitoring</li>
+<li><strong>CI/CD Pipeline</strong>: Automated testing and deployment</li>
+<li><strong>Load Balancing</strong>: Horizontal scaling capabilities</li>
+</ol>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>The Matrimony Portal represents a comprehensive solution for modern matrimonial services, combining robust backend architecture with an intuitive frontend interface. The application successfully implements core matrimonial features including user management, profile creation, intelligent matching, and interest management.</p>
+<h3 id="key-achievements">Key Achievements</h3>
+<ul>
+<li><strong>Scalable Architecture</strong>: Clean, maintainable code structure</li>
+<li><strong>Security First</strong>: Comprehensive security implementation</li>
+<li><strong>User Experience</strong>: Intuitive and responsive interface</li>
+<li><strong>Performance</strong>: Optimized for speed and efficiency</li>
+<li><strong>Maintainability</strong>: Well-documented and structured codebase</li>
+</ul>
+<h3 id="technical-excellence">Technical Excellence</h3>
+<ul>
+<li><strong>Modern Stack</strong>: Latest versions of Spring Boot and React</li>
+<li><strong>Best Practices</strong>: Industry-standard development practices</li>
+<li><strong>Code Quality</strong>: Automated quality checks and formatting</li>
+<li><strong>Documentation</strong>: Comprehensive API documentation with Swagger</li>
+</ul>
+<p>The project demonstrates proficiency in full-stack development, system design, and modern web application architecture, making it a solid foundation for a production-ready matrimonial platform.</p>
+<hr>
+<h2 id="appendix">Appendix</h2>
+<h3 id="development-team">Development Team</h3>
+<ul>
+<li><strong>Backend Development</strong>: Spring Boot, Java, MySQL</li>
+<li><strong>Frontend Development</strong>: React, JavaScript, Bootstrap</li>
+<li><strong>Database Design</strong>: MySQL, JPA/Hibernate</li>
+<li><strong>DevOps</strong>: Docker, Maven, Vite</li>
+</ul>
+<h3 id="repository-information">Repository Information</h3>
+<ul>
+<li><strong>Backend Repository</strong>: matrimony-backend</li>
+<li><strong>Frontend Repository</strong>: matrimony-frontend</li>
+<li><strong>Documentation</strong>: Comprehensive README files and inline documentation</li>
+<li><strong>License</strong>: MIT License</li>
+</ul>
+<h3 id="contact-information">Contact Information</h3>
+<ul>
+<li><strong>Project Lead</strong>: Sachin Kumar (sinha1abc@gmail.com)</li>
+<li><strong>Organization</strong>: CDAC Sunbeam</li>
+<li><strong>Project Duration</strong>: [Development Timeline]</li>
+<li><strong>Version</strong>: 1.0.0-SNAPSHOT</li>
+</ul>
+
+</body>
+</html>

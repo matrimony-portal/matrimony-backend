@@ -1,0 +1,16 @@
+target/
+.git/
+.gitignore
+README.md
+*.md
+.env
+.env.example
+uploads/
+images/
+DatabaseDesign/
+.settings/
+.classpath
+.project
+.factorypath
+*.html
+*.pdf
