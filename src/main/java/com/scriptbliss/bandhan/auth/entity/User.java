@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = { "password" }, callSuper = true)
-@Builder
+
 public class User extends BaseEntity {
 	@Column(unique = true, nullable = false, length = 255)
 	private String email;
