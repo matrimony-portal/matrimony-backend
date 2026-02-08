@@ -18,6 +18,9 @@ public class EmailService {
 	@Value("${app.email.from:noreply@bandhan.scriptbliss.com}")
 	private String fromEmail;
 
+	@Value("${app.frontend.url:http://localhost:5173}")
+	private String frontendUrl;
+
 	public void sendVerificationEmail(String toEmail, String token) {
 		try {
 			SendEmailRequest request = SendEmailRequest.builder().source(fromEmail)
@@ -56,17 +59,18 @@ public class EmailService {
 	}
 
 	private String buildVerificationEmailContent(String token) {
-		return String.format("Welcome to Matrimony Portal!\n\n"
-				+ "Please click the link below to verify your email address:\n"
-				+ "http://localhost:8080/register/verify-email?token=%s\n\n" + "This link will expire in 24 hours.\n\n"
-				+ "If you didn't create an account, please ignore this email.\n\n" + "Best regards,\n"
-				+ "Matrimony Portal Team", token);
+		return String.format(
+				"Welcome to Matrimony Portal!\n\n" + "Please click the link below to verify your email address:\n"
+						+ "%s/register/verify?token=%s\n\n" + "This link will expire in 24 hours.\n\n"
+						+ "If you didn't create an account, please ignore this email.\n\n" + "Best regards,\n"
+						+ "Matrimony Portal Team",
+				frontendUrl, token);
 	}
 
 	private String buildPasswordResetEmailContent(String token) {
 		return String.format("Password Reset Request\n\n" + "Click the link below to reset your password:\n"
-				+ "http://localhost:8080/auth/reset-password?token=%s\n\n" + "This link will expire in 1 hour.\n\n"
+				+ "%s/reset-password?token=%s\n\n" + "This link will expire in 1 hour.\n\n"
 				+ "If you didn't request a password reset, please ignore this email.\n\n" + "Best regards,\n"
-				+ "Matrimony Portal Team", token);
+				+ "Matrimony Portal Team", frontendUrl, token);
 	}
 }
