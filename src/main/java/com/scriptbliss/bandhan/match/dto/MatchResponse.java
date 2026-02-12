@@ -8,5 +8,6 @@ public class MatchResponse {
 	private String name;
 	private Integer age;
 	private String city;
+	private String profilePhotoUrl;
 	private Double compatibilityScore;
 }

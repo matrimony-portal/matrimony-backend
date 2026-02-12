@@ -21,13 +21,13 @@ public class MatchController {
 
 	private final MatchService matchService;
 
-	@GetMapping
+	@GetMapping("/discover")
 	public List<MatchResponse> getMatches(@AuthenticationPrincipal CustomUserPrincipal principal,
 			@RequestParam(defaultValue = "10") int limit) {
-		return matchService.findMatches(principal.getUserId(), limit);
+		return matchService.findPotentialMatches(principal.getUserId(), limit);
 	}
 
-	@GetMapping("/my-matches")
+	@GetMapping
 	public List<MatchResponse> getMyMatches(@AuthenticationPrincipal CustomUserPrincipal principal) {
 		return matchService.getMyMatches(principal.getUserId());
 	}
