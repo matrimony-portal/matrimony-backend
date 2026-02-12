@@ -14,6 +14,7 @@ import com.scriptbliss.bandhan.match.repository.MatchRepository;
 import com.scriptbliss.bandhan.profile.entity.Profile;
 import com.scriptbliss.bandhan.profile.enums.Gender;
 import com.scriptbliss.bandhan.profile.repository.ProfileRepository;
+import com.scriptbliss.bandhan.shared.repository.PhotoRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,17 +24,15 @@ public class MatchService {
 
 	private final ProfileRepository profileRepository;
 	private final MatchRepository matchRepository;
+	private final PhotoRepository photoRepository;
 
-	public List<MatchResponse> findMatches(Long userId, int limit) {
+	public List<MatchResponse> findPotentialMatches(Long userId, int limit) {
 		Profile currentProfile = profileRepository.findByUserId(userId).orElseThrow();
 
 		// Basic matching: opposite gender, similar age range
 		Gender targetGender = currentProfile.getGender() == Gender.MALE ? Gender.FEMALE : Gender.MALE;
-		int currentAge = calculateAge(currentProfile.getDateOfBirth());
-		int minAge = Math.max(18, currentAge - 5);
-		int maxAge = currentAge + 5;
 
-		List<Profile> potentialMatches = profileRepository.findPotentialMatches(targetGender, minAge, maxAge, userId,
+		List<Profile> potentialMatches = profileRepository.findPotentialMatches(targetGender, userId,
 				PageRequest.of(0, limit));
 
 		return potentialMatches.stream().map(profile -> {
@@ -42,6 +41,8 @@ public class MatchService {
 			response.setName(profile.getUser().getFirstName() + " " + profile.getUser().getLastName());
 			response.setAge(calculateAge(profile.getDateOfBirth()));
 			response.setCity(profile.getCity());
+			response.setProfilePhotoUrl(photoRepository.findByUserIdAndIsPrimaryTrue(profile.getUser().getId())
+					.map(photo -> photo.getFilePath()).orElse(null));
 			response.setCompatibilityScore(calculateCompatibility(currentProfile, profile));
 			return response;
 		}).collect(Collectors.toList());
@@ -60,6 +61,8 @@ public class MatchService {
 			response.setName(otherProfile.getUser().getFirstName() + " " + otherProfile.getUser().getLastName());
 			response.setAge(calculateAge(otherProfile.getDateOfBirth()));
 			response.setCity(otherProfile.getCity());
+			response.setProfilePhotoUrl(photoRepository.findByUserIdAndIsPrimaryTrue(otherProfile.getUser().getId())
+					.map(photo -> photo.getFilePath()).orElse(null));
 			response.setCompatibilityScore(match.getCompatibilityScore());
 			return response;
 		}).filter(response -> response != null).collect(Collectors.toList());
