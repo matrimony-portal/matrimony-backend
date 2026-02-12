@@ -56,7 +56,8 @@ public class AuthServiceImpl implements AuthService {
 
 		log.info("User logged in: {}", user.getEmail());
 
-		return AuthResponse.builder().token(accessToken).refreshToken(refreshToken).expiresIn(24 * 60 * 60) // 24 hours
+		return AuthResponse.builder().accessToken(accessToken).refreshToken(refreshToken).expiresIn(24 * 60 * 60) // 24
+																													// hours
 				.user(AuthResponse.UserInfo.builder().id(user.getId()).email(user.getEmail())
 						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).build())
 				.build();
@@ -92,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
 
 		log.info("Token refreshed for user: {}", user.getEmail());
 
-		return AuthResponse.builder().token(newAccessToken).refreshToken(newRefreshToken).expiresIn(24 * 60 * 60)
+		return AuthResponse.builder().accessToken(newAccessToken).refreshToken(newRefreshToken).expiresIn(24 * 60 * 60)
 				.user(AuthResponse.UserInfo.builder().id(user.getId()).email(user.getEmail())
 						.firstName(user.getFirstName()).lastName(user.getLastName()).role(user.getRole()).build())
 				.build();
