@@ -69,7 +69,7 @@ public class EmailService {
 
 	private String buildPasswordResetEmailContent(String token) {
 		return String.format("Password Reset Request\n\n" + "Click the link below to reset your password:\n"
-				+ "%s/reset-password?token=%s\n\n" + "This link will expire in 1 hour.\n\n"
+				+ "%s/reset/verify?token=%s\n\n" + "This link will expire in 1 hour.\n\n"
 				+ "If you didn't request a password reset, please ignore this email.\n\n" + "Best regards,\n"
 				+ "Matrimony Portal Team", frontendUrl, token);
 	}

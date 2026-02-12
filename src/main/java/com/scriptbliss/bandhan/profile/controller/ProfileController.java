@@ -3,6 +3,7 @@ package com.scriptbliss.bandhan.profile.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +36,11 @@ public class ProfileController {
 			@AuthenticationPrincipal CustomUserPrincipal principal, @Valid @RequestBody UpdateProfileRequest request) {
 		UserProfileResponse profile = profileService.updateProfile(principal.getUserId(), request);
 		return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", profile));
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ApiResponse<UserProfileResponse>> getProfileById(@PathVariable Long id) {
+		UserProfileResponse profile = profileService.getUserProfileWithPhotos(id);
+		return ResponseEntity.ok(ApiResponse.success("Profile retrieved successfully", profile));
 	}
 }

@@ -15,6 +15,6 @@ import com.scriptbliss.bandhan.profile.enums.Gender;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 	Optional<Profile> findByUserId(Long userId);
 
-	@Query("SELECT p FROM Profile p WHERE p.gender = ?1 AND YEAR(CURRENT_DATE) - YEAR(p.dateOfBirth) BETWEEN ?2 AND ?3 AND p.user.id != ?4 AND p.user.id NOT IN (SELECT i.toUserId FROM Interest i WHERE i.fromUserId = ?4)")
-	List<Profile> findPotentialMatches(Gender gender, int minAge, int maxAge, Long excludeUserId, Pageable pageable);
+	@Query("SELECT p FROM Profile p WHERE p.gender = ?1 AND p.user.id != ?2 AND p.user.id NOT IN (SELECT i.toUserId FROM Interest i WHERE i.fromUserId = ?2)")
+	List<Profile> findPotentialMatches(Gender gender, Long excludeUserId, Pageable pageable);
 }

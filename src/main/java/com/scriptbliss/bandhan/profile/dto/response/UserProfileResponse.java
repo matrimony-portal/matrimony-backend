@@ -3,6 +3,7 @@ package com.scriptbliss.bandhan.profile.dto.response;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.scriptbliss.bandhan.auth.enums.AccountStatus;
 import com.scriptbliss.bandhan.auth.enums.UserRole;
@@ -48,4 +49,7 @@ public class UserProfileResponse {
 	private String aboutMe;
 	private String preferences;
 	private boolean isVerified;
+
+	// Photos
+	private List<String> photoUrls;
 }

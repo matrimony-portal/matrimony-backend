@@ -11,6 +11,7 @@ import com.scriptbliss.bandhan.profile.dto.response.UserProfileResponse;
 import com.scriptbliss.bandhan.profile.entity.Profile;
 import com.scriptbliss.bandhan.profile.repository.ProfileRepository;
 import com.scriptbliss.bandhan.shared.exception.BusinessException;
+import com.scriptbliss.bandhan.shared.repository.PhotoRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,10 @@ public class ProfileServiceImpl implements ProfileService {
 
 	private final UserRepository userRepository;
 	private final ProfileRepository profileRepository;
+	private final PhotoRepository photoRepository;
 	private final ModelMapper modelMapper;
 
 	@Override
-	@Transactional(readOnly = true)
 	public UserProfileResponse getUserProfile(Long userId) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new BusinessException("USER_NOT_FOUND", "User not found"));
@@ -40,6 +41,17 @@ public class ProfileServiceImpl implements ProfileService {
 		// Map Profile fields to response
 		modelMapper.map(profile, response);
 		response.setProfileId(profile.getId());
+
+		return response;
+	}
+
+	@Override
+	public UserProfileResponse getUserProfileWithPhotos(Long userId) {
+		UserProfileResponse response = getUserProfile(userId);
+
+		// Add photo URLs
+		response.setPhotoUrls(photoRepository.findByUserIdOrderBySortOrder(userId).stream()
+				.map(photo -> photo.getFilePath()).toList());
 
 		return response;
 	}

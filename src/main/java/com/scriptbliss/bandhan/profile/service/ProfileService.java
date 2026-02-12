@@ -6,5 +6,7 @@ import com.scriptbliss.bandhan.profile.dto.response.UserProfileResponse;
 public interface ProfileService {
 	UserProfileResponse getUserProfile(Long userId);
 
+	UserProfileResponse getUserProfileWithPhotos(Long userId);
+
 	UserProfileResponse updateProfile(Long userId, UpdateProfileRequest request);
 }
