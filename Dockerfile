@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 COPY pom.xml mvnw ./
@@ -8,18 +8,18 @@ RUN chmod +x mvnw && ./mvnw dependency:go-offline
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 RUN mkdir -p uploads/photos && \
-    addgroup --system spring && \
-    adduser --system --ingroup spring spring && \
+    addgroup -S spring && \
+    adduser -S -G spring spring && \
     chown -R spring:spring /app
 
 USER spring:spring
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Xms256m", "-Xmx512m", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseSerialGC", "-XX:MaxRAMPercentage=75", "-Xss256k", "-jar", "app.jar"]
