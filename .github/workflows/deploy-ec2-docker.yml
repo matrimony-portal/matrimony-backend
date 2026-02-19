@@ -61,10 +61,13 @@ jobs:
 
             cat > .env << EOF
             IMAGE_NAME=${{ env.IMAGE_NAME }}
-            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-            MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
-            MYSQL_USER=${{ secrets.MYSQL_USER }}
-            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            # MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+            # MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+            # MYSQL_USER=${{ secrets.MYSQL_USER }}
+            # MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
+            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
+            SPRING_DATASOURCE_PASSWORD:=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
             SPRING_CLOUD_AWS_CREDENTIALS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
             SPRING_CLOUD_AWS_CREDENTIALS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
             SPRING_CLOUD_AWS_SES_REGION=${{ secrets.AWS_SES_REGION }}

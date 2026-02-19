@@ -1,34 +1,36 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: bandhan-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    deploy:
-      resources:
-        limits:
-          memory: 400M
-          cpus: "0.5"
-        reservations:
-          memory: 300M
-          cpus: "0.25"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - bandhan-network
-    restart: unless-stopped
+  # using external service for mysql
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: bandhan-mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 400M
+  #         cpus: "0.5"
+  #       reservations:
+  #         memory: 300M
+  #         cpus: "0.25"
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   networks:
+  #     - bandhan-network
+  #   restart: unless-stopped
 
   backend:
     image: ${IMAGE_NAME}
     container_name: bandhan-backend
     env_file: .env
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    # environment:
+    # using external service for mysql
+    # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+    # SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+    # SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
     deploy:
       resources:
         limits:
@@ -41,16 +43,15 @@ services:
       - "8080:8080"
     volumes:
       - app_uploads:/app/uploads
-    networks:
-      - bandhan-network
-    depends_on:
-      - mysql
+    # networks:
+    #   - bandhan-network
+    # depends_on:
+    #   - mysql
     restart: unless-stopped
 
 volumes:
-  mysql_data:
+  # mysql_data:
   app_uploads:
-
-networks:
-  bandhan-network:
-    driver: bridge
+# networks:
+#   bandhan-network:
+#     driver: bridge
