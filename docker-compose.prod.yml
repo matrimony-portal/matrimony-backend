@@ -27,7 +27,7 @@ services:
     container_name: bandhan-backend
     env_file: .env
     environment:
-      JAVA_OPTS: "-Xms96m -Xmx200m -XX:+UseSerialGC -XX:MaxMetaspaceSize=80m -Xss256k"
+      JAVA_OPTS: "-Xms128m -Xmx280m -XX:+UseSerialGC -XX:MaxMetaspaceSize=100m -Xss256k"
     # using external service for mysql
     # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
     # SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
@@ -35,10 +35,10 @@ services:
     deploy:
       resources:
         limits:
-          memory: 300M
+          memory: 400M
           cpus: "0.5"
         reservations:
-          memory: 200M
+          memory: 256M
           cpus: "0.25"
     ports:
       - "8080:8080"
