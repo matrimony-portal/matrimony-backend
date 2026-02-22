@@ -22,4 +22,4 @@ USER spring:spring
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-XX:+UseSerialGC", "-XX:MaxRAMPercentage=75", "-Xss256k", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS:--Xms96m -Xmx200m -XX:+UseSerialGC -XX:MaxMetaspaceSize=80m -Xss256k} -jar app.jar"]
