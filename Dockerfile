@@ -22,4 +22,4 @@ USER spring:spring
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS:--Xms128m -Xmx280m -XX:+UseSerialGC -XX:MaxMetaspaceSize=100m -Xss256k} -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS:--Xms128m -Xmx360m -XX:+UseSerialGC -XX:MaxMetaspaceSize=128m -Xss256k} -jar app.jar"]
