@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - feat/ec2-docker
+      - main
   workflow_dispatch:
 
 env:
