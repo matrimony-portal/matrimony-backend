@@ -26,7 +26,8 @@ services:
     image: ${IMAGE_NAME}
     container_name: bandhan-backend
     env_file: .env
-    # environment:
+    environment:
+      JAVA_OPTS: "-Xms96m -Xmx200m -XX:+UseSerialGC -XX:MaxMetaspaceSize=80m -Xss256k"
     # using external service for mysql
     # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
     # SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
