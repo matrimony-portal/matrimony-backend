@@ -33,8 +33,8 @@ public class DataLoader {
 	private final MatchRepository matchRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public void createTestData() throws Exception {
-		if (userRepository.count() > 0) {
+	public void createTestData(boolean force) throws Exception {
+		if (!force && userRepository.count() > 0) {
 			System.out.println("Data already exists, skipping...");
 			return;
 		}

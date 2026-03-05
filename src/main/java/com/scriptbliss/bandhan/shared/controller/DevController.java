@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scriptbliss.bandhan.shared.config.DataLoader;
@@ -20,9 +21,9 @@ public class DevController {
 	private final DataLoader dataLoader;
 
 	@PostMapping("/create-test-data")
-	public ResponseEntity<ApiResponse<Void>> createTestData() {
+	public ResponseEntity<ApiResponse<Void>> createTestData(@RequestParam(defaultValue = "false") boolean force) {
 		try {
-			dataLoader.createTestData();
+			dataLoader.createTestData(force);
 			return ResponseEntity.ok(ApiResponse.success(null));
 		} catch (Exception e) {
 			return ResponseEntity.badRequest()
